@@ -4,13 +4,20 @@ interface CompanyUser {
   role: "owner" | "user";
 }
 
+type Currency = "usd";
+
+type TransactionType = "debit" | "credit";
+
+type TransactionStatus = "confirmed" | "pending";
+
 interface Transaction {
-  type: "debit" | "credit";
-  cost: number;
-  currency: "usd";
-  status: "confirmed" | "pending";
-  product?: string;
-  quantity?: number;
+  id?: string;
+  type: TransactionType;
+  product: string;
+  quantity: number;
+  value: number;
+  currency: Currency;
+  status: TransactionStatus;
   createdAt: string;
   updatedAt: string;
 }
@@ -55,14 +62,58 @@ class CompanyServices {
     return newCompany;
   };
 
+  public createTransaction = async ({
+    ownwerEmail,
+    currency,
+    product,
+    quantity,
+    status,
+    type,
+    value,
+  }: {
+    ownwerEmail: string;
+    type: TransactionType;
+    product: string;
+    quantity: number;
+    value: number;
+    currency: Currency;
+    status: TransactionStatus;
+  }): Promise<Transaction> => {
+    const transaction: Transaction = {
+      id: new Date().toDateString(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      currency,
+      product,
+      quantity,
+      status,
+      type,
+      value,
+    };
+
+    const company = await this.createOrFind({ email: ownwerEmail });
+
+    if (!company?.id) throw new Error("Company not found");
+
+    await company.transactions.push(transaction);
+
+    const recentTransaction = await company.transactions.find(
+      (trans) => trans.id === transaction.id
+    );
+
+    if (!recentTransaction) throw new Error("Transaction failed to be created");
+
+    return recentTransaction;
+  };
+
   private findCompanyByOwnerEmail = async (email: string) => {
-    const recentCompany = await this.companies.find((company) =>
+    const existingCompany = await this.companies.find((company) =>
       company.users.find(
         (user) => user.role === "owner" && user.email === email
       )
     );
 
-    return recentCompany;
+    return existingCompany;
   };
 
   private saveCompany = async (company: Company) => {
