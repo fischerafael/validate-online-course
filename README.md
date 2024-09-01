@@ -20,7 +20,7 @@
 # make transaction
 
 - debit | credit
-- cost
+- total
 - currency
 - quantity
 - status

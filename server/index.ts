@@ -4,20 +4,21 @@ interface CompanyUser {
   role: "owner" | "user";
 }
 
-type Currency = "usd";
+export type Currency = "usd";
 
-type TransactionType = "debit" | "credit";
+export type TransactionType = "debit" | "credit";
 
-type TransactionStatus = "confirmed" | "pending";
+export type TransactionStatus = "confirmed" | "pending";
 
 interface Transaction {
   id?: string;
   type: TransactionType;
   product: string;
   quantity: number;
-  value: number;
+  total: number;
   currency: Currency;
   status: TransactionStatus;
+  purchasedBy: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -38,9 +39,11 @@ class CompanyServices {
   }): Promise<Company | undefined> => {
     const existingCompany = await this.findCompanyByOwnerEmail(email);
     if (existingCompany) {
-      console.log("[existing company]", existingCompany);
+      console.log("[createOrFind][existingCompany]", existingCompany);
       return existingCompany;
     }
+
+    console.log("[createOrFind][email]", email);
 
     const company: Company = {
       transactions: [],
@@ -53,6 +56,7 @@ class CompanyServices {
       ],
       id: new Date().toISOString(),
     };
+    console.log("[createOrFind][company]", company);
 
     await this.saveCompany(company);
 
@@ -63,21 +67,21 @@ class CompanyServices {
   };
 
   public createTransaction = async ({
-    ownwerEmail,
-    currency,
+    email,
+    currency = "usd",
     product,
     quantity,
-    status,
+    status = "pending",
     type,
-    value,
+    total,
   }: {
-    ownwerEmail: string;
+    email: string;
     type: TransactionType;
     product: string;
     quantity: number;
-    value: number;
-    currency: Currency;
-    status: TransactionStatus;
+    total: number;
+    currency?: Currency;
+    status?: TransactionStatus;
   }): Promise<Transaction> => {
     const transaction: Transaction = {
       id: new Date().toDateString(),
@@ -88,18 +92,22 @@ class CompanyServices {
       quantity,
       status,
       type,
-      value,
+      total,
+      purchasedBy: email,
     };
 
-    const company = await this.createOrFind({ email: ownwerEmail });
+    const company = await this.createOrFind({ email: email });
+    console.log("[createTransaction][company]", company);
 
     if (!company?.id) throw new Error("Company not found");
 
     await company.transactions.push(transaction);
+    console.log("[createTransaction][transaction added]", company);
 
     const recentTransaction = await company.transactions.find(
       (trans) => trans.id === transaction.id
     );
+    console.log("[ccreateTransactionompany][recentTransaction]", company);
 
     if (!recentTransaction) throw new Error("Transaction failed to be created");
 
