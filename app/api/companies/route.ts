@@ -35,6 +35,19 @@ export async function POST(request: Request) {
     });
   }
 
+  if (headers.get("action") === "confirm_transaction") {
+    const body = await request.json();
+
+    await companyServices.confirmTransaction({
+      companyId: body.companyId,
+      transactionId: body.transactionId,
+    });
+
+    return Response.json({
+      data: "Ok",
+    });
+  }
+
   return Response.json({
     data: "Hi",
   });
