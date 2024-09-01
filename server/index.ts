@@ -1,3 +1,5 @@
+import { db } from "./axios";
+
 interface CompanyUser {
   email: string;
   status: "confirmed" | "pending";
@@ -61,6 +63,7 @@ class CompanyServices {
     await this.querySaveCompany(company);
 
     const newCompany = await this.queryFindCompanyByOwner(email);
+    if (!newCompany) throw new Error("Something went wrong creating comapny");
 
     console.log("new company]", newCompany);
     return newCompany;
@@ -101,9 +104,11 @@ class CompanyServices {
 
     if (!company?.id) throw new Error("Company not found");
 
+    // TODO - PUSH TRANSACTION
     await company.transactions.push(transaction);
     console.log("[createTransaction][transaction added]", company);
 
+    // TODO - QUERY LAST TRANSACTION
     const recentTransaction = await company.transactions.find(
       (trans) => trans.id === transaction.id
     );
@@ -169,7 +174,10 @@ class CompanyServices {
     this.companies = updatedCompanies;
   };
 
-  private queryFindCompanyByOwner = async (email: string) => {
+  private queryFindCompanyByOwner = async (
+    email: string
+  ): Promise<Company | void> => {
+    return await repository.findCompanyByOwnerEmail(email);
     const existingCompany = await this.companies.find((company) =>
       company.users.find(
         (user) => user.role === "owner" && user.email === email
@@ -178,16 +186,82 @@ class CompanyServices {
     return existingCompany;
   };
 
-  private queryFindCompanyById = async (id: string) => {
+  private queryFindCompanyById = async (
+    id: string
+  ): Promise<Company | void> => {
+    const company = await repository.findCompanyById(id);
     const existingCompany = await this.companies.find(
       (company) => company.id === id
     );
+
     return existingCompany;
   };
 
-  private querySaveCompany = async (company: Company) => {
+  private querySaveCompany = async (company: Company): Promise<void> => {
+    await repository.createCompany({ company });
     await this.companies.push(company);
   };
 }
 
 export const companyServices = new CompanyServices();
+
+class FireStoreRepository {
+  private appName = process.env.APP_NAME;
+
+  async createCompany({ company }: { company: Company }) {
+    try {
+      await db.post(`crud`, company, {
+        headers: {
+          app: this.appName,
+          user: company.users[0].email,
+        },
+      });
+    } catch (e: any) {
+      console.log("[e]", e);
+    }
+  }
+
+  async findCompanyById(id: string) {
+    try {
+      const { data } = await db.get(`crud`, {
+        params: {
+          id,
+        },
+        headers: {
+          app: this.appName,
+          action: "FIND_BY_ID",
+        },
+      });
+
+      console.log("[res]", data);
+    } catch (e: any) {
+      console.log("[e]", e);
+    }
+  }
+
+  async findCompanyByOwnerEmail(
+    ownerEmail: string
+  ): Promise<Company | undefined> {
+    try {
+      const { data } = await db.get(`crud`, {
+        headers: {
+          app: this.appName,
+          user: ownerEmail,
+          action: "LIST",
+        },
+      });
+
+      const company = data.data.response[0];
+      if (!company) return undefined;
+
+      const companyData = company.data;
+
+      return companyData;
+    } catch (e: any) {
+      console.log("[e]", e);
+      return undefined;
+    }
+  }
+}
+
+export const repository = new FireStoreRepository();
