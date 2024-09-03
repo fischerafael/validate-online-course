@@ -3,7 +3,7 @@ import {
   Currency,
   TransactionStatus,
   TransactionType,
-} from "@/server";
+} from "@/server/services/company";
 
 export async function POST(request: Request) {
   const { headers, json } = request;
