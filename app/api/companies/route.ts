@@ -1,12 +1,12 @@
 import {
-  companyServices,
   Currency,
   TransactionStatus,
   TransactionType,
-} from "@/server/services/company";
+} from "@/server/entities";
+import { companyServices } from "@/server/services/company";
 
 export async function POST(request: Request) {
-  const { headers, json } = request;
+  const { headers } = request;
   if (headers.get("action") === "create_or_find_company") {
     const body = await request.json();
 
@@ -49,8 +49,4 @@ export async function POST(request: Request) {
       data: "Ok",
     });
   }
-
-  return Response.json({
-    data: "Hi",
-  });
 }
