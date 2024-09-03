@@ -147,53 +147,10 @@ class CompanyServices {
     };
 
     await this.queryUpdateCompany(updatedCompany);
-
-    // await this.queryUpdateTransactionLegac({
-    //   companyId,
-    //   transactionId,
-    //   payload: {
-    //     status: "confirmed",
-    //   },
-    // });
   };
 
   private utilGenerateId = () => {
     return new Date().getTime().toString();
-  };
-
-  private queryUpdateTransactionLegac = async ({
-    companyId,
-    transactionId,
-    payload,
-  }: {
-    companyId: string;
-    transactionId: string;
-    payload: Partial<Transaction>;
-  }) => {
-    const company = await this.queryFindCompanyById(companyId);
-    if (!company) throw new Error("Company Not Found");
-
-    const transaction = await company.transactions.find(
-      (tr) => tr.id === transactionId
-    );
-    if (!transaction) throw new Error("Transaction Not Found");
-
-    const updatedCompany: Company = {
-      ...company,
-      transactions: company.transactions.map((tr) => {
-        if (tr.id === transactionId) {
-          return { ...tr, ...payload };
-        }
-        return tr;
-      }),
-    };
-    const updatedCompanies = this.companies.map((c) => {
-      if (c.id === companyId) {
-        return updatedCompany;
-      }
-      return c;
-    });
-    this.companies = updatedCompanies;
   };
 
   private queryUpdateCompany = async (company: Company) => {
