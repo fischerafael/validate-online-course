@@ -56,7 +56,7 @@ class CompanyServices {
           status: "confirmed",
         },
       ],
-      id: this.utilGenerateId(),
+      // id: this.utilGenerateId(),
     };
     console.log("[createOrFind][company]", company);
 
@@ -104,12 +104,12 @@ class CompanyServices {
 
     if (!company?.id) throw new Error("Company not found");
 
-    // TODO - PUSH TRANSACTION
-    await company.transactions.push(transaction);
+    company.transactions.push(transaction);
     console.log("[createTransaction][transaction added]", company);
 
-    // TODO - QUERY LAST TRANSACTION
-    const recentTransaction = await company.transactions.find(
+    await repository.updateCompany(company);
+
+    const recentTransaction = company.transactions.find(
       (trans) => trans.id === transaction.id
     );
     console.log("[ccreateTransactionompany][recentTransaction]", company);
@@ -131,7 +131,7 @@ class CompanyServices {
 
     if (!company) throw new Error("Company Not Found");
 
-    const transaction = await company.transactions.find(
+    const transaction = company.transactions.find(
       (tr) => tr.id === transactionId
     );
     if (!transaction) throw new Error("Transaction Not Found");
@@ -154,6 +154,8 @@ class CompanyServices {
   };
 
   private queryUpdateCompany = async (company: Company) => {
+    await repository.updateCompany(company);
+    return;
     const updatedCompanies = this.companies.map((c) => {
       if (c.id === company.id) {
         return company;
@@ -166,7 +168,7 @@ class CompanyServices {
   private queryFindCompanyByOwner = async (
     email: string
   ): Promise<Company | void> => {
-    // return await repository.findCompanyByOwnerEmail(email);
+    return await repository.findCompanyByOwnerEmail(email);
     const existingCompany = await this.companies.find((company) =>
       company.users.find(
         (user) => user.role === "owner" && user.email === email
@@ -178,7 +180,10 @@ class CompanyServices {
   private queryFindCompanyById = async (
     id: string
   ): Promise<Company | void> => {
-    // const company = await repository.findCompanyById(id);
+    console.log("[companyById ID]", id);
+    const company = await repository.findCompanyById(id);
+    console.log("[companyById]", company);
+    return company;
     const existingCompany = await this.companies.find(
       (company) => company.id === id
     );
@@ -188,7 +193,7 @@ class CompanyServices {
 
   private querySaveCompany = async (company: Company): Promise<void> => {
     await repository.createCompany({ company });
-    await this.companies.push(company);
+    // await this.companies.push(company);
   };
 }
 
@@ -222,7 +227,11 @@ class FireStoreRepository {
         },
       });
 
-      console.log("[res]", data);
+      const companyData = data.data.data;
+      if (!companyData) throw new Error("Company data not found");
+
+      console.log("[findCompanyById]", companyData);
+      return companyData;
     } catch (e: any) {
       console.log("[e]", e);
     }
@@ -243,12 +252,29 @@ class FireStoreRepository {
       const company = data.data.response[0];
       if (!company) return undefined;
 
-      const companyData = company.data;
+      const companyData: Company = { ...company.data, id: company.id };
 
       return companyData;
     } catch (e: any) {
       console.log("[e]", e);
       return undefined;
+    }
+  }
+
+  async updateCompany(company: Partial<Company>) {
+    console.log("[updating]", company);
+    try {
+      await db.patch(`crud`, company, {
+        headers: {
+          app: this.appName,
+        },
+        params: {
+          id: company.id!,
+        },
+      });
+      console.log("[updated]");
+    } catch (e: any) {
+      console.log("[e]", e);
     }
   }
 }

@@ -8,8 +8,10 @@ import {
 export async function POST(request: Request) {
   const { headers, json } = request;
   if (headers.get("action") === "create_or_find_company") {
+    const body = await request.json();
+
     const company = await companyServices.createOrFind({
-      email: "rafaelsanfischer@gmail.com",
+      email: body.email as string,
     });
 
     return Response.json({
