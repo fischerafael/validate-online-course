@@ -1,4 +1,4 @@
-import { db } from "./axios";
+import { db } from "./config/axios";
 
 interface CompanyUser {
   email: string;
