@@ -126,20 +126,42 @@ class CompanyServices {
     companyId: string;
     transactionId: string;
   }) => {
-    await this.queryUpdateTransaction({
-      companyId,
-      transactionId,
-      payload: {
-        status: "confirmed",
-      },
-    });
+    const company = await this.queryFindCompanyById(companyId);
+    console.log("[company]", company);
+
+    if (!company) throw new Error("Company Not Found");
+
+    const transaction = await company.transactions.find(
+      (tr) => tr.id === transactionId
+    );
+    if (!transaction) throw new Error("Transaction Not Found");
+
+    const updatedCompany: Company = {
+      ...company,
+      transactions: company.transactions.map((tr) => {
+        if (tr.id === transactionId) {
+          return { ...tr, status: "confirmed" };
+        }
+        return tr;
+      }),
+    };
+
+    await this.queryUpdateCompany(updatedCompany);
+
+    // await this.queryUpdateTransactionLegac({
+    //   companyId,
+    //   transactionId,
+    //   payload: {
+    //     status: "confirmed",
+    //   },
+    // });
   };
 
   private utilGenerateId = () => {
     return new Date().getTime().toString();
   };
 
-  private queryUpdateTransaction = async ({
+  private queryUpdateTransactionLegac = async ({
     companyId,
     transactionId,
     payload,
@@ -174,10 +196,20 @@ class CompanyServices {
     this.companies = updatedCompanies;
   };
 
+  private queryUpdateCompany = async (company: Company) => {
+    const updatedCompanies = this.companies.map((c) => {
+      if (c.id === company.id) {
+        return company;
+      }
+      return c;
+    });
+    this.companies = updatedCompanies;
+  };
+
   private queryFindCompanyByOwner = async (
     email: string
   ): Promise<Company | void> => {
-    return await repository.findCompanyByOwnerEmail(email);
+    // return await repository.findCompanyByOwnerEmail(email);
     const existingCompany = await this.companies.find((company) =>
       company.users.find(
         (user) => user.role === "owner" && user.email === email
@@ -189,7 +221,7 @@ class CompanyServices {
   private queryFindCompanyById = async (
     id: string
   ): Promise<Company | void> => {
-    const company = await repository.findCompanyById(id);
+    // const company = await repository.findCompanyById(id);
     const existingCompany = await this.companies.find(
       (company) => company.id === id
     );
