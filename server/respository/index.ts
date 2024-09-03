@@ -4,7 +4,7 @@ import { Company } from "../entities";
 class FireStoreRepository {
   private appName = process.env.APP_NAME;
 
-  async createCompany({ company }: { company: Company }) {
+  createCompany = async ({ company }: { company: Company }): Promise<void> => {
     try {
       await db.post(`crud`, company, {
         headers: {
@@ -15,9 +15,9 @@ class FireStoreRepository {
     } catch (e: any) {
       console.log("[e]", e);
     }
-  }
+  };
 
-  async findCompanyById(id: string) {
+  findCompanyById = async (id: string): Promise<Company | undefined> => {
     try {
       const { data } = await db.get(`crud`, {
         params: {
@@ -37,11 +37,11 @@ class FireStoreRepository {
     } catch (e: any) {
       console.log("[e]", e);
     }
-  }
+  };
 
-  async findCompanyByOwnerEmail(
+  findCompanyByOwnerEmail = async (
     ownerEmail: string
-  ): Promise<Company | undefined> {
+  ): Promise<Company | undefined> => {
     try {
       const { data } = await db.get(`crud`, {
         headers: {
@@ -61,9 +61,9 @@ class FireStoreRepository {
       console.log("[e]", e);
       return undefined;
     }
-  }
+  };
 
-  async updateCompany(company: Partial<Company>) {
+  updateCompany = async (company: Partial<Company>): Promise<void> => {
     console.log("[updating]", company);
     try {
       await db.patch(`crud`, company, {
@@ -78,7 +78,7 @@ class FireStoreRepository {
     } catch (e: any) {
       console.log("[e]", e);
     }
-  }
+  };
 }
 
 export const repository = new FireStoreRepository();

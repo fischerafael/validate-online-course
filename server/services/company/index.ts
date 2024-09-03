@@ -139,10 +139,7 @@ class CompanyServices {
   private queryFindCompanyById = async (
     id: string
   ): Promise<Company | void> => {
-    console.log("[companyById ID]", id);
-    const company = await repository.findCompanyById(id);
-    console.log("[companyById]", company);
-    return company;
+    return await repository.findCompanyById(id);
   };
 
   private querySaveCompany = async (company: Company): Promise<void> => {
