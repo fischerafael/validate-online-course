@@ -6,7 +6,7 @@ import { useState } from "react";
 interface Section {
   id: string;
   settings: { title: string; task: string };
-  context: { local: string; sections: string[] };
+  context: { local: string; sections: string[]; selected: string };
   output: {
     template: string;
     size: number;
@@ -27,6 +27,7 @@ const INITIAL_SECTION: Section = {
   context: {
     local: "",
     sections: [],
+    selected: "",
   },
   output: {
     template: "",
@@ -37,6 +38,8 @@ const INITIAL_SECTION: Section = {
 
 export const usePageSettings = () => {
   const [sections, setSections] = useState<Section[]>([]);
+
+  console.log("[sections]", sections);
 
   const onAddSection = () => {
     setSections((prev) => [...prev, { ...INITIAL_SECTION, id: generateId() }]);
@@ -68,6 +71,79 @@ export const usePageSettings = () => {
     return sections.find((sec) => sec.id === id)?.settings[key];
   };
 
+  const onChangeContext = (
+    id: string,
+    key: "selected" | "local",
+    value: string
+  ) => {
+    setSections((prev) =>
+      prev.map((section) => {
+        if (section.id === id) {
+          return {
+            ...section,
+            context: { ...section.context, [key]: value },
+          };
+        }
+        return section;
+      })
+    );
+  };
+
+  const getContext = (id: string, key: "selected" | "local") => {
+    return sections.find((sec) => sec.id === id)?.context[key];
+  };
+
+  const onAddSectionAsReference = (
+    sectionId: string,
+    referenceSectionId: string
+  ) => {
+    setSections((prev) =>
+      prev.map((section) => {
+        if (sectionId === section.id) {
+          return {
+            ...section,
+            context: {
+              ...section.context,
+              sections: [...section.context.sections, referenceSectionId],
+            },
+          };
+        }
+        return section;
+      })
+    );
+  };
+
+  const onRemoveSectionAsReference = (
+    sectionId: string,
+    referenceSectionId: string
+  ) => {
+    setSections((prev) =>
+      prev.map((section) => {
+        if (sectionId === section.id) {
+          return {
+            ...section,
+            context: {
+              ...section.context,
+              sections: section.context.sections.filter(
+                (secId) => secId !== referenceSectionId
+              ),
+            },
+          };
+        }
+        return section;
+      })
+    );
+  };
+
+  const getListOfSectionOptions = (currentSectionId: string) => {
+    return sections
+      .map((sec) => ({
+        value: sec.id,
+        label: sec.settings.title,
+      }))
+      .filter((sec) => sec.value !== currentSectionId && !!sec.label);
+  };
+
   return {
     state: {
       sections,
@@ -77,6 +153,11 @@ export const usePageSettings = () => {
       onRemoveSection,
       onChangeSettings,
       getSettings,
+      getListOfSectionOptions,
+      onAddSectionAsReference,
+      onRemoveSectionAsReference,
+      getContext,
+      onChangeContext,
     },
   };
 };
@@ -156,6 +237,32 @@ export const PageApp = () => {
                 {/* CONTEXT */}
                 <Chakra.VStack w="full" gap="4">
                   <Chakra.Textarea placeholder="Context" h="full" />
+                  <Chakra.HStack w="full" gap="4">
+                    <Chakra.Select
+                      placeholder="Other Sections"
+                      value={methods.getContext(section.id, "selected")}
+                      onChange={(e) =>
+                        methods.onChangeContext(
+                          section.id,
+                          "selected",
+                          e.target.value
+                        )
+                      }
+                    >
+                      {methods
+                        .getListOfSectionOptions(section.id)
+                        .map((sec) => (
+                          <option key={sec.value}>{sec.label}</option>
+                        ))}
+                    </Chakra.Select>
+                    <Chakra.Button
+                      onClick={() =>
+                        methods.onAddSectionAsReference(section.id, "")
+                      }
+                    >
+                      +
+                    </Chakra.Button>
+                  </Chakra.HStack>
                 </Chakra.VStack>
                 {/* OUTPUT */}
                 <Chakra.VStack w="full" gap="4">
