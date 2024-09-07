@@ -1,5 +1,5 @@
-import { PageApp } from "@/client/pages/PageApp";
+import { Page } from "@/client/pages/Page";
 
 export default function Home() {
-  return <PageApp />;
+  return <Page />;
 }

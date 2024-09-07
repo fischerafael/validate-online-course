@@ -13,6 +13,7 @@
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@langchain/community": "^0.2.32",
     "@types/node": "22.5.2",
     "@types/react": "18.3.5",
     "@types/react-dom": "18.3.0",
@@ -21,11 +22,14 @@
     "eslint": "8.57.0",
     "eslint-config-next": "14.2.7",
     "framer-motion": "^11.5.4",
+    "langchain": "^0.2.18",
     "next": "14.2.7",
     "postcss": "8.4.42",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "tailwindcss": "3.4.10",
-    "typescript": "5.5.4"
+    "typescript": "5.5.4",
+    "youtube-transcript": "^1.2.1",
+    "youtubei.js": "^10.4.0"
   }
 }
