@@ -1,7 +1,5 @@
 "use server";
 
-import { YoutubeLoader } from "@langchain/community/document_loaders/web/youtube";
-
 import { YoutubeTranscript } from "youtube-transcript";
 
 export interface Action {
