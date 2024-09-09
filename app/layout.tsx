@@ -1,3 +1,4 @@
+import { RecoilProvider } from "@/client/Provider/RecoilProvider";
 import { Providers } from "@/client/providers";
 
 export const metadata = {
@@ -13,7 +14,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <RecoilProvider>{children}</RecoilProvider>
+        </Providers>
       </body>
     </html>
   );
