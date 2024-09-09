@@ -1,5 +1,5 @@
-import { Page } from "@/client/pages/Page";
+import { PageLandingPage } from "../client/pages/PageLandingPage";
 
 export default function Home() {
-  return <Page />;
+  return <PageLandingPage />;
 }
