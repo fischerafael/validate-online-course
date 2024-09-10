@@ -13,6 +13,10 @@ export const PageAppNewEdit = () => {
     push(`/app/course/preview`);
   };
 
+  const onGoToAI = () => {
+    push(`/app/course/ai`);
+  };
+
   return (
     <Chakra.VStack w="full" align="center" p="8" spacing="8">
       <Chakra.HStack
@@ -149,7 +153,7 @@ export const PageAppNewEdit = () => {
         </Chakra.VStack>
 
         <Chakra.HStack w="full" justify="space-between">
-          <Chakra.Button isDisabled>Generate with AI</Chakra.Button>
+          <Chakra.Button onClick={onGoToAI}>Generate with AI</Chakra.Button>
           <Chakra.Button
             onClick={onPreview}
             isDisabled={!state.isAllValuesFilled}
