@@ -4,13 +4,18 @@ import { LandingPageContent } from "@/client/entities";
 import { atom, useRecoilState } from "recoil";
 
 export const useCourseState = () => {
-  const [courseState, setCourseState] = useRecoilState<CourseState>(atomState);
+  const [courseState, setCourseState] =
+    useRecoilState<StateCourse>(atomStateCourse);
 
-  const onChangeString = (key: keyof CourseState, value: string) => {
+  const onCourseSetResponseFromAI = (res: AIResponse) => {
+    setCourseState((prev) => ({ ...prev, ...res }));
+  };
+
+  const onCourseChangeString = (key: keyof StateCourse, value: string) => {
     setCourseState((prev) => ({ ...prev, [key]: value }));
   };
 
-  const onAddArrValue = (key: "hashtags" | "features", value: string) => {
+  const onCourseAddArrValue = (key: "hashtags" | "features", value: string) => {
     const currentCurr = key === "hashtags" ? "currHashtag" : "currFeature";
     if (!courseState[currentCurr]) return;
     setCourseState((prev) => ({
@@ -20,7 +25,7 @@ export const useCourseState = () => {
     }));
   };
 
-  const onRemoveValue = (key: "hashtags" | "features", value: string) => {
+  const onCourseRemoveValue = (key: "hashtags" | "features", value: string) => {
     setCourseState((prev) => ({
       ...prev,
       [key]: prev[key].filter((val) => val !== value),
@@ -29,12 +34,12 @@ export const useCourseState = () => {
 
   console.log("[state]", courseState);
 
-  const landingPageContent: LandingPageContent = {
-    contentAuthorAvatar: courseState.authorAvatar,
-    contentAuthorBio: courseState.authorBio,
-    contentAuthorLink: courseState.authorLink,
-    contentAuthorName: courseState.authorName,
-    contentAuthorSectionLabel: courseState.authorSectionTitle,
+  const courseContentLandingPage: LandingPageContent = {
+    contentAuthorAvatar: "#",
+    contentAuthorBio: "#",
+    contentAuthorLink: "#",
+    contentAuthorName: "#",
+    contentAuthorSectionLabel: "",
     contentFeaturesList: courseState.features,
     contentFeaturesSectionLabel: courseState.featuresSectionTitle,
     contentHashtags: courseState.hashtags,
@@ -43,41 +48,58 @@ export const useCourseState = () => {
     contentLandingPageCTA: courseState.cta,
   };
 
-  const isAllValuesFilled = Object.values(landingPageContent).every(
-    (val) => !!val
-  );
+  const isCourseStateValuesFilled = Object.values(
+    courseContentLandingPage
+  ).every((val) => !!val);
+
+  const [courseAI, setCourseAI] = useRecoilState<StateAI>(atomStateAI);
+
+  const onStateAIChange = (key: keyof StateAI, value: string) => {
+    setCourseAI((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const isAiAudienceAndAboutFilled =
+    !!courseAI.targetAudience && !!courseAI.whatIsTheCourseAbout;
 
   return {
     state: {
-      state: courseState,
-      landingPageContent,
-      isAllValuesFilled: isAllValuesFilled,
+      courseState,
+      courseAI,
+      courseContentLandingPage,
+      isCourseStateValuesFilled,
+      isAiAudienceAndAboutFilled,
     },
     methods: {
-      onRemoveValue,
-      onAddArrValue,
-      onChangeString,
+      onCourseRemoveValue,
+      onCourseAddArrValue,
+      onCourseChangeString,
+      onCourseSetResponseFromAI,
+      onStateAIChange,
     },
   };
 };
 
-export interface CourseState {
+export interface StateCourse {
   heading: string;
   subHeading: string;
   cta: string;
   hashtags: string[];
-  currHashtag: string;
   featuresSectionTitle: string;
   features: string[];
+  currHashtag: string;
   currFeature: string;
-  authorSectionTitle: string;
-  authorName: string;
-  authorAvatar: string;
-  authorBio: string;
-  authorLink: string;
 }
 
-export const INITIAL_STATE: CourseState = {
+export interface AIResponse {
+  heading: string;
+  subHeading: string;
+  cta: string;
+  hashtags: string[]; // min 1 max 3
+  featuresSectionTitle: string;
+  features: string[]; // min 3 max 6
+}
+
+export const INITIAL_STATE_COURSE: StateCourse = {
   heading: "",
   subHeading: "",
   cta: "",
@@ -86,14 +108,40 @@ export const INITIAL_STATE: CourseState = {
   featuresSectionTitle: "You will learn",
   currFeature: "",
   features: [],
-  authorSectionTitle: "Your teacher",
-  authorName: "",
-  authorAvatar: "",
-  authorBio: "",
-  authorLink: "",
+  // authorSectionTitle: "Your teacher",
+  // authorName: "",
+  // authorAvatar: "",
+  // authorBio: "",
+  // authorLink: "",
 };
 
-const atomState = atom<CourseState>({
-  key: "courseState",
-  default: INITIAL_STATE,
+const atomStateCourse = atom<StateCourse>({
+  key: "stateCourse",
+  default: INITIAL_STATE_COURSE,
+});
+
+export interface StateAI {
+  targetAudience: string;
+  whatIsTheCourseAbout: string;
+  extraContext: string;
+  unfairAdvantage: string;
+  language: string;
+}
+
+const INITIAL_STATE_AI: StateAI = {
+  extraContext: `
+    1 - [Intro & Setup]
+    2 - [Fundamentals]
+    3 - [Advanced Topics]
+    4 - [Conclusion]
+  `,
+  language: "english",
+  targetAudience: "",
+  unfairAdvantage: "",
+  whatIsTheCourseAbout: "",
+};
+
+const atomStateAI = atom<StateAI>({
+  key: "stateAI",
+  default: INITIAL_STATE_AI,
 });

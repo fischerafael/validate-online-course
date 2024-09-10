@@ -7,11 +7,11 @@ import { LandingPageContent } from "@/client/entities";
 
 export const LandingPage = ({ content }: { content: LandingPageContent }) => {
   return (
-    <Chakra.VStack w="full" align="center" gap="20">
+    <Chakra.VStack bg="white" w="full" align="center" gap="20">
       <Chakra.VStack pt="8" px="8" w="full" maxW="800px" gap="8">
         <Chakra.HStack>
           {content.contentHashtags.map((hash) => (
-            <Chakra.Tag key={hash}>#{hash}</Chakra.Tag>
+            <Chakra.Tag key={hash}>{hash}</Chakra.Tag>
           ))}
         </Chakra.HStack>
         <Chakra.Heading fontSize="6xl" textAlign="center">
@@ -31,6 +31,8 @@ export const LandingPage = ({ content }: { content: LandingPageContent }) => {
             size="lg"
             borderTopRightRadius="0"
             borderBottomRightRadius="0"
+            placeholder="email"
+            borderColor="gray.300"
           />
           <Chakra.Button
             size="lg"
@@ -63,6 +65,8 @@ export const LandingPage = ({ content }: { content: LandingPageContent }) => {
             borderTopRightRadius="0"
             borderBottomRightRadius="0"
             bg="white"
+            placeholder="email"
+            borderColor="gray.300"
           />
           <Chakra.Button
             size="lg"
@@ -94,13 +98,15 @@ export const LandingPage = ({ content }: { content: LandingPageContent }) => {
         </Chakra.HStack>
       </Chakra.VStack>
 
-      <Chakra.VStack w="full" bg="gray.50" p="8">
+      <Chakra.VStack w="full" bg="gray.100" p="8">
         <Chakra.HStack w="full" gap="0" maxW="600px" py="8">
           <Chakra.Input
             size="lg"
             borderTopRightRadius="0"
             borderBottomRightRadius="0"
             bg="white"
+            placeholder="email"
+            borderColor="gray.300"
           />
           <Chakra.Button
             size="lg"

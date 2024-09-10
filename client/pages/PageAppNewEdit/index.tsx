@@ -28,24 +28,27 @@ export const PageAppNewEdit = () => {
         <Chakra.VStack w="full" gap="4">
           <Chakra.HStack w="full" gap="4">
             <Chakra.Input
-              value={state.state.currHashtag}
+              value={state.courseState.currHashtag}
               placeholder="Hashtags"
               onChange={(e) =>
-                methods.onChangeString("currHashtag", e.target.value)
+                methods.onCourseChangeString("currHashtag", e.target.value)
               }
             />
             <Chakra.Button
               onClick={() =>
-                methods.onAddArrValue("hashtags", state.state.currHashtag)
+                methods.onCourseAddArrValue(
+                  "hashtags",
+                  state.courseState.currHashtag
+                )
               }
             >
               Add Hashtag
             </Chakra.Button>
           </Chakra.HStack>
           <Chakra.HStack w="full" flexWrap="wrap">
-            {state.state.hashtags.map((hs) => (
+            {state.courseState.hashtags.map((hs) => (
               <Chakra.Tag
-                onClick={() => methods.onRemoveValue("hashtags", hs)}
+                onClick={() => methods.onCourseRemoveValue("hashtags", hs)}
                 key={hs}
               >
                 {hs}
@@ -55,20 +58,24 @@ export const PageAppNewEdit = () => {
 
           <Chakra.Textarea
             placeholder="Heading"
-            value={state.state.heading}
-            onChange={(e) => methods.onChangeString("heading", e.target.value)}
+            value={state.courseState.heading}
+            onChange={(e) =>
+              methods.onCourseChangeString("heading", e.target.value)
+            }
           />
           <Chakra.Textarea
             placeholder="Subheading"
-            value={state.state.subHeading}
+            value={state.courseState.subHeading}
             onChange={(e) =>
-              methods.onChangeString("subHeading", e.target.value)
+              methods.onCourseChangeString("subHeading", e.target.value)
             }
           />
           <Chakra.Input
             placeholder="Button CTA"
-            value={state.state.cta}
-            onChange={(e) => methods.onChangeString("cta", e.target.value)}
+            value={state.courseState.cta}
+            onChange={(e) =>
+              methods.onCourseChangeString("cta", e.target.value)
+            }
           />
         </Chakra.VStack>
 
@@ -77,31 +84,37 @@ export const PageAppNewEdit = () => {
         <Chakra.VStack w="full" gap="4">
           <Chakra.Input
             placeholder="Section Title (e.g. 'What you will learn')"
-            value={state.state.featuresSectionTitle}
+            value={state.courseState.featuresSectionTitle}
             onChange={(e) =>
-              methods.onChangeString("featuresSectionTitle", e.target.value)
+              methods.onCourseChangeString(
+                "featuresSectionTitle",
+                e.target.value
+              )
             }
           />
           <Chakra.HStack w="full" gap="4">
             <Chakra.Input
-              value={state.state.currFeature}
+              value={state.courseState.currFeature}
               onChange={(e) =>
-                methods.onChangeString("currFeature", e.target.value)
+                methods.onCourseChangeString("currFeature", e.target.value)
               }
               placeholder="Features"
             />
             <Chakra.Button
               onClick={() =>
-                methods.onAddArrValue("features", state.state.currFeature)
+                methods.onCourseAddArrValue(
+                  "features",
+                  state.courseState.currFeature
+                )
               }
             >
               Add Feature
             </Chakra.Button>
           </Chakra.HStack>
           <Chakra.HStack w="full" flexWrap="wrap">
-            {state.state.features.map((hs) => (
+            {state.courseState.features.map((hs) => (
               <Chakra.Tag
-                onClick={() => methods.onRemoveValue("features", hs)}
+                onClick={() => methods.onCourseRemoveValue("features", hs)}
                 key={hs}
               >
                 {hs}
@@ -110,46 +123,16 @@ export const PageAppNewEdit = () => {
           </Chakra.HStack>
         </Chakra.VStack>
 
-        <Chakra.Text textTransform="capitalize">
-          Author Details Section
-        </Chakra.Text>
-
-        <Chakra.VStack w="full" gap="4">
-          <Chakra.Input
-            placeholder="Section Title (e.g. 'Your Teacher')"
-            value={state.state.authorSectionTitle}
-            onChange={(e) =>
-              methods.onChangeString("authorSectionTitle", e.target.value)
-            }
-          />
-          <Chakra.Input
-            placeholder="Author Name"
-            value={state.state.authorName}
-            onChange={(e) =>
-              methods.onChangeString("authorName", e.target.value)
-            }
-          />
-          <Chakra.Input
-            placeholder="Author Avatar Photo"
-            value={state.state.authorAvatar}
-            onChange={(e) =>
-              methods.onChangeString("authorAvatar", e.target.value)
-            }
-          />
-          <Chakra.Textarea
-            placeholder="Author Bio"
-            value={state.state.authorBio}
-            onChange={(e) =>
-              methods.onChangeString("authorBio", e.target.value)
-            }
-          />
-        </Chakra.VStack>
-
         <Chakra.HStack w="full" justify="space-between">
-          <Chakra.Button onClick={onGoToAI}>Generate with AI</Chakra.Button>
+          <Chakra.Button onClick={onGoToAI}>
+            Try different settings
+          </Chakra.Button>
+
           <Chakra.Button
             onClick={onPreview}
-            isDisabled={!state.isAllValuesFilled}
+            isDisabled={!state.isCourseStateValuesFilled}
+            bg="gray.900"
+            color="white"
           >
             Preview Landing Page
           </Chakra.Button>

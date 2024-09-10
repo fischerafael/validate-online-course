@@ -10,8 +10,6 @@ export interface LandingPageContent {
   contentFeaturesSectionLabel: string;
   contentFeaturesList: string[];
   contentLandingPageCTA: string;
-  //   contentContentSectionLabel: string;
-  //   contentContent: CourseContent[];
 }
 
 export interface LandingPageInfo {
