@@ -1,5 +1,6 @@
 "use client";
 
+import { Header } from "@/client/components/Header";
 import { LandingPage } from "@/client/components/LandingPage";
 import { useCourseState } from "@/client/hooks/useCourseState";
 import * as Chakra from "@chakra-ui/react";
@@ -16,11 +17,8 @@ export const PageAppNewPreview = () => {
 
   return (
     <Chakra.VStack w="full" align="center" p="8" spacing="8">
+      <Header />
       <Chakra.VStack maxW="800px" w="full" gap="8">
-        <Chakra.HStack w="full">
-          <Chakra.Text textTransform="capitalize">Hero Section</Chakra.Text>
-        </Chakra.HStack>
-
         <Chakra.VStack
           w="full"
           shadow="xl"

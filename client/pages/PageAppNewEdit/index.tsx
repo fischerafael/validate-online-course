@@ -1,5 +1,6 @@
 "use client";
 
+import { Header } from "@/client/components/Header";
 import { useCourseState } from "@/client/hooks/useCourseState";
 import * as Chakra from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
@@ -19,15 +20,7 @@ export const PageAppNewEdit = () => {
 
   return (
     <Chakra.VStack w="full" align="center" p="8" spacing="8">
-      <Chakra.HStack
-        w="full"
-        h="fit-content"
-        maxW="800px"
-        justify="space-between"
-      >
-        <Chakra.Text>VCO</Chakra.Text>
-        <Chakra.Button>My Courses</Chakra.Button>
-      </Chakra.HStack>
+      <Header />
 
       <Chakra.VStack w="full" maxW="800px" align="flex-start" gap="8">
         <Chakra.Text textTransform="capitalize">Hero Section</Chakra.Text>
