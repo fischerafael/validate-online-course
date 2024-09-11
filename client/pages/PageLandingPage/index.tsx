@@ -1,56 +1,11 @@
 "use client";
 
-import { LandingPage } from "@/client/components/LandingPage";
-import { LandingPageContent } from "@/client/entities";
+import { useAuth } from "@/client/hooks/useAuth";
 import * as Chakra from "@chakra-ui/react";
 import * as Icon from "react-icons/hi";
 
 export const PageLandingPage = () => {
-  const landingPage = {
-    contentHashtags: ["#QuickValidation", "#OnlineCourses", "#AI"],
-    contentHeroHeading: "Validate your course in less than a Minute",
-    contentHeroSubHeading:
-      "Create instant AI-powered landing pages and test your audience's interest.",
-    contentLandingPageCTA: "Validate Course Idea Now",
-    contentFeaturesSectionLabel: "Why Instant Course Validator?",
-    contentFeaturesList: [
-      "Use artificial intelligence to create minimalist and highly effective landing pages in seconds.",
-      "Share the landing page link and start collecting emails from interested users on the waiting list immediately.",
-      "Save time and effort by avoiding recording courses that don't generate interest.",
-      "Easily customize the AI-generated landing page content if desired.",
-      "Test multiple course ideas or different landing page variations to maximize your success potential.",
-    ],
-    howItWorksList: [
-      {
-        sub: "Provide details about your course, such as target audience, course topic, language, and any extra context.",
-        title: "Answer Basic Questions",
-      },
-      {
-        sub: "Our AI creates a minimalist, high-conversion landing page complete with all necessary copy.",
-        title: "AI-Generated Landing Page",
-      },
-      {
-        sub: "Review and adjust the AI-generated copy to better fit your vision, if desired.",
-        title: "Customize If Needed",
-      },
-      {
-        sub: "Publish your landing page and promote the link to your audience.",
-        title: "Publish and Share",
-      },
-      {
-        sub: "Potential students visit the landing page and sign up for the course waiting list.",
-        title: "Collect Leads",
-      },
-      {
-        sub: "A high number of sign-ups indicates strong interest, suggesting your course will be a success.",
-        title: "Validate Interest",
-      },
-      {
-        sub: "Start building a list of leads ready to purchase your course, even before recording any lessons.",
-        title: "Build Leads Early",
-      },
-    ],
-  };
+  const { state, methods } = useAuth();
 
   return (
     <Chakra.VStack bg="white" w="full" align="center" gap="20">
@@ -67,7 +22,12 @@ export const PageLandingPage = () => {
           {landingPage.contentHeroSubHeading}
         </Chakra.Text>
         <Chakra.HStack w="full" justify="center" py="8" maxW="600px" gap="0">
-          <Chakra.Button size="lg" bg="gray.800" color="gray.50">
+          <Chakra.Button
+            size="lg"
+            bg="gray.800"
+            color="gray.50"
+            onClick={methods.onLogIn}
+          >
             {landingPage.contentLandingPageCTA}
           </Chakra.Button>
         </Chakra.HStack>
@@ -116,7 +76,12 @@ export const PageLandingPage = () => {
       </Chakra.VStack>
 
       <Chakra.HStack w="full" justify="center" py="8" maxW="600px" gap="0">
-        <Chakra.Button size="lg" bg="gray.800" color="gray.50">
+        <Chakra.Button
+          size="lg"
+          bg="gray.800"
+          color="gray.50"
+          onClick={methods.onLogIn}
+        >
           {landingPage.contentLandingPageCTA}
         </Chakra.Button>
       </Chakra.HStack>
@@ -131,4 +96,50 @@ export const PageLandingPage = () => {
       </Chakra.VStack>
     </Chakra.VStack>
   );
+};
+
+const landingPage = {
+  contentHashtags: ["#QuickValidation", "#OnlineCourses", "#AI"],
+  contentHeroHeading: "Validate your course in less than a Minute",
+  contentHeroSubHeading:
+    "Create instant AI-powered landing pages and test your audience's interest.",
+  contentLandingPageCTA: "Validate Course Idea Now",
+  contentFeaturesSectionLabel: "Why Instant Course Validator?",
+  contentFeaturesList: [
+    "Use artificial intelligence to create minimalist and highly effective landing pages in seconds.",
+    "Share the landing page link and start collecting emails from interested users on the waiting list immediately.",
+    "Save time and effort by avoiding recording courses that don't generate interest.",
+    "Easily customize the AI-generated landing page content if desired.",
+    "Test multiple course ideas or different landing page variations to maximize your success potential.",
+  ],
+  howItWorksList: [
+    {
+      sub: "Provide details about your course, such as target audience, course topic, language, and any extra context.",
+      title: "Answer Basic Questions",
+    },
+    {
+      sub: "Our AI creates a minimalist, high-conversion landing page complete with all necessary copy.",
+      title: "AI-Generated Landing Page",
+    },
+    {
+      sub: "Review and adjust the AI-generated copy to better fit your vision, if desired.",
+      title: "Customize If Needed",
+    },
+    {
+      sub: "Publish your landing page and promote the link to your audience.",
+      title: "Publish and Share",
+    },
+    {
+      sub: "Potential students visit the landing page and sign up for the course waiting list.",
+      title: "Collect Leads",
+    },
+    {
+      sub: "A high number of sign-ups indicates strong interest, suggesting your course will be a success.",
+      title: "Validate Interest",
+    },
+    {
+      sub: "Start building a list of leads ready to purchase your course, even before recording any lessons.",
+      title: "Build Leads Early",
+    },
+  ],
 };
