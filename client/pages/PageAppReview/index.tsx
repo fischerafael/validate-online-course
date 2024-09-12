@@ -1,21 +1,22 @@
 "use client";
 
 import { Header } from "@/client/components/Header";
+import { pages } from "@/client/config/pages";
 import { useCourseState } from "@/client/hooks/useCourseState";
 import * as Chakra from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
-export const PageAppNewEdit = () => {
+export const PageAppReview = () => {
   const { state, methods } = useCourseState();
 
   const { push } = useRouter();
 
   const onPreview = () => {
-    push(`/app/course/preview`);
+    push(pages.appPreview.href);
   };
 
   const onGoToAI = () => {
-    push(`/app/course/ai`);
+    push(pages.appNew.href);
   };
 
   return (

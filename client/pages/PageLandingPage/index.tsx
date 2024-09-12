@@ -15,7 +15,7 @@ export const PageLandingPage = () => {
             <Chakra.Tag key={hash}>{hash}</Chakra.Tag>
           ))}
         </Chakra.HStack>
-        <Chakra.Heading fontSize="6xl" textAlign="center">
+        <Chakra.Heading maxW="500px" fontSize="6xl" textAlign="center">
           {landingPage.contentHeroHeading}
         </Chakra.Heading>
         <Chakra.Text fontSize="xl" textAlign="center">
@@ -100,11 +100,11 @@ export const PageLandingPage = () => {
 
 const landingPage = {
   contentHashtags: ["#QuickValidation", "#OnlineCourses", "#AI"],
-  contentHeroHeading: "Validate your course in less than a Minute",
+  contentHeroHeading: "Validate your course in seconds",
   contentHeroSubHeading:
     "Create instant AI-powered landing pages and test your audience's interest.",
   contentLandingPageCTA: "Validate Course Idea Now",
-  contentFeaturesSectionLabel: "Why Instant Course Validator?",
+  contentFeaturesSectionLabel: "Why Insta Course Validator?",
   contentFeaturesList: [
     "Use artificial intelligence to create minimalist and highly effective landing pages in seconds.",
     "Share the landing page link and start collecting emails from interested users on the waiting list immediately.",

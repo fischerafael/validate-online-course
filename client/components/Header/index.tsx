@@ -3,7 +3,7 @@
 import * as Chakra from "@chakra-ui/react";
 import React from "react";
 
-export const Header = () => {
+export const Header = ({ action }: { action?: React.ReactElement }) => {
   return (
     <Chakra.HStack
       w="full"
@@ -11,8 +11,8 @@ export const Header = () => {
       maxW="800px"
       justify="space-between"
     >
-      <Chakra.Text>VCO</Chakra.Text>
-      <Chakra.Button>My Courses</Chakra.Button>
+      <Chakra.Image src="/logo.svg" />
+      {action}
     </Chakra.HStack>
   );
 };

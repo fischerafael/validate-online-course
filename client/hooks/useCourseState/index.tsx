@@ -32,8 +32,6 @@ export const useCourseState = () => {
     }));
   };
 
-  console.log("[state]", courseState);
-
   const courseContentLandingPage: LandingPageContent = {
     contentAuthorAvatar: "#",
     contentAuthorBio: "#",

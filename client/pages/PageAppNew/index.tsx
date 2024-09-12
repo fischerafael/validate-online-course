@@ -1,16 +1,18 @@
 "use client";
 
 import { Header } from "@/client/components/Header";
-import { LandingPage } from "@/client/components/LandingPage";
+import { useAuth } from "@/client/hooks/useAuth";
 import { useCourseState } from "@/client/hooks/useCourseState";
 import * as Chakra from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { actionGenerateCourseContent } from "./actions";
 import { useState } from "react";
+import { actionGenerateCourseContent } from "./actions";
+import { pages } from "@/client/config/pages";
 
-export const PageAppNewAI = () => {
+export const PageAppNew = () => {
   const { state, methods } = useCourseState();
   const [isLoading, setLoading] = useState(false);
+  useAuth();
 
   const { push } = useRouter();
 
@@ -19,7 +21,7 @@ export const PageAppNewAI = () => {
     try {
       const { jsonContent } = await actionGenerateCourseContent(state.courseAI);
       methods.onCourseSetResponseFromAI(jsonContent);
-      push(`/app/course/preview`);
+      push(pages.appPreview.href);
     } catch (e: any) {
       alert("Something went wrong");
     } finally {
@@ -28,7 +30,7 @@ export const PageAppNewAI = () => {
   };
 
   const onViewAll = () => {
-    push(`/app/course`);
+    push(pages.app.href);
   };
 
   return (

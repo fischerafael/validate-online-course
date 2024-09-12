@@ -1,7 +1,19 @@
 import { firebaseSignUp } from "@/client/config/firebase";
+import { pages } from "@/client/config/pages";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { atom, useRecoilState } from "recoil";
+
+const setKey = (key: string) => `@landing-page-${key}`;
+const getKey = (key: string) => `@landing-page-${key}`;
+
+const storage = {
+  setItem: (key: string, value: any) => {
+    localStorage.setItem(setKey(key), value);
+  },
+  getItem: (key: string) => localStorage.getItem(getKey(key)),
+  removeItem: (key: string) => localStorage.removeItem(getKey(key)),
+};
 
 export const useAuth = () => {
   const { push } = useRouter();
@@ -12,6 +24,7 @@ export const useAuth = () => {
 
   const onChangeAuthState = (key: keyof AuthState, value: string) => {
     setAuthState((prev) => ({ ...prev, [key]: value }));
+    storage.setItem(setKey(key), value);
   };
 
   const onLogIn = async () => {
@@ -24,7 +37,7 @@ export const useAuth = () => {
       onChangeAuthState("avatarURL", photoURL || "");
       onChangeAuthState("name", displayName || "");
 
-      push("/app");
+      push(pages.app.href);
     } catch (e: any) {
       alert(e);
     } finally {
@@ -34,14 +47,25 @@ export const useAuth = () => {
 
   const onLogOut = () => {
     setAuthState(INITIAL_AUTH_STATE);
-    push("/");
+    push(pages.landing.href);
   };
 
   useEffect(() => {
-    if (!authState.email) {
-      push("/");
+    const email = storage.getItem(getKey("email"));
+    const avatarURL = storage.getItem(getKey("avatarURL"));
+    const name = storage.getItem(getKey("name"));
+
+    if (!email) {
+      push(pages.landing.href);
+      storage.removeItem(getKey("email"));
+      storage.removeItem(getKey("avatarURL"));
+      storage.removeItem(getKey("name"));
+      return;
     }
-  }, [authState.email]);
+    onChangeAuthState("email", email);
+    onChangeAuthState("avatarURL", avatarURL || "");
+    onChangeAuthState("name", name || "");
+  }, []);
 
   return {
     methods: { onChangeAuthState, onLogIn, onLogOut },

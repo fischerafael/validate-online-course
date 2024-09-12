@@ -2,17 +2,18 @@
 
 import { Header } from "@/client/components/Header";
 import { LandingPage } from "@/client/components/LandingPage";
+import { pages } from "@/client/config/pages";
 import { useCourseState } from "@/client/hooks/useCourseState";
 import * as Chakra from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
-export const PageAppNewPreview = () => {
+export const PageAppPreview = () => {
   const { state } = useCourseState();
 
   const { push } = useRouter();
 
   const onEdit = () => {
-    push(`/app/course/edit`);
+    push(pages.appReview.href);
   };
 
   const onPublishLp = () => {
@@ -20,7 +21,7 @@ export const PageAppNewPreview = () => {
   };
 
   const onTryDiffSettings = () => {
-    push(`/app/course/ai`);
+    push(pages.appNew.href);
   };
 
   return (
