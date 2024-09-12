@@ -8,8 +8,8 @@ export const PageLandingPage = () => {
   const { state, methods } = useAuth();
 
   return (
-    <Chakra.VStack bg="white" w="full" align="center" gap="20">
-      <Chakra.VStack pt="8" px="8" w="full" maxW="800px" gap="8">
+    <Chakra.VStack bg="white" w="full" align="center" gap="16">
+      <Chakra.VStack pt="24" px="8" w="full" maxW="800px" gap="4">
         <Chakra.HStack>
           {landingPage.contentHashtags.map((hash) => (
             <Chakra.Tag key={hash}>{hash}</Chakra.Tag>
@@ -33,19 +33,27 @@ export const PageLandingPage = () => {
         </Chakra.HStack>
       </Chakra.VStack>
 
-      <Chakra.VStack px="8" w="full" maxW="800px" gap="16">
+      <Chakra.VStack px="8" w="full" maxW="800px" gap="8">
         <Chakra.Heading>How it works</Chakra.Heading>
         <Chakra.Grid templateColumns={["1fr", "1fr 1fr"]} gap="4" w="full">
           {landingPage.howItWorksList.map((feature, index) => (
             <Chakra.HStack
-              w="full"
+              // border="1px"
+              // borderRadius="xl"
+              // borderColor="gray.300"
+              // p="8"
+              // align="start"
+              // key={feature.title}
+              // gap="4"
+              // maxW="800px"
+              gap="8"
+              shadow="md"
+              overflow="hidden"
+              borderRadius="lg"
               border="1px"
-              borderRadius="xl"
               borderColor="gray.300"
               p="8"
-              align="start"
-              key={feature.title}
-              gap="4"
+              align="flex-start"
             >
               {/* <Chakra.Icon as={Icon.HiOutlineChevronRight} /> */}
               <Chakra.VStack align="start">

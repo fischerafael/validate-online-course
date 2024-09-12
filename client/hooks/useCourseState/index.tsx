@@ -2,14 +2,23 @@
 
 import { LandingPageContent } from "@/client/entities";
 import { atom, useRecoilState } from "recoil";
+import { useAuth } from "../useAuth";
 
 export const useCourseState = () => {
+  const { state } = useAuth();
   const [courseState, setCourseState] =
     useRecoilState<StateCourse>(atomStateCourse);
 
   const onCourseSetResponseFromAI = (res: AIResponse) => {
-    setCourseState((prev) => ({ ...prev, ...res }));
+    setCourseState((prev) => ({
+      ...prev,
+      ...res,
+      authorAvatar: state.authState.avatarURL,
+      authorName: state.authState.name,
+    }));
   };
+
+  console.log(courseState);
 
   const onCourseChangeString = (key: keyof StateCourse, value: string) => {
     setCourseState((prev) => ({ ...prev, [key]: value }));
@@ -33,11 +42,8 @@ export const useCourseState = () => {
   };
 
   const courseContentLandingPage: LandingPageContent = {
-    contentAuthorAvatar: "#",
-    contentAuthorBio: "#",
-    contentAuthorLink: "#",
-    contentAuthorName: "#",
-    contentAuthorSectionLabel: "",
+    contentAuthorAvatar: courseState.authorAvatar,
+    contentAuthorName: courseState.authorName,
     contentFeaturesList: courseState.features,
     contentFeaturesSectionLabel: courseState.featuresSectionTitle,
     contentHashtags: courseState.hashtags,
@@ -56,6 +62,8 @@ export const useCourseState = () => {
     setCourseAI((prev) => ({ ...prev, [key]: value }));
   };
 
+  const onResetAIState = () => setCourseAI(INITIAL_STATE_AI);
+
   const isAiAudienceAndAboutFilled =
     !!courseAI.targetAudience && !!courseAI.whatIsTheCourseAbout;
 
@@ -73,6 +81,7 @@ export const useCourseState = () => {
       onCourseChangeString,
       onCourseSetResponseFromAI,
       onStateAIChange,
+      onResetAIState,
     },
   };
 };
@@ -86,6 +95,8 @@ export interface StateCourse {
   features: string[];
   currHashtag: string;
   currFeature: string;
+  authorName: string;
+  authorAvatar: string;
 }
 
 export interface AIResponse {
@@ -106,11 +117,8 @@ export const INITIAL_STATE_COURSE: StateCourse = {
   featuresSectionTitle: "You will learn",
   currFeature: "",
   features: [],
-  // authorSectionTitle: "Your teacher",
-  // authorName: "",
-  // authorAvatar: "",
-  // authorBio: "",
-  // authorLink: "",
+  authorName: "",
+  authorAvatar: "",
 };
 
 const atomStateCourse = atom<StateCourse>({

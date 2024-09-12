@@ -40,16 +40,21 @@ export const PageAppPreview = () => {
         </Chakra.VStack>
 
         <Chakra.HStack w="full" justify="space-between">
-          <Chakra.Button onClick={onTryDiffSettings}>
-            Try different settings
+          <Chakra.Button textTransform="capitalize" onClick={onTryDiffSettings}>
+            Try something different
           </Chakra.Button>
 
           <Chakra.HStack>
-            <Chakra.Button onClick={onEdit}>
-              Edit Content Manually
+            <Chakra.Button textTransform="capitalize" onClick={onEdit}>
+              Edit Copy
             </Chakra.Button>
-            <Chakra.Button bg="gray.900" color="white" onClick={onPublishLp}>
-              Publish Course Landing Page
+            <Chakra.Button
+              textTransform="capitalize"
+              bg="gray.900"
+              color="white"
+              onClick={onPublishLp}
+            >
+              Publish Landing Page
             </Chakra.Button>
           </Chakra.HStack>
         </Chakra.HStack>

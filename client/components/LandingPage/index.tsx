@@ -14,18 +14,13 @@ export const LandingPage = ({ content }: { content: LandingPageContent }) => {
             <Chakra.Tag key={hash}>{hash}</Chakra.Tag>
           ))}
         </Chakra.HStack>
-        <Chakra.Heading fontSize="6xl" textAlign="center">
+        <Chakra.Heading fontSize="6xl" textAlign="center" maxW="5500px">
           {content.contentHeroHeading}
         </Chakra.Heading>
         <Chakra.Text fontSize="xl" textAlign="center">
           {content.contentHeroSubHeading}
         </Chakra.Text>
-        <Chakra.Text>
-          by{" "}
-          <Chakra.Link href={content.contentAuthorLink}>
-            {content.contentAuthorName}
-          </Chakra.Link>
-        </Chakra.Text>
+
         <Chakra.HStack w="full" maxW="600px" gap="0">
           <Chakra.Input
             size="lg"
@@ -58,47 +53,24 @@ export const LandingPage = ({ content }: { content: LandingPageContent }) => {
         </Chakra.Grid>
       </Chakra.VStack>
 
-      <Chakra.VStack w="full" p="8">
-        <Chakra.HStack w="full" gap="0" maxW="600px" py="8">
-          <Chakra.Input
-            size="lg"
-            borderTopRightRadius="0"
-            borderBottomRightRadius="0"
-            bg="white"
-            placeholder="email"
-            borderColor="gray.300"
-          />
-          <Chakra.Button
-            size="lg"
-            borderTopLeftRadius="0"
-            borderBottomLeftRadius="0"
-            bg="gray.800"
-            color="gray.50"
-          >
-            {content.contentLandingPageCTA}
-          </Chakra.Button>
-        </Chakra.HStack>
-      </Chakra.VStack>
+      <Chakra.HStack>
+        <Chakra.Text fontSize="xs">{`By ${content.contentAuthorName}`}</Chakra.Text>
+        <Chakra.Avatar
+          size="xs"
+          src={content.contentAuthorAvatar}
+          name={content.contentAuthorName}
+          bg="gray.900"
+          color="gray.50"
+        />
+      </Chakra.HStack>
 
-      <Chakra.VStack px="8" w="full" maxW="800px" gap="8">
-        <Chakra.Heading>{content.contentAuthorSectionLabel}</Chakra.Heading>
-        <Chakra.HStack h="full" gap="8">
-          <Chakra.Avatar
-            src={content.contentAuthorAvatar}
-            name={content.contentAuthorName}
-            bg="gray.900"
-            color="gray.50"
-          />
-          <Chakra.VStack w="full" align="flex-start" gap="0">
-            <Chakra.Heading fontSize="xl">
-              {content.contentAuthorName}
-            </Chakra.Heading>
-            <Chakra.Text>{content.contentAuthorBio}</Chakra.Text>
-          </Chakra.VStack>
-        </Chakra.HStack>
-      </Chakra.VStack>
-
-      <Chakra.VStack w="full" bg="gray.100" p="8">
+      <Chakra.VStack
+        w="full"
+        bg="gray.100"
+        p="8"
+        borderTop="1px"
+        borderColor="gray.300"
+      >
         <Chakra.HStack w="full" gap="0" maxW="600px" py="8">
           <Chakra.Input
             size="lg"

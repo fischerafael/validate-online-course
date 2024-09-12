@@ -3,10 +3,7 @@ export interface LandingPageContent {
   contentHeroHeading: string;
   contentHeroSubHeading: string;
   contentAuthorName: string;
-  contentAuthorLink: string;
   contentAuthorAvatar: string;
-  contentAuthorSectionLabel: string;
-  contentAuthorBio: string;
   contentFeaturesSectionLabel: string;
   contentFeaturesList: string[];
   contentLandingPageCTA: string;

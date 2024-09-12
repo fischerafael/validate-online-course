@@ -24,9 +24,20 @@ export const PageAppReview = () => {
       <Header />
 
       <Chakra.VStack w="full" maxW="800px" align="flex-start" gap="8">
-        <Chakra.Text textTransform="capitalize">Hero Section</Chakra.Text>
-
-        <Chakra.VStack w="full" gap="4">
+        <Chakra.VStack
+          w="full"
+          shadow="xl"
+          overflow="hidden"
+          borderRadius="lg"
+          border="1px"
+          borderColor="gray.300"
+          p="8"
+          gap="4"
+          align="flex-start"
+        >
+          <Chakra.Text textTransform="capitalize" fontWeight="500">
+            Hero Section
+          </Chakra.Text>
           <Chakra.HStack w="full" gap="4">
             <Chakra.Input
               value={state.courseState.currHashtag}
@@ -56,7 +67,6 @@ export const PageAppReview = () => {
               </Chakra.Tag>
             ))}
           </Chakra.HStack>
-
           <Chakra.Textarea
             placeholder="Heading"
             value={state.courseState.heading}
@@ -80,9 +90,21 @@ export const PageAppReview = () => {
           />
         </Chakra.VStack>
 
-        <Chakra.Text textTransform="capitalize">Features section</Chakra.Text>
-
-        <Chakra.VStack w="full" gap="4">
+        <Chakra.VStack
+          w="full"
+          shadow="xl"
+          overflow="hidden"
+          borderRadius="lg"
+          border="1px"
+          borderColor="gray.300"
+          p="8"
+          gap="4"
+          align="flex-start"
+        >
+          {" "}
+          <Chakra.Text textTransform="capitalize" fontWeight="500">
+            Features section
+          </Chakra.Text>
           <Chakra.Input
             placeholder="Section Title (e.g. 'What you will learn')"
             value={state.courseState.featuresSectionTitle}

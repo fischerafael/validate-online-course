@@ -6,7 +6,7 @@ import { useCourseState } from "@/client/hooks/useCourseState";
 import * as Chakra from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { actionGenerateCourseContent } from "./actions";
+import { actionGenerateCourseContent } from "../../actions";
 import { pages } from "@/client/config/pages";
 
 export const PageAppNew = () => {
@@ -33,10 +33,31 @@ export const PageAppNew = () => {
     push(pages.app.href);
   };
 
+  const onResetInputs = () => {
+    methods.onResetAIState();
+  };
+
   return (
     <Chakra.VStack w="full" align="center" p="8" spacing="8">
-      <Header />
-      <Chakra.VStack maxW="800px" w="full" gap="4">
+      <Header
+        action={
+          <Chakra.Button onClick={onViewAll}>
+            View All Your Courses
+          </Chakra.Button>
+        }
+      />
+      <Chakra.VStack
+        maxW="800px"
+        w="full"
+        gap="8"
+        shadow="xl"
+        overflow="hidden"
+        borderRadius="lg"
+        border="1px"
+        borderColor="gray.300"
+        p="8"
+        align="flex-start"
+      >
         <Chakra.Textarea
           placeholder="Target Audience"
           minH="10vh"
@@ -77,7 +98,9 @@ export const PageAppNew = () => {
       </Chakra.VStack>
 
       <Chakra.HStack maxW="800px" w="full" justify="space-between">
-        <Chakra.Button onClick={onViewAll}>View All Your Courses</Chakra.Button>
+        <Chakra.Button textTransform="capitalize" onClick={onResetInputs}>
+          Reset Inputs
+        </Chakra.Button>
         <Chakra.Button
           isDisabled={!state.isAiAudienceAndAboutFilled}
           onClick={onGenerateContent}
