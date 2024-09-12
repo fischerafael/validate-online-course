@@ -5,7 +5,7 @@ import * as Chakra from "@chakra-ui/react";
 import * as Icon from "react-icons/hi";
 
 export const PageLandingPage = () => {
-  const { state, methods } = useAuth();
+  const { methods } = useAuth();
 
   return (
     <Chakra.VStack bg="white" w="full" align="center" gap="16">
