@@ -18,8 +18,6 @@ export const useCourseState = () => {
     }));
   };
 
-  console.log(courseState);
-
   const onCourseChangeString = (key: keyof StateCourse, value: string) => {
     setCourseState((prev) => ({ ...prev, [key]: value }));
   };
