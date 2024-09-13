@@ -2,6 +2,9 @@ export interface CompanyUser {
   email: string;
   status: "confirmed" | "pending";
   role: "owner" | "user";
+  avatarUrl?: string;
+  name?: string;
+  authId?: string;
 }
 
 export type Currency = "usd";

@@ -16,6 +16,7 @@ const provider = new GoogleAuthProvider();
 
 export const firebaseSignUp = async () => {
   const res = await signInWithPopup(auth, provider);
+  console.log(res);
   const { user } = res;
-  return user;
+  return { ...user };
 };
