@@ -31,7 +31,7 @@ export const useAuth = () => {
   const onLogIn = async () => {
     try {
       setLoading(true);
-      const { displayName, email, photoURL } = await firebaseSignUp();
+      const { displayName, email, photoURL, uid } = await firebaseSignUp();
       if (!email) throw new Error("Email not available");
 
       // const response = await actionCreateCompany(email)
@@ -41,9 +41,10 @@ export const useAuth = () => {
       // const { users } = response
       // const owner = users.find(user => user.role === 'owner')!
 
-      onChangeAuthState("email", owner.email);
+      onChangeAuthState("email", email);
       onChangeAuthState("avatarURL", photoURL || "");
       onChangeAuthState("name", displayName || "");
+      onChangeAuthState("id", uid || "");
 
       push(pages.app.href);
     } catch (e: any) {
