@@ -14,11 +14,6 @@ export const useAuth = () => {
 
   const [isLoading, setLoading] = useState(false);
 
-  const onChangeAuthState = (key: keyof AuthState, value: string) => {
-    setAuthState((prev) => ({ ...prev, [key]: value }));
-    storage.setItem(setKey(key), value);
-  };
-
   const getAuthState = () => {
     return storage.getItem<AuthState | undefined>("auth");
   };
@@ -61,8 +56,8 @@ export const useAuth = () => {
   }, []);
 
   return {
-    methods: { onChangeAuthState, onLogIn, onLogOut },
-    state: { authState, isLoading },
+    methods: { onLogIn, onLogOut, getAuthState },
+    state: { isLoading },
   };
 };
 
