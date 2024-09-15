@@ -1,3 +1,4 @@
+import { actionCreateCompany } from "@/client/actions";
 import { firebaseSignUp } from "@/client/config/firebase";
 import { pages } from "@/client/config/pages";
 import { useRouter } from "next/navigation";
@@ -24,16 +25,9 @@ export const useAuth = () => {
       const { displayName, email, photoURL, uid } = await firebaseSignUp();
       if (!email) throw new Error("Email not available");
       const auth = { name: displayName, avatarURL: photoURL, email, id: uid };
-      console.log("[auth]", auth);
       storage.setItem("auth", auth);
-
-      // const response = await actionCreateCompany(email)
-
-      // if (!response) throw new Error('Failed')
-
-      // const { users } = response
-      // const owner = users.find(user => user.role === 'owner')!
-
+      const response = await actionCreateCompany(email);
+      if (!response) throw new Error("Failed");
       push(pages.app.href);
     } catch (e: any) {
       alert(e);
