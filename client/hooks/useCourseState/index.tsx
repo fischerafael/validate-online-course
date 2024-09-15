@@ -5,7 +5,7 @@ import { atom, useRecoilState } from "recoil";
 import { useAuth } from "../useAuth";
 
 export const useCourseState = () => {
-  const { state } = useAuth();
+  const { methods } = useAuth();
   const [courseState, setCourseState] =
     useRecoilState<StateCourse>(atomStateCourse);
 
@@ -13,8 +13,8 @@ export const useCourseState = () => {
     setCourseState((prev) => ({
       ...prev,
       ...res,
-      authorAvatar: state.authState.avatarURL,
-      authorName: state.authState.name,
+      authorAvatar: methods.getAuthState()?.avatarURL!,
+      authorName: methods.getAuthState()?.name!,
     }));
   };
 

@@ -8,14 +8,6 @@ import { atom, useRecoilState } from "recoil";
 const setKey = (key: string) => `@landing-page-${key}`;
 const getKey = (key: string) => `@landing-page-${key}`;
 
-const storage = {
-  setItem: (key: string, value: any) => {
-    localStorage.setItem(setKey(key), value);
-  },
-  getItem: (key: string) => localStorage.getItem(getKey(key)),
-  removeItem: (key: string) => localStorage.removeItem(getKey(key)),
-};
-
 export const useAuth = () => {
   const { push } = useRouter();
 
@@ -23,9 +15,8 @@ export const useAuth = () => {
 
   const [isLoading, setLoading] = useState(false);
 
-  const onChangeAuthState = (key: keyof AuthState, value: string) => {
-    setAuthState((prev) => ({ ...prev, [key]: value }));
-    storage.setItem(setKey(key), value);
+  const getAuthState = () => {
+    return storage.getItem<AuthState | undefined>("auth");
   };
 
   const onLogIn = async () => {
@@ -33,19 +24,10 @@ export const useAuth = () => {
       setLoading(true);
       const { displayName, email, photoURL, uid } = await firebaseSignUp();
       if (!email) throw new Error("Email not available");
-
-      // const response = await actionCreateCompany(email)
-
-      // if (!response) throw new Error('Failed')
-
-      // const { users } = response
-      // const owner = users.find(user => user.role === 'owner')!
-
-      onChangeAuthState("email", email);
-      onChangeAuthState("avatarURL", photoURL || "");
-      onChangeAuthState("name", displayName || "");
-      onChangeAuthState("id", uid || "");
-
+      const auth = { name: displayName, avatarURL: photoURL, email, id: uid };
+      storage.setItem("auth", auth);
+      const response = await actionCreateCompany(email);
+      if (!response) throw new Error("Failed");
       push(pages.app.href);
     } catch (e: any) {
       alert(e);
@@ -60,25 +42,16 @@ export const useAuth = () => {
   };
 
   useEffect(() => {
-    const email = storage.getItem(getKey("email"));
-    const avatarURL = storage.getItem(getKey("avatarURL"));
-    const name = storage.getItem(getKey("name"));
-
-    if (!email) {
+    const auth = getAuthState();
+    if (!auth?.email) {
       push(pages.landing.href);
-      storage.removeItem(getKey("email"));
-      storage.removeItem(getKey("avatarURL"));
-      storage.removeItem(getKey("name"));
-      return;
+      storage.removeItem("auth");
     }
-    onChangeAuthState("email", email);
-    onChangeAuthState("avatarURL", avatarURL || "");
-    onChangeAuthState("name", name || "");
   }, []);
 
   return {
-    methods: { onChangeAuthState, onLogIn, onLogOut },
-    state: { authState, isLoading },
+    methods: { onLogIn, onLogOut, getAuthState },
+    state: { isLoading },
   };
 };
 
@@ -100,3 +73,19 @@ const authStateAtom = atom<AuthState>({
   key: "authState",
   default: INITIAL_AUTH_STATE,
 });
+
+const storage = {
+  setItem: (key: string, value: any) => {
+    localStorage.setItem(setKey(key), JSON.stringify(value));
+  },
+  getItem: <T,>(key: string) => {
+    try {
+      const item = localStorage.getItem(getKey(key));
+      if (!item) return;
+      return JSON.parse(item) as T;
+    } catch (e: any) {
+      return undefined;
+    }
+  },
+  removeItem: (key: string) => localStorage.removeItem(getKey(key)),
+};
