@@ -1,6 +1,10 @@
-import { actionCreateCompany } from "@/client/actions";
+import {
+  actionCreateCompany,
+  actionFindCompanyByOwnerEmail,
+} from "@/client/actions";
 import { firebaseSignUp } from "@/client/config/firebase";
 import { pages } from "@/client/config/pages";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { atom, useRecoilState } from "recoil";
@@ -49,8 +53,21 @@ export const useAuth = () => {
     }
   }, []);
 
+  const ownerEmail = getAuthState()?.email;
+
+  const { data } = useQuery({
+    queryKey: ["find-company-by-owner-email", ownerEmail],
+    enabled: !!ownerEmail,
+    queryFn: () =>
+      actionFindCompanyByOwnerEmail({
+        email: ownerEmail!,
+      }),
+  });
+
+  const getCompanyId = () => data?.id;
+
   return {
-    methods: { onLogIn, onLogOut, getAuthState },
+    methods: { onLogIn, onLogOut, getAuthState, getCompanyId },
     state: { isLoading },
   };
 };

@@ -1,23 +1,36 @@
 "use client";
 
+import { actionPublishLP } from "@/client/actions";
 import { Header } from "@/client/components/Header";
 import { LandingPage } from "@/client/components/LandingPage";
 import { pages } from "@/client/config/pages";
+import { useAuth } from "@/client/hooks/useAuth";
 import { useCourseState } from "@/client/hooks/useCourseState";
 import * as Chakra from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
 export const PageAppPreview = () => {
   const { state } = useCourseState();
+  const { methods } = useAuth();
 
   const { push } = useRouter();
+
+  console.log("[companyId]", methods.getCompanyId());
 
   const onEdit = () => {
     push(pages.appReview.href);
   };
 
   const onPublishLp = () => {
-    alert("publish");
+    try {
+      actionPublishLP({
+        companyId: methods.getCompanyId()!,
+        companyOwner: methods.getAuthState()?.email!,
+        content: state.courseContentLandingPage,
+        slug: "",
+        title: "",
+      });
+    } catch (e: any) {}
   };
 
   const onTryDiffSettings = () => {

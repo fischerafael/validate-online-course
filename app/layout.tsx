@@ -1,5 +1,6 @@
-import { RecoilProvider } from "@/client/Provider/RecoilProvider";
+import { RecoilProvider } from "@/client/providers/RecoilProvider";
 import { Providers } from "@/client/providers";
+import { ReactQueryProvider } from "@/client/providers/ReactQueryProvider";
 
 export const metadata = {
   title: "Insta Course Validator",
@@ -16,7 +17,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
-          <RecoilProvider>{children}</RecoilProvider>
+          <ReactQueryProvider>
+            <RecoilProvider>{children}</RecoilProvider>
+          </ReactQueryProvider>
         </Providers>
       </body>
     </html>

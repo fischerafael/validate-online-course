@@ -20,3 +20,6 @@ export const firebaseSignUp = async () => {
   const { user } = res;
   return { ...user };
 };
+
+import { getFirestore } from "firebase/firestore";
+export const dbLandingPages = getFirestore(app);

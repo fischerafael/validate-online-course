@@ -2,7 +2,7 @@ import { db } from "../config/axios";
 import { Company } from "../entities";
 
 class FireStoreRepository {
-  private appName = process.env.APP_NAME;
+  private appName = `${process.env.APP_NAME}.companies`;
 
   createCompany = async ({ company }: { company: Company }): Promise<void> => {
     try {

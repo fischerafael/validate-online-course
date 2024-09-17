@@ -3,6 +3,10 @@
 import { StateAI } from "@/client/hooks/useCourseState";
 import { useCaseGenerateCourseContent } from "@/server/app/generate-course-content";
 import { companyServices } from "@/server/services/company";
+import {
+  useCasesLandingPage,
+  UseCasesLandingPageCreateInput,
+} from "@/server/usecases";
 
 export const actionGenerateCourseContent = async (input: StateAI) => {
   return await useCaseGenerateCourseContent(input);
@@ -10,4 +14,20 @@ export const actionGenerateCourseContent = async (input: StateAI) => {
 
 export const actionCreateCompany = async (email: string) => {
   return await companyServices.createOrFind({ email });
+};
+
+export const actionPublishLP = async (
+  input: UseCasesLandingPageCreateInput
+) => {
+  await useCasesLandingPage.create(input);
+};
+
+export const actionFindCompanyByOwnerEmail = async ({
+  email,
+}: {
+  email: string;
+}) => {
+  return await companyServices.createOrFind({
+    email: email,
+  });
 };

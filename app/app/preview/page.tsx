@@ -1,6 +1,6 @@
 import { PageAppPreview } from "@/client/pages/PageAppPreview";
 
-const page = () => {
+const page = async () => {
   return <PageAppPreview />;
 };
 
