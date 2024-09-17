@@ -26,6 +26,7 @@ export type UseCasesLandingPageCreateInput = {
 
 export class UseCasesLandingPage {
   private repository: RepositoryLandingPage = new RepositoryLandingPage();
+  private version: string = "v1";
 
   create = async ({
     title,
@@ -35,13 +36,15 @@ export class UseCasesLandingPage {
     slug,
   }: UseCasesLandingPageCreateInput) => {
     const formattedSlug = this.generateSlug(title);
-    await this.repository.save({
+    const lp: LandingPageServer = {
       companyOwner,
-      companyId,
       content,
+      contentVersion: this.version,
+      leads: [],
       slug: formattedSlug,
-      title,
-    });
+      views: 0,
+    };
+    await this.repository.save(lp);
   };
 
   findBySlug = async (slug: string) => {};

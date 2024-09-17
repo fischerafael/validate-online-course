@@ -58,6 +58,11 @@ export const PageAppNew = () => {
         p="8"
         align="flex-start"
       >
+        <Chakra.Input
+          placeholder="Title"
+          value={state.courseAI.title}
+          onChange={(e) => methods.onStateAIChange("title", e.target.value)}
+        />
         <Chakra.Textarea
           placeholder="Target Audience"
           minH="10vh"

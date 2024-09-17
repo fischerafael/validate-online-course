@@ -39,21 +39,6 @@ export const useCourseState = () => {
     }));
   };
 
-  const courseContentLandingPage: LandingPageContent = {
-    contentAuthorAvatar: courseState.authorAvatar,
-    contentAuthorName: courseState.authorName,
-    contentFeaturesList: courseState.features,
-    contentFeaturesSectionLabel: courseState.featuresSectionTitle,
-    contentHashtags: courseState.hashtags,
-    contentHeroHeading: courseState.heading,
-    contentHeroSubHeading: courseState.subHeading,
-    contentLandingPageCTA: courseState.cta,
-  };
-
-  const isCourseStateValuesFilled = Object.values(
-    courseContentLandingPage
-  ).every((val) => !!val);
-
   const [courseAI, setCourseAI] = useRecoilState<StateAI>(atomStateAI);
 
   const onStateAIChange = (key: keyof StateAI, value: string) => {
@@ -63,7 +48,25 @@ export const useCourseState = () => {
   const onResetAIState = () => setCourseAI(INITIAL_STATE_AI);
 
   const isAiAudienceAndAboutFilled =
-    !!courseAI.targetAudience && !!courseAI.whatIsTheCourseAbout;
+    !!courseAI.targetAudience &&
+    !!courseAI.whatIsTheCourseAbout &&
+    !!courseAI.title;
+
+  const courseContentLandingPage: LandingPageContent = {
+    contentAuthorAvatar: courseState.authorAvatar,
+    contentAuthorName: courseState.authorName,
+    contentFeaturesList: courseState.features,
+    contentFeaturesSectionLabel: courseState.featuresSectionTitle,
+    contentHashtags: courseState.hashtags,
+    contentHeroHeading: courseState.heading,
+    contentHeroSubHeading: courseState.subHeading,
+    contentLandingPageCTA: courseState.cta,
+    title: courseAI.title,
+  };
+
+  const isCourseStateValuesFilled = Object.values(
+    courseContentLandingPage
+  ).every((val) => !!val);
 
   return {
     state: {
@@ -130,6 +133,7 @@ export interface StateAI {
   extraContext: string;
   unfairAdvantage: string;
   language: string;
+  title: string;
 }
 
 const INITIAL_STATE_AI: StateAI = {
@@ -143,6 +147,7 @@ const INITIAL_STATE_AI: StateAI = {
   targetAudience: "",
   unfairAdvantage: "",
   whatIsTheCourseAbout: "",
+  title: "",
 };
 
 const atomStateAI = atom<StateAI>({

@@ -28,7 +28,7 @@ export const PageAppPreview = () => {
         companyOwner: methods.getAuthState()?.email!,
         content: state.courseContentLandingPage,
         slug: "",
-        title: "",
+        title: state.courseAI.title,
       });
     } catch (e: any) {}
   };

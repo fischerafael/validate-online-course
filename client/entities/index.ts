@@ -1,5 +1,6 @@
 export interface LandingPageContent {
   contentHashtags: string[];
+  title: string;
   contentHeroHeading: string;
   contentHeroSubHeading: string;
   contentAuthorName: string;
