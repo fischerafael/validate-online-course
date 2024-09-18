@@ -99,7 +99,7 @@ export class UseCasesLandingPage {
     await this.repository.update(lp.id!, updated);
   };
 
-  addViewToLp = async (slug: string, email: string) => {
+  addViewToLp = async (slug: string) => {
     const lp = await this.repository.findBySlug(slug);
     if (!lp) throw new Error("Not found");
     const updated: LandingPageServer = {

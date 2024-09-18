@@ -2,9 +2,12 @@
 
 import { LandingPage } from "@/client/components/LandingPage";
 import { LandingPageServer } from "@/server/usecases";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as Chakra from "@chakra-ui/react";
-import { actionAddLeadToLandingPage } from "@/client/actions";
+import {
+  actionAddLeadToLandingPage,
+  actionAddViewToLandingPage,
+} from "@/client/actions";
 
 export const PageDynamicLandingPage = ({
   content,
@@ -18,7 +21,10 @@ export const PageDynamicLandingPage = ({
   const addLead = async () => {
     try {
       setLoading(true);
-      await actionAddLeadToLandingPage(content.slug, email);
+      await actionAddLeadToLandingPage({
+        email: email,
+        slug: content.slug,
+      });
       setEmail("");
       toast({
         variant: "success",
@@ -36,6 +42,22 @@ export const PageDynamicLandingPage = ({
       setLoading(false);
     }
   };
+
+  const hasEffectRun = useRef(false);
+
+  useEffect(() => {
+    if (hasEffectRun.current) {
+      return;
+    }
+
+    (async () => {
+      await actionAddViewToLandingPage({
+        slug: content.slug,
+      });
+    })();
+
+    hasEffectRun.current = true;
+  }, []);
 
   return (
     <LandingPage

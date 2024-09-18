@@ -38,11 +38,22 @@ export const actionViewLandingPageBySlug = async (slug: string) => {
   return await useCasesLandingPage.findBySlug(slug);
 };
 
-export const actionAddLeadToLandingPage = async (
-  slug: string,
-  email: string
-) => {
+export const actionAddLeadToLandingPage = async ({
+  slug,
+  email,
+}: {
+  slug: string;
+  email: string;
+}) => {
   return await useCasesLandingPage.addLeadToLp(slug, email);
+};
+
+export const actionAddViewToLandingPage = async ({
+  slug,
+}: {
+  slug: string;
+}) => {
+  return await useCasesLandingPage.addViewToLp(slug);
 };
 
 export const actionFindCompanyByOwnerEmail = async ({
