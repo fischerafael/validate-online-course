@@ -10,6 +10,13 @@ export interface LandingPageContent {
   contentLandingPageCTA: string;
 }
 
+export interface LandingPageActions {
+  value?: string;
+  isLoading?: boolean;
+  onChangeValue?: (val: string) => void;
+  onSubmit?: () => Promise<void>;
+}
+
 export interface LandingPageInfo {
   id?: string;
   ownerCompanyId: string;

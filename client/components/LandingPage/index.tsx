@@ -3,9 +3,17 @@
 import * as Chakra from "@chakra-ui/react";
 import * as Icon from "react-icons/hi";
 
-import { LandingPageContent } from "@/client/entities";
+import { LandingPageActions, LandingPageContent } from "@/client/entities";
 
-export const LandingPage = ({ content }: { content: LandingPageContent }) => {
+export const LandingPage = ({
+  content,
+  actions,
+}: {
+  content: LandingPageContent;
+  actions?: LandingPageActions;
+}) => {
+  const isValid = !!actions?.value;
+
   return (
     <Chakra.VStack bg="white" w="full" align="center" gap="20">
       <Chakra.VStack pt="8" px="8" w="full" maxW="800px" gap="8">
@@ -28,6 +36,10 @@ export const LandingPage = ({ content }: { content: LandingPageContent }) => {
             borderBottomRightRadius="0"
             placeholder="email"
             borderColor="gray.300"
+            value={actions?.value}
+            onChange={(e) =>
+              actions?.onChangeValue && actions.onChangeValue(e.target.value)
+            }
           />
           <Chakra.Button
             size="lg"
@@ -35,6 +47,9 @@ export const LandingPage = ({ content }: { content: LandingPageContent }) => {
             borderBottomLeftRadius="0"
             bg="gray.800"
             color="gray.50"
+            onClick={actions?.onSubmit}
+            isDisabled={!isValid}
+            isLoading={actions?.isLoading}
           >
             {content.contentLandingPageCTA}
           </Chakra.Button>
@@ -79,6 +94,10 @@ export const LandingPage = ({ content }: { content: LandingPageContent }) => {
             bg="white"
             placeholder="email"
             borderColor="gray.300"
+            value={actions?.value}
+            onChange={(e) =>
+              actions?.onChangeValue && actions.onChangeValue(e.target.value)
+            }
           />
           <Chakra.Button
             size="lg"
@@ -86,6 +105,9 @@ export const LandingPage = ({ content }: { content: LandingPageContent }) => {
             borderBottomLeftRadius="0"
             bg="gray.800"
             color="gray.50"
+            onClick={actions?.onSubmit}
+            isDisabled={!isValid}
+            isLoading={actions?.isLoading}
           >
             {content.contentLandingPageCTA}
           </Chakra.Button>
