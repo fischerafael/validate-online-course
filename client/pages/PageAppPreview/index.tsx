@@ -8,29 +8,44 @@ import { useAuth } from "@/client/hooks/useAuth";
 import { useCourseState } from "@/client/hooks/useCourseState";
 import * as Chakra from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export const PageAppPreview = () => {
   const { state } = useCourseState();
   const { methods } = useAuth();
-
   const { push } = useRouter();
-
-  console.log("[companyId]", methods.getCompanyId());
+  const toast = Chakra.useToast();
+  const [isLoading, setLoading] = useState(false);
 
   const onEdit = () => {
     push(pages.appReview.href);
   };
 
-  const onPublishLp = () => {
+  const onPublishLp = async () => {
     try {
-      actionPublishLP({
+      setLoading(true);
+      await actionPublishLP({
         companyId: methods.getCompanyId()!,
         companyOwner: methods.getAuthState()?.email!,
         content: state.courseContentLandingPage,
         slug: "",
         title: state.courseAI.title,
       });
-    } catch (e: any) {}
+      toast({
+        title: "Success!",
+        variant: "success",
+      });
+      push(pages.app.href);
+    } catch (e: any) {
+      console.log("[e]", e);
+      toast({
+        title: "Error!",
+        description: e?.message,
+        variant: "error",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onTryDiffSettings = () => {
@@ -66,6 +81,7 @@ export const PageAppPreview = () => {
               bg="gray.900"
               color="white"
               onClick={onPublishLp}
+              isLoading={isLoading}
             >
               Publish Landing Page
             </Chakra.Button>
