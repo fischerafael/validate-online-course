@@ -24,13 +24,18 @@ export const PageApp = () => {
   });
 
   const onCopyLink = async (slug: string) => {
-    const link = `${process.env.NEXT_PUBLIC_APP_BASE_URL}/${slug}`;
+    const link = getLink(slug);
     await window.navigator.clipboard.writeText(link);
     toast({
       title: "Success",
       description: "Link copied to clipboard",
       variant: "success",
     });
+  };
+
+  const getLink = (slug: string) => {
+    const link = `${process.env.NEXT_PUBLIC_APP_BASE_URL}/${slug}`;
+    return link;
   };
 
   return (
@@ -70,7 +75,9 @@ export const PageApp = () => {
                 w="full"
               >
                 <Chakra.HStack w="full" justify="flex-end">
-                  <Chakra.Button>View Live</Chakra.Button>
+                  <Link href={getLink(lp.slug)} target="_blank">
+                    <Chakra.Button>View Live</Chakra.Button>
+                  </Link>
                   <Chakra.Button onClick={() => onCopyLink(lp.slug)}>
                     Copy Link
                   </Chakra.Button>
