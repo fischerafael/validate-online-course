@@ -8,9 +8,11 @@ import Link from "next/link";
 import { pages } from "@/client/config/pages";
 import { useQuery } from "@tanstack/react-query";
 import { actionListLpsByCompanyId } from "@/client/actions";
+import { usePathname, useRouter } from "next/navigation";
 
 export const PageApp = () => {
   const { methods } = useAuth();
+  const toast = Chakra.useToast();
 
   const companyId = methods.getCompanyId();
 
@@ -18,9 +20,18 @@ export const PageApp = () => {
     queryKey: ["list-lps", companyId],
     enabled: !!companyId,
     queryFn: () => actionListLpsByCompanyId({ companyId: companyId! }),
+    initialData: [],
   });
 
-  console.log("[data]", data);
+  const onCopyLink = async (slug: string) => {
+    const link = `${process.env.NEXT_PUBLIC_APP_BASE_URL}/${slug}`;
+    await window.navigator.clipboard.writeText(link);
+    toast({
+      title: "Success",
+      description: "Link copied to clipboard",
+      variant: "success",
+    });
+  };
 
   return (
     <Chakra.VStack w="full" align="center" p="8" spacing="8">
@@ -36,6 +47,40 @@ export const PageApp = () => {
           </Chakra.HStack>
         }
       />
+      <Chakra.VStack w="full" maxW="800px">
+        {data.map((lp) => {
+          return (
+            <Chakra.Card w="full">
+              <Chakra.CardHeader
+                display="flex"
+                justifyContent={"space-between"}
+                w="full"
+              >
+                <Chakra.Heading size="md" textTransform={"uppercase"}>
+                  {lp.slug}
+                </Chakra.Heading>
+                <Chakra.HStack>
+                  <Chakra.Tag>{lp.views} views</Chakra.Tag>
+                  <Chakra.Tag>{lp.leads.length} leads</Chakra.Tag>
+                </Chakra.HStack>
+              </Chakra.CardHeader>
+              <Chakra.CardBody
+                display="flex"
+                justifyContent={"space-between"}
+                w="full"
+              >
+                <Chakra.HStack w="full" justify="flex-end">
+                  <Chakra.Button>View Live</Chakra.Button>
+                  <Chakra.Button onClick={() => onCopyLink(lp.slug)}>
+                    Copy Link
+                  </Chakra.Button>
+                  <Chakra.Button>View Leads</Chakra.Button>
+                </Chakra.HStack>
+              </Chakra.CardBody>
+            </Chakra.Card>
+          );
+        })}
+      </Chakra.VStack>
     </Chakra.VStack>
   );
 };
