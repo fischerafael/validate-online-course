@@ -12,7 +12,7 @@ export const LandingPage = ({
   content: LandingPageContent;
   actions?: LandingPageActions;
 }) => {
-  const isValid = !!actions?.value;
+  const isValid = isValidEmail(actions?.value);
 
   return (
     <Chakra.VStack bg="white" w="full" align="center" gap="20">
@@ -115,4 +115,10 @@ export const LandingPage = ({
       </Chakra.VStack>
     </Chakra.VStack>
   );
+};
+
+export const isValidEmail = (email?: string): boolean => {
+  if (!email) return false;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
 };

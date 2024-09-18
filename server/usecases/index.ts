@@ -82,6 +82,10 @@ export class UseCasesLandingPage {
   addLeadToLp = async (slug: string, email: string) => {
     const lp = await this.repository.findBySlug(slug);
     if (!lp) throw new Error("Not found");
+
+    const alreadyExistingLead = lp.leads.some((lead) => lead.email === email);
+    if (alreadyExistingLead) return;
+
     const updated: LandingPageServer = {
       ...lp,
       leads: [
