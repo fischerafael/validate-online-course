@@ -6,9 +6,21 @@ import { Header } from "@/client/components/Header";
 import { useAuth } from "@/client/hooks/useAuth";
 import Link from "next/link";
 import { pages } from "@/client/config/pages";
+import { useQuery } from "@tanstack/react-query";
+import { actionListLpsByCompanyId } from "@/client/actions";
 
 export const PageApp = () => {
   const { methods } = useAuth();
+
+  const companyId = methods.getCompanyId();
+
+  const { data } = useQuery({
+    queryKey: ["list-lps", companyId],
+    enabled: !!companyId,
+    queryFn: () => actionListLpsByCompanyId({ companyId: companyId! }),
+  });
+
+  console.log("[data]", data);
 
   return (
     <Chakra.VStack w="full" align="center" p="8" spacing="8">

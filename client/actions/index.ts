@@ -22,6 +22,14 @@ export const actionPublishLP = async (
   await useCasesLandingPage.create(input);
 };
 
+export const actionListLpsByCompanyId = async ({
+  companyId,
+}: {
+  companyId: string;
+}) => {
+  return await useCasesLandingPage.listByCompanyId(companyId);
+};
+
 export const actionFindCompanyByOwnerEmail = async ({
   email,
 }: {
