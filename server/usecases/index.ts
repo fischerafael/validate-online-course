@@ -1,5 +1,13 @@
 import { dbLandingPages } from "@/client/config/firebase";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 
 interface LandingPageServerLead {
   id?: string;
@@ -14,6 +22,7 @@ interface LandingPageServer {
   views: number;
   content: any;
   contentVersion: string;
+  companyId: string;
 }
 
 export type UseCasesLandingPageCreateInput = {
@@ -33,9 +42,13 @@ export class UseCasesLandingPage {
     companyOwner,
     content,
     companyId,
-    slug,
   }: UseCasesLandingPageCreateInput) => {
     const formattedSlug = this.generateSlug(title);
+
+    const existingWithSlug = await this.repository.findBySlug(formattedSlug);
+    if (existingWithSlug)
+      throw new Error("Landing page with slug already exists");
+
     const lp: LandingPageServer = {
       companyOwner,
       content,
@@ -43,15 +56,49 @@ export class UseCasesLandingPage {
       leads: [],
       slug: formattedSlug,
       views: 0,
+      companyId,
     };
     await this.repository.save(lp);
   };
 
-  findBySlug = async (slug: string) => {};
-  // create landing page
-  // view landing pages by org
   // view landing page by slug
-  // addLead
+  findBySlug = async (slug: string) => {
+    const lp = await this.repository.findBySlug(slug);
+    if (!lp) throw new Error("Not found");
+    return lp;
+  };
+
+  // view landing pages by org
+  listByCompanyId = async (companyId: string) => {
+    const lps = await this.repository.listByCompanyId(companyId);
+    return lps;
+  };
+
+  addLeadToLp = async (slug: string, email: string) => {
+    const lp = await this.repository.findBySlug(slug);
+    if (!lp) throw new Error("Not found");
+    const updated: LandingPageServer = {
+      ...lp,
+      leads: [
+        ...lp.leads,
+        {
+          email: email,
+          id: new Date().getTime().toString(),
+        },
+      ],
+    };
+    await this.repository.update(lp.id!, updated);
+  };
+
+  addViewToLp = async (slug: string, email: string) => {
+    const lp = await this.repository.findBySlug(slug);
+    if (!lp) throw new Error("Not found");
+    const updated: LandingPageServer = {
+      ...lp,
+      views: lp.views + 1,
+    };
+    await this.repository.update(lp.id!, updated);
+  };
 
   private generateSlug = (title: string) => {
     return title
@@ -76,36 +123,72 @@ export class RepositoryLandingPage {
     }
   };
 
-  //   findBySlug = async ({
-  //     slug,
-  //     companyOwner,
-  //   }: {
-  //     slug: string;
-  //     companyOwner: string;
-  //   }) => {
-  //     try {
-  //       const { data } = await db.get(`crud`, {
-  //         headers: {
-  //           app: this.appName,
-  //           user: companyOwner,
-  //           action: "LIST",
-  //         },
-  //         params: {
-  //           slug: slug,
-  //         },
-  //       });
+  update = async (lpId: string, content: any) => {
+    try {
+      const document = doc(dbLandingPages, this.collectionName, lpId);
+      await updateDoc(document, {
+        ...content,
+      });
+    } catch (e: any) {
+      console.log("[e]", e);
+    }
+  };
 
-  //       const response = data.data.response[0];
-  //       if (!response) return undefined;
+  listByCompanyId = async (companyId: string) => {
+    try {
+      const q = query(
+        collection(dbLandingPages, this.collectionName),
+        where("companyId", "==", companyId)
+      );
 
-  //       const responseData = { ...response.data, id: response.id };
+      const querySnapshot = await getDocs(q);
 
-  //       return responseData;
-  //     } catch (e: any) {
-  //       console.log("[e]", e);
-  //       return undefined;
-  //     }
-  //   };
+      let lps: LandingPageServer[] = [];
+
+      querySnapshot.forEach((doc) => {
+        const lpData = {
+          id: doc.id,
+          ...doc.data(),
+        } as LandingPageServer;
+        lps.push(lpData);
+        console.log(doc.id, " => ", doc.data());
+      });
+
+      if (!lps.length) return [];
+
+      return lps;
+    } catch (e: any) {
+      return [];
+    }
+  };
+
+  findBySlug = async (slug: string) => {
+    try {
+      const q = query(
+        collection(dbLandingPages, this.collectionName),
+        where("slug", "==", slug)
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      let lps: LandingPageServer[] = [];
+
+      querySnapshot.forEach((doc) => {
+        const lpData = {
+          id: doc.id,
+          ...doc.data(),
+        } as LandingPageServer;
+        lps.push(lpData);
+        console.log(doc.id, " => ", doc.data());
+      });
+
+      if (!lps.length) return undefined;
+
+      return lps[0];
+    } catch (e: any) {
+      console.log("[e]", e);
+    }
+  };
 }
 
 export const useCasesLandingPage = new UseCasesLandingPage();
