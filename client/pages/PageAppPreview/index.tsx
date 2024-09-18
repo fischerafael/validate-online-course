@@ -30,6 +30,7 @@ export const PageAppPreview = () => {
         content: state.courseContentLandingPage,
         slug: "",
         title: state.courseAI.title,
+        successLink: state.courseAI.successLink,
       });
       toast({
         title: "Success!",

@@ -8,6 +8,7 @@ import {
   actionAddLeadToLandingPage,
   actionAddViewToLandingPage,
 } from "@/client/actions";
+import Link from "next/link";
 
 export const PageDynamicLandingPage = ({
   content,
@@ -29,6 +30,7 @@ export const PageDynamicLandingPage = ({
       toast({
         variant: "success",
         title: "Success!",
+        colorScheme: "white",
         description:
           "You have successfully joined the wait list of this course!",
       });

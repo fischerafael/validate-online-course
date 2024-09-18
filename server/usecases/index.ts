@@ -36,6 +36,7 @@ export type UseCasesLandingPageCreateInput = {
   companyId: string;
   content: LandingPageContent;
   slug: string;
+  successLink: string;
 };
 
 export class UseCasesLandingPage {
@@ -46,6 +47,7 @@ export class UseCasesLandingPage {
     title,
     companyOwner,
     content,
+    successLink,
     companyId,
   }: UseCasesLandingPageCreateInput) => {
     const formattedSlug = this.generateSlug(title);
@@ -63,7 +65,7 @@ export class UseCasesLandingPage {
       views: 0,
       companyId,
       createdAt: new Date().toISOString(),
-      successLink: "",
+      successLink: successLink,
       successMessage: "",
     };
     await this.repository.save(lp);

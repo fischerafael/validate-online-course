@@ -134,20 +134,17 @@ export interface StateAI {
   unfairAdvantage: string;
   language: string;
   title: string;
+  successLink: string;
 }
 
 const INITIAL_STATE_AI: StateAI = {
-  extraContext: `
-    1 - [Intro & Setup]
-    2 - [Fundamentals]
-    3 - [Advanced Topics]
-    4 - [Conclusion]
-  `,
+  extraContext: ``,
   language: "english",
   targetAudience: "",
   unfairAdvantage: "",
   whatIsTheCourseAbout: "",
   title: "",
+  successLink: "",
 };
 
 const atomStateAI = atom<StateAI>({

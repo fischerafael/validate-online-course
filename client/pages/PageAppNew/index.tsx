@@ -63,9 +63,8 @@ export const PageAppNew = () => {
           value={state.courseAI.title}
           onChange={(e) => methods.onStateAIChange("title", e.target.value)}
         />
-        <Chakra.Textarea
+        <Chakra.Input
           placeholder="Target Audience"
-          minH="10vh"
           value={state.courseAI.targetAudience}
           onChange={(e) =>
             methods.onStateAIChange("targetAudience", e.target.value)
@@ -87,12 +86,18 @@ export const PageAppNew = () => {
             methods.onStateAIChange("extraContext", e.target.value)
           }
         />
-        <Chakra.Textarea
+        <Chakra.Input
           placeholder="Any unfair advantage or differentiator of the course?"
-          minH="10vh"
           value={state.courseAI.unfairAdvantage}
           onChange={(e) =>
             methods.onStateAIChange("unfairAdvantage", e.target.value)
+          }
+        />
+        <Chakra.Input
+          placeholder="Success Link (offer something after a user has joined)"
+          value={state.courseAI.successLink}
+          onChange={(e) =>
+            methods.onStateAIChange("successLink", e.target.value)
           }
         />
         <Chakra.Input
