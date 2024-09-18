@@ -75,7 +75,7 @@ export const PageApp = () => {
       />
       <Chakra.VStack w="full" maxW="800px">
         {data.map((lp) => {
-          const ctr = (lp.leads.length / lp.views) * 100;
+          const ctr = lp.views > 0 ? (lp.leads.length / lp.views) * 100 : 0;
           return (
             <Chakra.Card
               w="full"
@@ -94,6 +94,11 @@ export const PageApp = () => {
                   {lp.slug}
                 </Chakra.Heading>
                 <Chakra.HStack>
+                  <Chakra.Tag>
+                    {`Created at ${new Date(lp.createdAt).toLocaleDateString(
+                      "pt-BR"
+                    )}`}
+                  </Chakra.Tag>
                   <Chakra.Tag>{lp.views} views</Chakra.Tag>
                   <Chakra.Tag>{lp.leads.length} leads</Chakra.Tag>
                   <Chakra.Tag>{ctr.toFixed(2)} % CTR</Chakra.Tag>

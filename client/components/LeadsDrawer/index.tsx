@@ -47,7 +47,7 @@ export function LeadsDrawer({
                 >
                   <Chakra.Text>{lead.email}</Chakra.Text>
                   <Chakra.Text fontSize="xs">
-                    {new Date(lead.createdAt).toLocaleDateString("en")}
+                    {new Date(lead.createdAt).toLocaleDateString("pt-BR")}
                   </Chakra.Text>
                 </Chakra.VStack>
               ))}
