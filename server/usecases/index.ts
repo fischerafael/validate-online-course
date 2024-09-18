@@ -26,6 +26,8 @@ export interface LandingPageServer {
   contentVersion: string;
   companyId: string;
   createdAt: string;
+  successMessage: string;
+  successLink: string;
 }
 
 export type UseCasesLandingPageCreateInput = {
@@ -61,6 +63,8 @@ export class UseCasesLandingPage {
       views: 0,
       companyId,
       createdAt: new Date().toISOString(),
+      successLink: "",
+      successMessage: "",
     };
     await this.repository.save(lp);
   };
