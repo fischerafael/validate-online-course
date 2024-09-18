@@ -1,4 +1,5 @@
 import { dbLandingPages } from "@/client/config/firebase";
+import { LandingPageContent } from "@/client/entities";
 import {
   addDoc,
   collection,
@@ -20,7 +21,7 @@ export interface LandingPageServer {
   companyOwner: string;
   leads: LandingPageServerLead[];
   views: number;
-  content: any;
+  content: LandingPageContent;
   contentVersion: string;
   companyId: string;
 }
@@ -29,7 +30,7 @@ export type UseCasesLandingPageCreateInput = {
   title: string;
   companyOwner: string;
   companyId: string;
-  content: object;
+  content: LandingPageContent;
   slug: string;
 };
 

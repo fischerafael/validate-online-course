@@ -1,3 +1,4 @@
+import { LandingPage } from "@/client/components/LandingPage";
 import { LandingPageServer } from "@/server/usecases";
 
 export const PageDynamicLandingPage = ({
@@ -5,5 +6,5 @@ export const PageDynamicLandingPage = ({
 }: {
   content: LandingPageServer;
 }) => {
-  return <div>PageDynamicLandingPage</div>;
+  return <LandingPage content={content.content} />;
 };
