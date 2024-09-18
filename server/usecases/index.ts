@@ -13,6 +13,7 @@ import {
 interface LandingPageServerLead {
   id?: string;
   email: string;
+  createdAt: string;
 }
 
 export interface LandingPageServer {
@@ -93,6 +94,7 @@ export class UseCasesLandingPage {
         {
           email: email,
           id: new Date().getTime().toString(),
+          createdAt: new Date().toISOString(),
         },
       ],
     };
