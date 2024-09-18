@@ -30,6 +30,14 @@ export const actionListLpsByCompanyId = async ({
   return await useCasesLandingPage.listByCompanyId(companyId);
 };
 
+export const actionListAllSlugs = async () => {
+  return await useCasesLandingPage.listLandingPagesSlugs();
+};
+
+export const actionViewLandingPageBySlug = async (slug: string) => {
+  return await useCasesLandingPage.findBySlug(slug);
+};
+
 export const actionFindCompanyByOwnerEmail = async ({
   email,
 }: {

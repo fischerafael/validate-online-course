@@ -14,7 +14,7 @@ interface LandingPageServerLead {
   email: string;
 }
 
-interface LandingPageServer {
+export interface LandingPageServer {
   id?: string;
   slug: string;
   companyOwner: string;
@@ -61,17 +61,21 @@ export class UseCasesLandingPage {
     await this.repository.save(lp);
   };
 
-  // view landing page by slug
   findBySlug = async (slug: string) => {
     const lp = await this.repository.findBySlug(slug);
     if (!lp) throw new Error("Not found");
     return lp;
   };
 
-  // view landing pages by org
   listByCompanyId = async (companyId: string) => {
     const lps = await this.repository.listByCompanyId(companyId);
     return lps;
+  };
+
+  listLandingPagesSlugs = async () => {
+    const lps = await this.repository.listAll();
+    const slugs = lps.map((lp) => lp.slug);
+    return slugs;
   };
 
   addLeadToLp = async (slug: string, email: string) => {
@@ -134,6 +138,30 @@ export class RepositoryLandingPage {
     }
   };
 
+  listAll = async () => {
+    try {
+      const q = query(collection(dbLandingPages, this.collectionName));
+
+      const querySnapshot = await getDocs(q);
+
+      let lps: LandingPageServer[] = [];
+
+      querySnapshot.forEach((doc) => {
+        const lpData = {
+          id: doc.id,
+          ...doc.data(),
+        } as LandingPageServer;
+        lps.push(lpData);
+      });
+
+      if (!lps.length) return [];
+
+      return lps;
+    } catch (e: any) {
+      return [];
+    }
+  };
+
   listByCompanyId = async (companyId: string) => {
     try {
       const q = query(
@@ -151,7 +179,6 @@ export class RepositoryLandingPage {
           ...doc.data(),
         } as LandingPageServer;
         lps.push(lpData);
-        console.log(doc.id, " => ", doc.data());
       });
 
       if (!lps.length) return [];
@@ -179,7 +206,6 @@ export class RepositoryLandingPage {
           ...doc.data(),
         } as LandingPageServer;
         lps.push(lpData);
-        console.log(doc.id, " => ", doc.data());
       });
 
       if (!lps.length) return undefined;
