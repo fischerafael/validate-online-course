@@ -1,14 +1,14 @@
 "use client";
 
-import React from "react";
-import * as Chakra from "@chakra-ui/react";
-import { Header } from "@/client/components/Header";
-import { useAuth } from "@/client/hooks/useAuth";
-import Link from "next/link";
-import { pages } from "@/client/config/pages";
-import { useQuery } from "@tanstack/react-query";
 import { actionListLpsByCompanyId } from "@/client/actions";
-import { usePathname, useRouter } from "next/navigation";
+import { Header } from "@/client/components/Header";
+import { LeadsDrawer } from "@/client/components/LeadsDrawer";
+import { pages } from "@/client/config/pages";
+import { useAuth } from "@/client/hooks/useAuth";
+import * as Chakra from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
+import { useState } from "react";
 
 export const PageApp = () => {
   const { methods } = useAuth();
@@ -38,8 +38,29 @@ export const PageApp = () => {
     return link;
   };
 
+  const { isOpen, onOpen, onClose } = Chakra.useDisclosure();
+
+  const onOpenSelect = (slug: string) => {
+    setSelected(slug);
+    onOpen();
+  };
+
+  const onCloseDeselect = () => {
+    setSelected("");
+    onClose();
+  };
+
+  const [selected, setSelected] = useState("");
+
+  const leadsOfSelected = data.find((lp) => lp.slug === selected)?.leads || [];
+
   return (
     <Chakra.VStack w="full" align="center" p="8" spacing="8">
+      <LeadsDrawer
+        isOpen={isOpen}
+        onClose={onCloseDeselect}
+        leads={leadsOfSelected}
+      />
       <Header
         action={
           <Chakra.HStack>
@@ -54,8 +75,16 @@ export const PageApp = () => {
       />
       <Chakra.VStack w="full" maxW="800px">
         {data.map((lp) => {
+          const ctr = (lp.leads.length / lp.views) * 100;
           return (
-            <Chakra.Card w="full">
+            <Chakra.Card
+              w="full"
+              border="1px"
+              borderColor="gray.300"
+              p="4"
+              borderRadius="xl"
+              shadow="none"
+            >
               <Chakra.CardHeader
                 display="flex"
                 justifyContent={"space-between"}
@@ -67,6 +96,7 @@ export const PageApp = () => {
                 <Chakra.HStack>
                   <Chakra.Tag>{lp.views} views</Chakra.Tag>
                   <Chakra.Tag>{lp.leads.length} leads</Chakra.Tag>
+                  <Chakra.Tag>{ctr.toFixed(2)} % CTR</Chakra.Tag>
                 </Chakra.HStack>
               </Chakra.CardHeader>
               <Chakra.CardBody
@@ -81,7 +111,9 @@ export const PageApp = () => {
                   <Chakra.Button onClick={() => onCopyLink(lp.slug)}>
                     Copy Link
                   </Chakra.Button>
-                  <Chakra.Button>View Leads</Chakra.Button>
+                  <Chakra.Button onClick={() => onOpenSelect(lp.slug)}>
+                    View Leads
+                  </Chakra.Button>
                 </Chakra.HStack>
               </Chakra.CardBody>
             </Chakra.Card>

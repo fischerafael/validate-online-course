@@ -10,7 +10,7 @@ import {
   where,
 } from "firebase/firestore";
 
-interface LandingPageServerLead {
+export interface LandingPageServerLead {
   id?: string;
   email: string;
   createdAt: string;
@@ -25,6 +25,7 @@ export interface LandingPageServer {
   content: LandingPageContent;
   contentVersion: string;
   companyId: string;
+  createdAt: string;
 }
 
 export type UseCasesLandingPageCreateInput = {
@@ -59,6 +60,7 @@ export class UseCasesLandingPage {
       slug: formattedSlug,
       views: 0,
       companyId,
+      createdAt: new Date().toISOString(),
     };
     await this.repository.save(lp);
   };
