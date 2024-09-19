@@ -78,7 +78,7 @@ export const actionCreatePaymentCheckout = async ({
   priceId: string;
   transactionId: string;
   quantity?: number;
-}) => {
+}): Promise<string> => {
   try {
     const session = await stripe.checkout.sessions.create({
       line_items: [
@@ -87,17 +87,18 @@ export const actionCreatePaymentCheckout = async ({
           quantity: quantity,
         },
       ],
-      metadata: { transactionId },
+      metadata: { transactionId: transactionId },
       mode: "payment",
-      success_url: `${"http://localhost:3000/app/shop"}?success=true`,
-      cancel_url: `${"http://localhost:3000/app/shop"}?canceled=true`,
+      success_url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${pages.appShop.href}?success=true`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${pages.appShop.href}?canceled=true`,
     });
 
     const checkoutUrl = session.url;
     console.log("[checkoutUrl]", checkoutUrl);
 
-    redirect(checkoutUrl);
+    return checkoutUrl;
   } catch (e: any) {
     console.log("[e]", e);
+    return pages.appShop.href;
   }
 };

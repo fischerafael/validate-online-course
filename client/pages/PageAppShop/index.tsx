@@ -12,10 +12,11 @@ export const PageAppShop = () => {
   const onCreateCheckout = async ({ priceId }: { priceId: string }) => {
     try {
       console.log("[here]");
-      await actionCreatePaymentCheckout({
+      const checkoutUrl = await actionCreatePaymentCheckout({
         priceId,
         transactionId: "test_transaction",
       });
+      window.location.href = checkoutUrl;
     } catch (e: any) {
       console.log("[e]", e);
     }
