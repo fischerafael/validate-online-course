@@ -7,6 +7,8 @@ import {
   useCasesLandingPage,
   UseCasesLandingPageCreateInput,
 } from "@/server/usecases";
+import { redirect } from "next/navigation";
+import { pages } from "../config/pages";
 
 export const actionGenerateCourseContent = async (input: StateAI) => {
   return await useCaseGenerateCourseContent(input);
@@ -64,4 +66,38 @@ export const actionFindCompanyByOwnerEmail = async ({
   return await companyServices.createOrFind({
     email: email,
   });
+};
+
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
+export const actionCreatePaymentCheckout = async ({
+  priceId,
+  transactionId,
+  quantity = 1,
+}: {
+  priceId: string;
+  transactionId: string;
+  quantity?: number;
+}) => {
+  try {
+    const session = await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          price: priceId,
+          quantity: quantity,
+        },
+      ],
+      metadata: { transactionId },
+      mode: "payment",
+      success_url: `${"http://localhost:3000/app/shop"}?success=true`,
+      cancel_url: `${"http://localhost:3000/app/shop"}?canceled=true`,
+    });
+
+    const checkoutUrl = session.url;
+    console.log("[checkoutUrl]", checkoutUrl);
+
+    redirect(checkoutUrl);
+  } catch (e: any) {
+    console.log("[e]", e);
+  }
 };
