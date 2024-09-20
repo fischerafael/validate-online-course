@@ -68,8 +68,8 @@ export const actionFindCompanyByOwnerEmail = async ({
   });
 };
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-
+import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 export const actionCreatePaymentCheckout = async ({
   priceId,
   transactionId,
@@ -78,7 +78,7 @@ export const actionCreatePaymentCheckout = async ({
   priceId: string;
   transactionId: string;
   quantity?: number;
-}): Promise<string> => {
+}): Promise<{ url: string }> => {
   try {
     const session = await stripe.checkout.sessions.create({
       line_items: [
@@ -87,18 +87,26 @@ export const actionCreatePaymentCheckout = async ({
           quantity: quantity,
         },
       ],
-      metadata: { transactionId: transactionId },
+      metadata: { transactionId: "test" },
+      client_reference_id: transactionId,
       mode: "payment",
       success_url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${pages.appShop.href}?success=true`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${pages.appShop.href}?canceled=true`,
     });
 
-    const checkoutUrl = session.url;
+    console.log("session", session);
+
+    const checkoutUrl = session?.url;
+    if (!checkoutUrl) throw new Error("no Url");
     console.log("[checkoutUrl]", checkoutUrl);
 
-    return checkoutUrl;
+    return {
+      url: checkoutUrl,
+    };
   } catch (e: any) {
     console.log("[e]", e);
-    return pages.appShop.href;
+    return {
+      url: "#",
+    };
   }
 };
