@@ -93,7 +93,7 @@ export const actionCreatePaymentCheckout = async ({
       cancel_url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${pages.appShop.href}?canceled=true`,
     });
 
-    console.log("session", session);
+    // console.log("session", session);
 
     const checkoutUrl = session?.url;
     if (!checkoutUrl) throw new Error("no Url");
