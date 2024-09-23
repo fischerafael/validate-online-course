@@ -1,3 +1,4 @@
+import { companyServices } from "@/server/services/company";
 import { NextApiRequest } from "next";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -12,8 +13,11 @@ export const config = {
 };
 
 export async function POST(req: NextRequest, res: NextResponse) {
+  console.log("[webhook] running");
   const payload = await req.text();
+  console.log("[webhook] payload", payload);
   const stripeSignature = req.headers.get("stripe-signature") as string;
+  console.log("[webhook] stripeSignature", stripeSignature);
 
   let event;
 
@@ -23,10 +27,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
       stripeSignature,
       process.env.STRIPE_ENDPOINT_SECRET!
     );
+    console.log("[webhook] event", event);
   } catch (err) {
-    console.log("[err]", err);
+    console.log("[webhook] error", err);
+
     return Response.json(
-      { data: "error" },
+      { data: err },
       {
         status: 400,
       }
@@ -37,17 +43,18 @@ export async function POST(req: NextRequest, res: NextResponse) {
     event.type === "checkout.session.completed" ||
     event.type === "checkout.session.async_payment_succeeded"
   ) {
+    console.log(
+      "[webhook] event.type",
+      "checkout.session.completed or checkout.session.async_payment_succeeded"
+    );
     fulfillCheckout(event.data.object.id);
   }
 
-  // console.log("[event]", event);
-
-  return Response.json({ data: "body" });
+  return Response.json({ data: "Success" });
 }
 
 async function fulfillCheckout(sessionId: string) {
   console.log("[fulfillCheckout]", sessionId);
-  // console.log("Fulfilling Checkout Session " + sessionId);
 
   // Retrieve the Checkout Session from the API with line_items expanded
   const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, {
@@ -59,15 +66,24 @@ async function fulfillCheckout(sessionId: string) {
   // Check the Checkout Session's payment_status property
   // to determine if fulfillment should be peformed
   if (paymentStatus === "unpaid") {
-    // TODO: Perform fulfillment of the line items
-    // TODO: Record/save fulfillment status for this
-    // Checkout Session
-    console.log("[unpaid]");
+    console.log("[webhook failed] unpaid");
     return;
   }
 
   const transactionId = checkoutSession?.metadata?.transactionId;
-  console.log("[________________________transactionId]", transactionId);
+  const companyId = checkoutSession?.metadata?.companyId;
 
-  /// set on the db to paid
+  if (!transactionId || !companyId) {
+    console.log(
+      "[webhook failed] no company id or transaction id on the metadata"
+    );
+    return;
+  }
+
+  await companyServices.confirmTransaction({
+    companyId: companyId,
+    transactionId: transactionId,
+  });
+
+  console.log("[webhook success] paid successfully!");
 }

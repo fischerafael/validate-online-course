@@ -1,5 +1,5 @@
 export const products = {
-  credits_10: {
+  credits_100: {
     productId: "prod_QscCsu9oPH6kUa",
     priceId: "price_1Q0qxtJesm3IBrSNJXBlyy0F",
     title: "100 Credits",

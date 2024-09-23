@@ -2,12 +2,14 @@
 
 import { StateAI } from "@/client/hooks/useCourseState";
 import { useCaseGenerateCourseContent } from "@/server/app/generate-course-content";
-import { companyServices } from "@/server/services/company";
+import {
+  companyServices,
+  CreateTransactionInput,
+} from "@/server/services/company";
 import {
   useCasesLandingPage,
   UseCasesLandingPageCreateInput,
 } from "@/server/usecases";
-import { redirect } from "next/navigation";
 import { pages } from "../config/pages";
 
 export const actionGenerateCourseContent = async (input: StateAI) => {
@@ -73,10 +75,14 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 export const actionCreatePaymentCheckout = async ({
   priceId,
   transactionId,
+  companyId,
+  email,
   quantity = 1,
 }: {
   priceId: string;
   transactionId: string;
+  companyId: string;
+  email: string;
   quantity?: number;
 }): Promise<{ url: string; sessionId: string }> => {
   try {
@@ -87,17 +93,14 @@ export const actionCreatePaymentCheckout = async ({
           quantity: quantity,
         },
       ],
-      metadata: { transactionId },
+      metadata: { transactionId, companyId, email },
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${pages.appShop.href}?success=true&transactionId=${transactionId}`,
+      success_url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${pages.appShop.href}?success=true`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${pages.appShop.href}?canceled=true`,
     });
 
-    // console.log("session", session);
-
     const checkoutUrl = session?.url;
     if (!checkoutUrl) throw new Error("no Url");
-    console.log("[checkoutUrl]", checkoutUrl);
 
     return {
       url: checkoutUrl,
@@ -110,4 +113,20 @@ export const actionCreatePaymentCheckout = async ({
       sessionId: "",
     };
   }
+};
+
+export type ActionCreateTransactionInput = {
+  companyId: string;
+  email: string;
+  type: "credit" | "debit";
+  productId: string;
+  priceId: string;
+  quantity: number;
+  totalInCents: number;
+};
+
+export const actionCreateTransaction = async (
+  input: CreateTransactionInput
+) => {
+  return await companyServices.createTransaction(input);
 };

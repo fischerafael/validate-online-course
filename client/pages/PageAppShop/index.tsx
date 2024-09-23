@@ -6,16 +6,39 @@ import { Header } from "@/client/components/Header";
 import Link from "next/link";
 import { pages } from "@/client/config/pages";
 import { payment } from "@/payment/config";
-import { actionCreatePaymentCheckout } from "@/client/actions";
+import {
+  actionCreatePaymentCheckout,
+  actionCreateTransaction,
+} from "@/client/actions";
+import { CreateTransactionInput } from "@/server/services/company";
+import { useAuth } from "@/client/hooks/useAuth";
 
 export const PageAppShop = () => {
+  const { methods } = useAuth();
+
   const onCreateCheckout = async ({ priceId }: { priceId: string }) => {
     try {
-      console.log("[here]");
+      const payload: CreateTransactionInput = {
+        email: methods.getAuthState()?.email!,
+        product: JSON.stringify({
+          productId: payment.products.credits_100.productId,
+          priceId: payment.products.credits_100.priceId,
+        }),
+        quantity: payment.products.credits_100.credits,
+        total: payment.products.credits_100.priceInCents,
+        type: "credit",
+        status: "pending",
+      };
+
+      const transaction = await actionCreateTransaction(payload);
+
       const { url } = await actionCreatePaymentCheckout({
         priceId,
-        transactionId: "test_transaction",
+        transactionId: transaction.id!,
+        companyId: methods.getCompanyId()!,
+        email: methods.getAuthState()?.email!,
       });
+
       window.location.href = url;
     } catch (e: any) {
       console.log("[e]", e);
@@ -44,12 +67,12 @@ export const PageAppShop = () => {
           borderRadius="md"
           borderColor="gray.200"
         >
-          <Chakra.Heading fontSize="xl">{`US$ ${payment.products.credits_10.priceLabel}`}</Chakra.Heading>
+          <Chakra.Heading fontSize="xl">{`US$ ${payment.products.credits_100.priceLabel}`}</Chakra.Heading>
           <Chakra.Text>100 Credits</Chakra.Text>
           <Chakra.Button
             onClick={() =>
               onCreateCheckout({
-                priceId: payment.products.credits_10.priceId,
+                priceId: payment.products.credits_100.priceId,
               })
             }
           >
