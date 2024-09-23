@@ -6,12 +6,6 @@ import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export async function POST(req: NextRequest, res: NextResponse) {
   console.log("[webhook] running");
   const payload = await req.text();
