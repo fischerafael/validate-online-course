@@ -19,4 +19,8 @@ export const pages = {
     href: "/app/review",
     title: "Review Landing Page",
   },
+  appShop: {
+    href: "/app/shop",
+    title: "Shop",
+  },
 };

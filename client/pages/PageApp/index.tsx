@@ -65,6 +65,9 @@ export const PageApp = () => {
         action={
           <Chakra.HStack>
             <Chakra.Button onClick={methods.onLogOut}>Log Out</Chakra.Button>
+            <Link href={pages.appShop.href}>
+              <Chakra.Button>Shop</Chakra.Button>
+            </Link>
             <Link href={pages.appNew.href}>
               <Chakra.Button bg="gray.800" color="white">
                 New Landing Page

@@ -7,6 +7,16 @@ import {
 } from "@/server/entities";
 import { repository } from "@/server/respository";
 
+export type CreateTransactionInput = {
+  email: string;
+  type: TransactionType;
+  product: string;
+  quantity: number;
+  total: number;
+  currency?: Currency;
+  status?: TransactionStatus;
+};
+
 class CompanyServices {
   public createOrFind = async ({
     email,
@@ -50,15 +60,7 @@ class CompanyServices {
     status = "pending",
     type,
     total,
-  }: {
-    email: string;
-    type: TransactionType;
-    product: string;
-    quantity: number;
-    total: number;
-    currency?: Currency;
-    status?: TransactionStatus;
-  }): Promise<Transaction> => {
+  }: CreateTransactionInput): Promise<Transaction> => {
     const transaction: Transaction = {
       id: this.utilGenerateId(),
       createdAt: new Date().toISOString(),
