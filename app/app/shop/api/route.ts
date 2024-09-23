@@ -48,14 +48,16 @@ export async function POST(req: NextRequest, res: NextResponse) {
 }
 
 async function fulfillCheckout(sessionId: string) {
-  console.log("[fulfillCheckout]", sessionId);
+  console.log("[webhook][fulfillCheckout]", sessionId);
 
   // Retrieve the Checkout Session from the API with line_items expanded
   const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, {
     expand: ["line_items"],
   });
+  console.log("[webhook][fulfillCheckout][checkoutSession]", checkoutSession);
 
   const paymentStatus = checkoutSession.payment_status;
+  console.log("[webhook][fulfillCheckout][paymentStatus]", paymentStatus);
 
   // Check the Checkout Session's payment_status property
   // to determine if fulfillment should be peformed
@@ -65,7 +67,9 @@ async function fulfillCheckout(sessionId: string) {
   }
 
   const transactionId = checkoutSession?.metadata?.transactionId;
+  console.log("[webhook][fulfillCheckout][transactionId]", transactionId);
   const companyId = checkoutSession?.metadata?.companyId;
+  console.log("[webhook][fulfillCheckout][transactionId]", companyId);
 
   if (!transactionId || !companyId) {
     console.log(
