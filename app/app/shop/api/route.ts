@@ -1,5 +1,5 @@
 import { companyServices } from "@/server/services/company";
-import { NextApiRequest } from "next";
+
 import { NextRequest, NextResponse } from "next/server";
 
 import Stripe from "stripe";
