@@ -41,7 +41,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       "[webhook] event.type",
       "checkout.session.completed or checkout.session.async_payment_succeeded"
     );
-    fulfillCheckout(event.data.object.id);
+    await fulfillCheckout(event.data.object.id);
   }
 
   return Response.json({ data: "Success" });
