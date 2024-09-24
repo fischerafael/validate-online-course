@@ -41,7 +41,7 @@ export const PageAppNew = () => {
     <Chakra.VStack w="full" align="center" p="8" spacing="8">
       <Header
         action={
-          <Chakra.Button onClick={onViewAll}>
+          <Chakra.Button size="sm" variant="outline" onClick={onViewAll}>
             View All Your Courses
           </Chakra.Button>
         }
@@ -50,11 +50,11 @@ export const PageAppNew = () => {
         maxW="800px"
         w="full"
         gap="8"
-        shadow="xl"
+        shadow="md"
         overflow="hidden"
         borderRadius="lg"
         border="1px"
-        borderColor="gray.300"
+        borderColor="gray.200"
         p="8"
         align="flex-start"
       >
@@ -108,7 +108,12 @@ export const PageAppNew = () => {
       </Chakra.VStack>
 
       <Chakra.HStack maxW="800px" w="full" justify="space-between">
-        <Chakra.Button textTransform="capitalize" onClick={onResetInputs}>
+        <Chakra.Button
+          variant="outline"
+          size="sm"
+          textTransform="capitalize"
+          onClick={onResetInputs}
+        >
           Reset Inputs
         </Chakra.Button>
         <Chakra.Button
@@ -116,6 +121,7 @@ export const PageAppNew = () => {
           onClick={onGenerateContent}
           isLoading={isLoading}
           bg="gray.900"
+          size="sm"
           color="white"
         >
           Generate Landing Page Content

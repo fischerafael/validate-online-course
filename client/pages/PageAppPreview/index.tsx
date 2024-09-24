@@ -59,26 +59,37 @@ export const PageAppPreview = () => {
       <Chakra.VStack maxW="800px" w="full" gap="8">
         <Chakra.VStack
           w="full"
-          shadow="xl"
+          shadow="md"
           overflow="hidden"
           borderRadius="lg"
           border="1px"
-          borderColor="gray.300"
+          borderColor="gray.200"
         >
           <LandingPage content={state.courseContentLandingPage} />
         </Chakra.VStack>
 
         <Chakra.HStack w="full" justify="space-between">
-          <Chakra.Button textTransform="capitalize" onClick={onTryDiffSettings}>
+          <Chakra.Button
+            size="sm"
+            variant="outline"
+            textTransform="capitalize"
+            onClick={onTryDiffSettings}
+          >
             Try something different
           </Chakra.Button>
 
           <Chakra.HStack>
-            <Chakra.Button textTransform="capitalize" onClick={onEdit}>
+            <Chakra.Button
+              size="sm"
+              variant="outline"
+              textTransform="capitalize"
+              onClick={onEdit}
+            >
               Edit Copy
             </Chakra.Button>
             <Chakra.Button
               textTransform="capitalize"
+              size="sm"
               bg="gray.900"
               color="white"
               onClick={onPublishLp}

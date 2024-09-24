@@ -64,62 +64,89 @@ export const PageApp = () => {
       <Header
         action={
           <Chakra.HStack>
-            <Chakra.Button onClick={methods.onLogOut}>Log Out</Chakra.Button>
             <Link href={pages.appShop.href}>
-              <Chakra.Button>Shop</Chakra.Button>
-            </Link>
-            <Link href={pages.appNew.href}>
-              <Chakra.Button bg="gray.800" color="white">
-                New Landing Page
+              <Chakra.Button size="sm" variant="outline">
+                Shop
               </Chakra.Button>
             </Link>
+            <Chakra.Button
+              size="sm"
+              variant="outline"
+              onClick={methods.onLogOut}
+            >
+              Log Out
+            </Chakra.Button>
           </Chakra.HStack>
         }
       />
-      <Chakra.VStack w="full" maxW="800px">
+      <Chakra.VStack w="full" maxW="800px" gap="4">
+        <Chakra.HStack w="full" justify="space-between">
+          <Chakra.Heading size="md">Your Landing Pages</Chakra.Heading>
+          <Link href={pages.appNew.href}>
+            <Chakra.Button size="sm" bg="gray.800" color="white">
+              Create New Landing Page
+            </Chakra.Button>
+          </Link>
+        </Chakra.HStack>
+
         {data.map((lp) => {
           const ctr = lp.views > 0 ? (lp.leads.length / lp.views) * 100 : 0;
           return (
             <Chakra.Card
               w="full"
               border="1px"
-              borderColor="gray.300"
-              p="4"
+              borderColor="gray.200"
+              p="8"
               borderRadius="xl"
-              shadow="none"
+              shadow="sm"
+              _hover={{ shadow: "lg" }}
+              gap="8"
             >
               <Chakra.CardHeader
                 display="flex"
                 justifyContent={"space-between"}
                 w="full"
+                p="0"
               >
-                <Chakra.Heading size="md" textTransform={"uppercase"}>
-                  {lp.slug}
-                </Chakra.Heading>
+                <Chakra.Heading size="sm">{lp.slug}</Chakra.Heading>
                 <Chakra.HStack>
-                  <Chakra.Tag>
+                  <Chakra.Tag size="sm">
                     {`Created at ${new Date(lp.createdAt).toLocaleDateString(
                       "pt-BR"
                     )}`}
                   </Chakra.Tag>
-                  <Chakra.Tag>{lp.views} views</Chakra.Tag>
-                  <Chakra.Tag>{lp.leads.length} leads</Chakra.Tag>
-                  <Chakra.Tag>{ctr.toFixed(2)} % CTR</Chakra.Tag>
+                  <Chakra.Tag size="sm">{lp.views} views</Chakra.Tag>
+                  <Chakra.Tag size="sm">{lp.leads.length} leads</Chakra.Tag>
+                  <Chakra.Tag size="sm">{ctr.toFixed(2)} % CTR</Chakra.Tag>
                 </Chakra.HStack>
               </Chakra.CardHeader>
               <Chakra.CardBody
+                p="0"
                 display="flex"
                 justifyContent={"space-between"}
                 w="full"
               >
-                <Chakra.HStack w="full" justify="flex-end">
-                  <Link href={getLink(lp.slug)} target="_blank">
-                    <Chakra.Button>View Live</Chakra.Button>
-                  </Link>
-                  <Chakra.Button onClick={() => onCopyLink(lp.slug)}>
-                    Copy Link
-                  </Chakra.Button>
-                  <Chakra.Button onClick={() => onOpenSelect(lp.slug)}>
+                <Chakra.HStack w="full" justify="space-between">
+                  <Chakra.HStack>
+                    <Link href={getLink(lp.slug)} target="_blank">
+                      <Chakra.Button variant="outline" size="sm">
+                        View Live
+                      </Chakra.Button>
+                    </Link>
+                    <Chakra.Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => onCopyLink(lp.slug)}
+                    >
+                      Copy Link
+                    </Chakra.Button>
+                  </Chakra.HStack>
+
+                  <Chakra.Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => onOpenSelect(lp.slug)}
+                  >
                     View Leads
                   </Chakra.Button>
                 </Chakra.HStack>

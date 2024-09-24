@@ -26,18 +26,16 @@ export const PageAppReview = () => {
       <Chakra.VStack w="full" maxW="800px" align="flex-start" gap="8">
         <Chakra.VStack
           w="full"
-          shadow="xl"
           overflow="hidden"
           borderRadius="lg"
           border="1px"
-          borderColor="gray.300"
+          borderColor="gray.200"
+          shadow="sm"
           p="8"
           gap="4"
           align="flex-start"
         >
-          <Chakra.Text textTransform="capitalize" fontWeight="500">
-            Hero Section
-          </Chakra.Text>
+          <Chakra.Heading fontSize="md">Hero Section</Chakra.Heading>
           <Chakra.HStack w="full" gap="4">
             <Chakra.Input
               value={state.courseState.currHashtag}
@@ -47,6 +45,7 @@ export const PageAppReview = () => {
               }
             />
             <Chakra.Button
+              variant="outline"
               onClick={() =>
                 methods.onCourseAddArrValue(
                   "hashtags",
@@ -60,6 +59,7 @@ export const PageAppReview = () => {
           <Chakra.HStack w="full" flexWrap="wrap">
             {state.courseState.hashtags.map((hs) => (
               <Chakra.Tag
+                size="sm"
                 onClick={() => methods.onCourseRemoveValue("hashtags", hs)}
                 key={hs}
               >
@@ -92,19 +92,17 @@ export const PageAppReview = () => {
 
         <Chakra.VStack
           w="full"
-          shadow="xl"
           overflow="hidden"
           borderRadius="lg"
           border="1px"
-          borderColor="gray.300"
+          borderColor="gray.200"
+          shadow="sm"
           p="8"
           gap="4"
           align="flex-start"
         >
           {" "}
-          <Chakra.Text textTransform="capitalize" fontWeight="500">
-            Features section
-          </Chakra.Text>
+          <Chakra.Heading fontSize="md">Features section</Chakra.Heading>
           <Chakra.Input
             placeholder="Section Title (e.g. 'What you will learn')"
             value={state.courseState.featuresSectionTitle}
@@ -124,6 +122,7 @@ export const PageAppReview = () => {
               placeholder="Features"
             />
             <Chakra.Button
+              variant="outline"
               onClick={() =>
                 methods.onCourseAddArrValue(
                   "features",
@@ -139,6 +138,7 @@ export const PageAppReview = () => {
               <Chakra.Tag
                 onClick={() => methods.onCourseRemoveValue("features", hs)}
                 key={hs}
+                size="sm"
               >
                 {hs}
               </Chakra.Tag>
@@ -147,7 +147,7 @@ export const PageAppReview = () => {
         </Chakra.VStack>
 
         <Chakra.HStack w="full" justify="space-between">
-          <Chakra.Button onClick={onGoToAI}>
+          <Chakra.Button size="sm" variant="outline" onClick={onGoToAI}>
             Try different settings
           </Chakra.Button>
 
@@ -156,6 +156,7 @@ export const PageAppReview = () => {
             isDisabled={!state.isCourseStateValuesFilled}
             bg="gray.900"
             color="white"
+            size="sm"
           >
             Preview Landing Page
           </Chakra.Button>

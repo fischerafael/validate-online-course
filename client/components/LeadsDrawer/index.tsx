@@ -24,7 +24,11 @@ export function LeadsDrawer({
         <Chakra.DrawerOverlay />
         <Chakra.DrawerContent>
           <Chakra.DrawerCloseButton />
-          <Chakra.DrawerHeader>Leads ({leads.length})</Chakra.DrawerHeader>
+          <Chakra.DrawerHeader>
+            <Chakra.Heading fontSize="md">
+              Leads ({leads.length})
+            </Chakra.Heading>
+          </Chakra.DrawerHeader>
 
           <Chakra.DrawerBody w="full">
             <Chakra.VStack
@@ -33,29 +37,33 @@ export function LeadsDrawer({
               w="full"
               maxH="70vh"
               align="flex-start"
+              gap="4"
             >
               {leads.map((lead) => (
-                <Chakra.VStack
+                <Chakra.HStack
                   border="1px"
-                  borderColor="gray.300"
+                  borderColor="gray.200"
                   p="4"
                   borderRadius="xl"
                   spacing="0"
                   w="full"
-                  align="flex-start"
+                  justify="space-between"
                   key={lead.email}
+                  _hover={{ shadow: "lg" }}
                 >
                   <Chakra.Text>{lead.email}</Chakra.Text>
-                  <Chakra.Text fontSize="xs">
+                  <Chakra.Tag size="sm">
                     {new Date(lead.createdAt).toLocaleDateString("pt-BR")}
-                  </Chakra.Text>
-                </Chakra.VStack>
+                  </Chakra.Tag>
+                </Chakra.HStack>
               ))}
             </Chakra.VStack>
           </Chakra.DrawerBody>
 
           <Chakra.DrawerFooter>
-            <Chakra.Button onClick={onClose}>Close</Chakra.Button>
+            <Chakra.Button variant="outline" onClick={onClose}>
+              Close
+            </Chakra.Button>
           </Chakra.DrawerFooter>
         </Chakra.DrawerContent>
       </Chakra.Drawer>

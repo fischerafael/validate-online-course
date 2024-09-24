@@ -12,7 +12,9 @@ export const PageLandingPage = () => {
       <Chakra.VStack pt="24" px="8" w="full" maxW="800px" gap="4">
         <Chakra.HStack>
           {landingPage.contentHashtags.map((hash) => (
-            <Chakra.Tag key={hash}>{hash}</Chakra.Tag>
+            <Chakra.Tag size="sm" key={hash}>
+              {hash}
+            </Chakra.Tag>
           ))}
         </Chakra.HStack>
         <Chakra.Heading maxW="500px" fontSize="6xl" textAlign="center">
@@ -38,28 +40,19 @@ export const PageLandingPage = () => {
         <Chakra.Grid templateColumns={["1fr", "1fr 1fr"]} gap="4" w="full">
           {landingPage.howItWorksList.map((feature, index) => (
             <Chakra.HStack
-              // border="1px"
-              // borderRadius="xl"
-              // borderColor="gray.300"
-              // p="8"
-              // align="start"
-              // key={feature.title}
-              // gap="4"
-              // maxW="800px"
               gap="8"
-              shadow="md"
+              shadow="sm"
               overflow="hidden"
               borderRadius="lg"
               border="1px"
-              borderColor="gray.300"
+              borderColor="gray.200"
               p="8"
               align="flex-start"
             >
-              {/* <Chakra.Icon as={Icon.HiOutlineChevronRight} /> */}
               <Chakra.VStack align="start">
-                <Chakra.Text fontSize="xl" textTransform="capitalize">
+                <Chakra.Heading fontSize="lg">
                   {`${index + 1}. ${feature.title}`}
-                </Chakra.Text>
+                </Chakra.Heading>
                 <Chakra.Text fontSize="sm" textTransform="capitalize">
                   {feature.sub}
                 </Chakra.Text>

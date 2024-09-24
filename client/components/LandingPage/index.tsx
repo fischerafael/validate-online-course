@@ -19,7 +19,9 @@ export const LandingPage = ({
       <Chakra.VStack pt="8" px="8" w="full" maxW="800px" gap="8">
         <Chakra.HStack>
           {content.contentHashtags.map((hash) => (
-            <Chakra.Tag key={hash}>{hash}</Chakra.Tag>
+            <Chakra.Tag size="sm" key={hash}>
+              {hash}
+            </Chakra.Tag>
           ))}
         </Chakra.HStack>
         <Chakra.Heading fontSize="6xl" textAlign="center" maxW="5500px">
@@ -57,7 +59,9 @@ export const LandingPage = ({
       </Chakra.VStack>
 
       <Chakra.VStack px="8" w="full" maxW="800px" gap="8">
-        <Chakra.Heading>{content.contentFeaturesSectionLabel}</Chakra.Heading>
+        <Chakra.Heading fontSize="2xl">
+          {content.contentFeaturesSectionLabel}
+        </Chakra.Heading>
         <Chakra.Grid templateColumns={["1fr", "1fr 1fr"]} gap="8" w="full">
           {content.contentFeaturesList.map((feature) => (
             <Chakra.HStack w="full" align="start" key={feature} gap="4">
