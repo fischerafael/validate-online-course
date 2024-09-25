@@ -23,4 +23,8 @@ export const pages = {
     href: "/app/shop",
     title: "Shop",
   },
+  appSettings: {
+    href: "/app/settings",
+    title: "Settings",
+  },
 };

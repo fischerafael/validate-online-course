@@ -51,7 +51,7 @@ export const PageAppShop = () => {
         action={
           <Chakra.HStack>
             <Link href={pages.app.href}>
-              <Chakra.Button bg="gray.800" color="white">
+              <Chakra.Button size="sm" variant="outline">
                 Back to Landing Pages
               </Chakra.Button>
             </Link>
@@ -70,6 +70,8 @@ export const PageAppShop = () => {
           <Chakra.Heading fontSize="xl">{`US$ ${payment.products.credits_100.priceLabel}`}</Chakra.Heading>
           <Chakra.Text>100 Credits</Chakra.Text>
           <Chakra.Button
+            bg="gray.800"
+            color="white"
             onClick={() =>
               onCreateCheckout({
                 priceId: payment.products.credits_100.priceId,

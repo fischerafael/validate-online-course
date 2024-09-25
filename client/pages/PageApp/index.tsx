@@ -11,7 +11,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 export const PageApp = () => {
-  const { methods } = useAuth();
+  const { methods, state } = useAuth();
   const toast = Chakra.useToast();
 
   const companyId = methods.getCompanyId();
@@ -62,10 +62,42 @@ export const PageApp = () => {
         leads={leadsOfSelected}
       />
       <Header
-        action={
+        logoSlot={
           <Chakra.HStack>
+            <Chakra.Avatar
+              size="sm"
+              name={methods.getAuthState()?.name}
+              src={methods.getAuthState()?.avatarURL}
+            />
+            <Chakra.VStack spacing="0" align="flex-start">
+              <Chakra.Text fontSize="md" w="fit-content">
+                {methods.getAuthState()?.name}
+              </Chakra.Text>
+              <Chakra.HStack>
+                <Chakra.Text fontSize="xs" w="fit-content">
+                  {methods.getAuthState()?.email}
+                </Chakra.Text>
+                <Chakra.Tag
+                  size="sm"
+                  minW="80px"
+                  display="flex"
+                  justifyContent="center"
+                >
+                  {state.credits} credits
+                </Chakra.Tag>
+              </Chakra.HStack>
+            </Chakra.VStack>
+          </Chakra.HStack>
+        }
+        action={
+          <Chakra.HStack w="full" justify="flex-end">
             <Link href={pages.appShop.href}>
-              <Chakra.Button size="sm" variant="outline">
+              <Chakra.Button
+                size="sm"
+                variant="outline"
+                bg="gray.800"
+                color="white"
+              >
                 Shop
               </Chakra.Button>
             </Link>
@@ -81,10 +113,10 @@ export const PageApp = () => {
       />
       <Chakra.VStack w="full" maxW="800px" gap="4">
         <Chakra.HStack w="full" justify="space-between">
-          <Chakra.Heading size="md">Your Landing Pages</Chakra.Heading>
+          <Chakra.Heading size="md">Your Course Landing Pages</Chakra.Heading>
           <Link href={pages.appNew.href}>
             <Chakra.Button size="sm" bg="gray.800" color="white">
-              Create New Landing Page
+              New Course Landing Page
             </Chakra.Button>
           </Link>
         </Chakra.HStack>

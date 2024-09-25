@@ -66,9 +66,26 @@ export const useAuth = () => {
 
   const getCompanyId = () => data?.id;
 
+  const credits = data?.transactions?.reduce(
+    (total, current) => {
+      if (current.type === "credit") {
+        return { ...total, credits: total.credits + current.quantity };
+      }
+      return total;
+    },
+    {
+      credits: 0,
+    }
+  );
+
   return {
-    methods: { onLogIn, onLogOut, getAuthState, getCompanyId },
-    state: { isLoading },
+    methods: {
+      onLogIn,
+      onLogOut,
+      getAuthState,
+      getCompanyId,
+    },
+    state: { isLoading, credits: credits?.credits || 0 },
   };
 };
 

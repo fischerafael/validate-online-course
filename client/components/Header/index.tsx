@@ -3,7 +3,13 @@
 import * as Chakra from "@chakra-ui/react";
 import React from "react";
 
-export const Header = ({ action }: { action?: React.ReactElement }) => {
+export const Header = ({
+  action,
+  logoSlot = <Chakra.Image src="/logo.svg" />,
+}: {
+  action?: React.ReactElement;
+  logoSlot?: React.ReactElement;
+}) => {
   return (
     <Chakra.HStack
       w="full"
@@ -11,7 +17,7 @@ export const Header = ({ action }: { action?: React.ReactElement }) => {
       maxW="800px"
       justify="space-between"
     >
-      <Chakra.Image src="/logo.svg" />
+      {logoSlot}
       {action}
     </Chakra.HStack>
   );

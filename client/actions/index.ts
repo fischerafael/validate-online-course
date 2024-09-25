@@ -65,9 +65,11 @@ export const actionFindCompanyByOwnerEmail = async ({
 }: {
   email: string;
 }) => {
-  return await companyServices.createOrFind({
+  const company = await companyServices.createOrFind({
     email: email,
   });
+  console.log("[action][company]", company);
+  return company;
 };
 
 import Stripe from "stripe";
