@@ -12,18 +12,26 @@ import {
   actionCreateTransaction,
   actionGenerateCourseContent,
 } from "../../actions";
+import Link from "next/link";
+import { utils } from "@/client/utils";
 
 export const PageAppNew = () => {
   const { methods: methodsAuth, state: stateAuth } = useAuth();
   const { state, methods } = useCourseState();
   const [isLoading, setLoading] = useState(false);
   useAuth();
+  const toast = Chakra.useToast();
 
   const { push } = useRouter();
 
   const onGenerateContent = async () => {
     setLoading(true);
     try {
+      utils.hasEnoughCredit({
+        balance: stateAuth.credits,
+        cost: payment.prices.generateLandingPageCopy.quantity,
+      });
+
       await actionCreateTransaction({
         email: methodsAuth.getAuthState()?.email!,
         product: JSON.stringify({
@@ -38,7 +46,11 @@ export const PageAppNew = () => {
       methods.onCourseSetResponseFromAI(jsonContent);
       push(pages.appPreview.href);
     } catch (e: any) {
-      alert("Something went wrong");
+      toast({
+        status: "info",
+        title: "Oops!",
+        description: e?.message,
+      });
     } finally {
       setLoading(false);
     }
@@ -56,9 +68,21 @@ export const PageAppNew = () => {
     <Chakra.VStack w="full" align="center" p="8" spacing="8">
       <HeaderContainer
         actionSlot={
-          <Chakra.Button size="sm" variant="outline" onClick={onViewAll}>
-            View All Your Courses
-          </Chakra.Button>
+          <Chakra.HStack w="full" justify="flex-end">
+            <Link href={pages.appShop.href}>
+              <Chakra.Button
+                size="sm"
+                variant="outline"
+                bg="gray.800"
+                color="white"
+              >
+                Shop
+              </Chakra.Button>
+            </Link>
+            <Chakra.Button size="sm" variant="outline" onClick={onViewAll}>
+              View All Your Courses
+            </Chakra.Button>
+          </Chakra.HStack>
         }
       />
 

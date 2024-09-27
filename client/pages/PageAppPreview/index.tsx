@@ -1,14 +1,15 @@
 "use client";
 
 import { actionCreateTransaction, actionPublishLP } from "@/client/actions";
-import { Header } from "@/client/components/Header";
 import { HeaderContainer } from "@/client/components/HeaderContainer";
 import { LandingPage } from "@/client/components/LandingPage";
 import { pages } from "@/client/config/pages";
 import { useAuth } from "@/client/hooks/useAuth";
 import { useCourseState } from "@/client/hooks/useCourseState";
+import { utils } from "@/client/utils";
 import { payment } from "@/payment/config";
 import * as Chakra from "@chakra-ui/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -26,6 +27,10 @@ export const PageAppPreview = () => {
   const onPublishLp = async () => {
     try {
       setLoading(true);
+      utils.hasEnoughCredit({
+        balance: stateAuth.credits,
+        cost: payment.prices.publishLandingPage.quantity,
+      });
       await actionPublishLP({
         companyId: methodsAuth.getCompanyId()!,
         companyOwner: methodsAuth.getAuthState()?.email!,
@@ -67,7 +72,22 @@ export const PageAppPreview = () => {
 
   return (
     <Chakra.VStack w="full" align="center" p="8" spacing="8">
-      <HeaderContainer />
+      <HeaderContainer
+        actionSlot={
+          <Chakra.HStack w="full" justify="flex-end">
+            <Link href={pages.appShop.href}>
+              <Chakra.Button
+                size="sm"
+                variant="outline"
+                bg="gray.800"
+                color="white"
+              >
+                Shop
+              </Chakra.Button>
+            </Link>
+          </Chakra.HStack>
+        }
+      />
 
       <Chakra.VStack maxW="800px" w="full" gap="8">
         <Chakra.VStack
