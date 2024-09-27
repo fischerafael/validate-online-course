@@ -6,11 +6,15 @@ import { useCourseState } from "@/client/hooks/useCourseState";
 import * as Chakra from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { actionGenerateCourseContent } from "../../actions";
+import {
+  actionCreateTransaction,
+  actionGenerateCourseContent,
+} from "../../actions";
 import { pages } from "@/client/config/pages";
 import { payment } from "@/payment/config";
 
 export const PageAppNew = () => {
+  const { methods: methodsAuth, state: stateAuth } = useAuth();
   const { state, methods } = useCourseState();
   const [isLoading, setLoading] = useState(false);
   useAuth();
@@ -20,6 +24,16 @@ export const PageAppNew = () => {
   const onGenerateContent = async () => {
     setLoading(true);
     try {
+      await actionCreateTransaction({
+        email: methodsAuth.getAuthState()?.email!,
+        product: JSON.stringify({
+          product: payment.prices.generateLandingPageCopy.title,
+        }),
+        quantity: payment.prices.generateLandingPageCopy.quantity,
+        total: payment.prices.generateLandingPageCopy.quantity,
+        type: "debit",
+        status: "confirmed",
+      });
       const { jsonContent } = await actionGenerateCourseContent(state.courseAI);
       methods.onCourseSetResponseFromAI(jsonContent);
       push(pages.appPreview.href);
@@ -41,6 +55,33 @@ export const PageAppNew = () => {
   return (
     <Chakra.VStack w="full" align="center" p="8" spacing="8">
       <Header
+        logoSlot={
+          <Chakra.HStack>
+            <Chakra.Avatar
+              size="sm"
+              name={methodsAuth.getAuthState()?.name}
+              src={methodsAuth.getAuthState()?.avatarURL}
+            />
+            <Chakra.VStack spacing="0" align="flex-start">
+              <Chakra.Text fontSize="md" w="fit-content">
+                {methodsAuth.getAuthState()?.name}
+              </Chakra.Text>
+              <Chakra.HStack>
+                <Chakra.Text fontSize="xs" w="fit-content">
+                  {methodsAuth.getAuthState()?.email}
+                </Chakra.Text>
+                <Chakra.Tag
+                  size="sm"
+                  minW="80px"
+                  display="flex"
+                  justifyContent="center"
+                >
+                  {stateAuth.credits} credits
+                </Chakra.Tag>
+              </Chakra.HStack>
+            </Chakra.VStack>
+          </Chakra.HStack>
+        }
         action={
           <Chakra.Button size="sm" variant="outline" onClick={onViewAll}>
             View All Your Courses
@@ -126,7 +167,7 @@ export const PageAppNew = () => {
           color="white"
         >
           Generate Landing Page Content (
-          {payment.prices.generateLandingPageCopy.price} credits)
+          {payment.prices.generateLandingPageCopy.quantity} credits)
         </Chakra.Button>
       </Chakra.HStack>
     </Chakra.VStack>

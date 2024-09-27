@@ -71,6 +71,9 @@ export const useAuth = () => {
       if (current.type === "credit") {
         return { ...total, credits: total.credits + current.quantity };
       }
+      if (current.type === "debit") {
+        return { ...total, credits: total.credits - current.quantity };
+      }
       return total;
     },
     {

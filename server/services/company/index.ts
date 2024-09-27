@@ -15,6 +15,7 @@ export type CreateTransactionInput = {
   total: number;
   currency?: Currency;
   status?: TransactionStatus;
+  currentCreditBalance?: number;
 };
 
 class CompanyServices {
@@ -60,7 +61,12 @@ class CompanyServices {
     status = "pending",
     type,
     total,
+    currentCreditBalance = 0,
   }: CreateTransactionInput): Promise<Transaction> => {
+    if (type === "credit" && quantity < currentCreditBalance) {
+      throw new Error("Not enough credits! Please buy more!");
+    }
+
     const transaction: Transaction = {
       id: this.utilGenerateId(),
       createdAt: new Date().toISOString(),

@@ -21,10 +21,12 @@ export const products = {
 
 const prices = {
   generateLandingPageCopy: {
-    price: 7,
+    title: "generateLandingPageCopy",
+    quantity: 7,
   },
   publishLandingPage: {
-    price: 3,
+    title: "publishLandingPage",
+    quantity: 3,
   },
 };
 

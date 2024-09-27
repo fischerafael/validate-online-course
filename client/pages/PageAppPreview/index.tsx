@@ -1,19 +1,19 @@
 "use client";
 
-import { actionPublishLP } from "@/client/actions";
+import { actionCreateTransaction, actionPublishLP } from "@/client/actions";
 import { Header } from "@/client/components/Header";
 import { LandingPage } from "@/client/components/LandingPage";
 import { pages } from "@/client/config/pages";
 import { useAuth } from "@/client/hooks/useAuth";
 import { useCourseState } from "@/client/hooks/useCourseState";
-import { payment, products } from "@/payment/config";
+import { payment } from "@/payment/config";
 import * as Chakra from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export const PageAppPreview = () => {
+  const { methods: methodsAuth, state: stateAuth } = useAuth();
   const { state } = useCourseState();
-  const { methods } = useAuth();
   const { push } = useRouter();
   const toast = Chakra.useToast();
   const [isLoading, setLoading] = useState(false);
@@ -26,12 +26,22 @@ export const PageAppPreview = () => {
     try {
       setLoading(true);
       await actionPublishLP({
-        companyId: methods.getCompanyId()!,
-        companyOwner: methods.getAuthState()?.email!,
+        companyId: methodsAuth.getCompanyId()!,
+        companyOwner: methodsAuth.getAuthState()?.email!,
         content: state.courseContentLandingPage,
         slug: "",
         title: state.courseAI.title,
         successLink: state.courseAI.successLink,
+      });
+      await actionCreateTransaction({
+        email: methodsAuth.getAuthState()?.email!,
+        product: JSON.stringify({
+          product: payment.prices.publishLandingPage.title,
+        }),
+        quantity: payment.prices.publishLandingPage.quantity,
+        total: payment.prices.publishLandingPage.quantity,
+        type: "debit",
+        status: "confirmed",
       });
       toast({
         title: "Success!",
@@ -56,7 +66,35 @@ export const PageAppPreview = () => {
 
   return (
     <Chakra.VStack w="full" align="center" p="8" spacing="8">
-      <Header />
+      <Header
+        logoSlot={
+          <Chakra.HStack>
+            <Chakra.Avatar
+              size="sm"
+              name={methodsAuth.getAuthState()?.name}
+              src={methodsAuth.getAuthState()?.avatarURL}
+            />
+            <Chakra.VStack spacing="0" align="flex-start">
+              <Chakra.Text fontSize="md" w="fit-content">
+                {methodsAuth.getAuthState()?.name}
+              </Chakra.Text>
+              <Chakra.HStack>
+                <Chakra.Text fontSize="xs" w="fit-content">
+                  {methodsAuth.getAuthState()?.email}
+                </Chakra.Text>
+                <Chakra.Tag
+                  size="sm"
+                  minW="80px"
+                  display="flex"
+                  justifyContent="center"
+                >
+                  {stateAuth.credits} credits
+                </Chakra.Tag>
+              </Chakra.HStack>
+            </Chakra.VStack>
+          </Chakra.HStack>
+        }
+      />
       <Chakra.VStack maxW="800px" w="full" gap="8">
         <Chakra.VStack
           w="full"
@@ -96,7 +134,7 @@ export const PageAppPreview = () => {
               onClick={onPublishLp}
               isLoading={isLoading}
             >
-              Publish Landing Page ({payment.prices.publishLandingPage.price}{" "}
+              Publish Landing Page ({payment.prices.publishLandingPage.quantity}{" "}
               credits)
             </Chakra.Button>
           </Chakra.HStack>
