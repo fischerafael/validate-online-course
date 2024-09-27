@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { actionGenerateCourseContent } from "../../actions";
 import { pages } from "@/client/config/pages";
+import { payment } from "@/payment/config";
 
 export const PageAppNew = () => {
   const { state, methods } = useCourseState();
@@ -124,7 +125,8 @@ export const PageAppNew = () => {
           size="sm"
           color="white"
         >
-          Generate Landing Page Content
+          Generate Landing Page Content (
+          {payment.prices.generateLandingPageCopy.price} credits)
         </Chakra.Button>
       </Chakra.HStack>
     </Chakra.VStack>

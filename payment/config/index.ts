@@ -19,6 +19,16 @@ export const products = {
   },
 };
 
+const prices = {
+  generateLandingPageCopy: {
+    price: 7,
+  },
+  publishLandingPage: {
+    price: 3,
+  },
+};
+
 export const payment = {
   products,
+  prices,
 };

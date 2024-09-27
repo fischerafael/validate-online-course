@@ -6,6 +6,7 @@ import { LandingPage } from "@/client/components/LandingPage";
 import { pages } from "@/client/config/pages";
 import { useAuth } from "@/client/hooks/useAuth";
 import { useCourseState } from "@/client/hooks/useCourseState";
+import { payment, products } from "@/payment/config";
 import * as Chakra from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -95,7 +96,8 @@ export const PageAppPreview = () => {
               onClick={onPublishLp}
               isLoading={isLoading}
             >
-              Publish Landing Page
+              Publish Landing Page ({payment.prices.publishLandingPage.price}{" "}
+              credits)
             </Chakra.Button>
           </Chakra.HStack>
         </Chakra.HStack>
