@@ -31,7 +31,7 @@ export const PageAppNew = () => {
         }),
         quantity: payment.prices.generateLandingPageCopy.quantity,
         total: payment.prices.generateLandingPageCopy.quantity,
-        type: "debit",
+        type: "credit",
         status: "confirmed",
       });
       const { jsonContent } = await actionGenerateCourseContent(state.courseAI);

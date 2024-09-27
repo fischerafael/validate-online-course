@@ -68,10 +68,10 @@ export const useAuth = () => {
 
   const credits = data?.transactions?.reduce(
     (total, current) => {
-      if (current.type === "credit") {
+      if (current.type === "credit" && current.status === "confirmed") {
         return { ...total, credits: total.credits + current.quantity };
       }
-      if (current.type === "debit") {
+      if (current.type === "debit" && current.status === "confirmed") {
         return { ...total, credits: total.credits - current.quantity };
       }
       return total;
