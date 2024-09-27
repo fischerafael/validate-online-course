@@ -41,7 +41,7 @@ export const useAuth = () => {
   };
 
   const onLogOut = () => {
-    setAuthState(INITIAL_AUTH_STATE);
+    storage.removeItem("auth");
     push(pages.landing.href);
   };
 
