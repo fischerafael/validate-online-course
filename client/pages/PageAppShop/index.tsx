@@ -12,6 +12,7 @@ import {
 } from "@/client/actions";
 import { CreateTransactionInput } from "@/server/services/company";
 import { useAuth } from "@/client/hooks/useAuth";
+import { HeaderContainer } from "@/client/components/HeaderContainer";
 
 export const PageAppShop = () => {
   const { methods, state } = useAuth();
@@ -57,35 +58,8 @@ export const PageAppShop = () => {
 
   return (
     <Chakra.VStack w="full" align="center" p="8" spacing="8">
-      <Header
-        logoSlot={
-          <Chakra.HStack>
-            <Chakra.Avatar
-              size="sm"
-              name={methods.getAuthState()?.name}
-              src={methods.getAuthState()?.avatarURL}
-            />
-            <Chakra.VStack spacing="0" align="flex-start">
-              <Chakra.Text fontSize="md" w="fit-content">
-                {methods.getAuthState()?.name}
-              </Chakra.Text>
-              <Chakra.HStack>
-                <Chakra.Text fontSize="xs" w="fit-content">
-                  {methods.getAuthState()?.email}
-                </Chakra.Text>
-                <Chakra.Tag
-                  size="sm"
-                  minW="80px"
-                  display="flex"
-                  justifyContent="center"
-                >
-                  {state.credits} credits
-                </Chakra.Tag>
-              </Chakra.HStack>
-            </Chakra.VStack>
-          </Chakra.HStack>
-        }
-        action={
+      <HeaderContainer
+        actionSlot={
           <Chakra.HStack>
             <Link href={pages.app.href}>
               <Chakra.Button size="sm" variant="outline">

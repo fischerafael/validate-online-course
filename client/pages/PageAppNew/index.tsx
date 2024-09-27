@@ -1,8 +1,10 @@
 "use client";
 
-import { Header } from "@/client/components/Header";
+import { HeaderContainer } from "@/client/components/HeaderContainer";
+import { pages } from "@/client/config/pages";
 import { useAuth } from "@/client/hooks/useAuth";
 import { useCourseState } from "@/client/hooks/useCourseState";
+import { payment } from "@/payment/config";
 import * as Chakra from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -10,8 +12,6 @@ import {
   actionCreateTransaction,
   actionGenerateCourseContent,
 } from "../../actions";
-import { pages } from "@/client/config/pages";
-import { payment } from "@/payment/config";
 
 export const PageAppNew = () => {
   const { methods: methodsAuth, state: stateAuth } = useAuth();
@@ -54,40 +54,14 @@ export const PageAppNew = () => {
 
   return (
     <Chakra.VStack w="full" align="center" p="8" spacing="8">
-      <Header
-        logoSlot={
-          <Chakra.HStack>
-            <Chakra.Avatar
-              size="sm"
-              name={methodsAuth.getAuthState()?.name}
-              src={methodsAuth.getAuthState()?.avatarURL}
-            />
-            <Chakra.VStack spacing="0" align="flex-start">
-              <Chakra.Text fontSize="md" w="fit-content">
-                {methodsAuth.getAuthState()?.name}
-              </Chakra.Text>
-              <Chakra.HStack>
-                <Chakra.Text fontSize="xs" w="fit-content">
-                  {methodsAuth.getAuthState()?.email}
-                </Chakra.Text>
-                <Chakra.Tag
-                  size="sm"
-                  minW="80px"
-                  display="flex"
-                  justifyContent="center"
-                >
-                  {stateAuth.credits} credits
-                </Chakra.Tag>
-              </Chakra.HStack>
-            </Chakra.VStack>
-          </Chakra.HStack>
-        }
-        action={
+      <HeaderContainer
+        actionSlot={
           <Chakra.Button size="sm" variant="outline" onClick={onViewAll}>
             View All Your Courses
           </Chakra.Button>
         }
       />
+
       <Chakra.VStack
         maxW="800px"
         w="full"

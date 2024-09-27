@@ -1,7 +1,7 @@
 "use client";
 
 import { actionListLpsByCompanyId } from "@/client/actions";
-import { Header } from "@/client/components/Header";
+import { HeaderContainer } from "@/client/components/HeaderContainer";
 import { LeadsDrawer } from "@/client/components/LeadsDrawer";
 import { pages } from "@/client/config/pages";
 import { useAuth } from "@/client/hooks/useAuth";
@@ -11,7 +11,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 export const PageApp = () => {
-  const { methods, state } = useAuth();
+  const { methods } = useAuth();
   const toast = Chakra.useToast();
 
   const companyId = methods.getCompanyId();
@@ -61,35 +61,8 @@ export const PageApp = () => {
         onClose={onCloseDeselect}
         leads={leadsOfSelected}
       />
-      <Header
-        logoSlot={
-          <Chakra.HStack>
-            <Chakra.Avatar
-              size="sm"
-              name={methods.getAuthState()?.name}
-              src={methods.getAuthState()?.avatarURL}
-            />
-            <Chakra.VStack spacing="0" align="flex-start">
-              <Chakra.Text fontSize="md" w="fit-content">
-                {methods.getAuthState()?.name}
-              </Chakra.Text>
-              <Chakra.HStack>
-                <Chakra.Text fontSize="xs" w="fit-content">
-                  {methods.getAuthState()?.email}
-                </Chakra.Text>
-                <Chakra.Tag
-                  size="sm"
-                  minW="80px"
-                  display="flex"
-                  justifyContent="center"
-                >
-                  {state.credits} credits
-                </Chakra.Tag>
-              </Chakra.HStack>
-            </Chakra.VStack>
-          </Chakra.HStack>
-        }
-        action={
+      <HeaderContainer
+        actionSlot={
           <Chakra.HStack w="full" justify="flex-end">
             <Link href={pages.appShop.href}>
               <Chakra.Button
@@ -111,6 +84,7 @@ export const PageApp = () => {
           </Chakra.HStack>
         }
       />
+
       <Chakra.VStack w="full" maxW="800px" gap="4">
         <Chakra.HStack w="full" justify="space-between">
           <Chakra.Heading size="md">Your Course Landing Pages</Chakra.Heading>

@@ -2,6 +2,7 @@
 
 import { actionCreateTransaction, actionPublishLP } from "@/client/actions";
 import { Header } from "@/client/components/Header";
+import { HeaderContainer } from "@/client/components/HeaderContainer";
 import { LandingPage } from "@/client/components/LandingPage";
 import { pages } from "@/client/config/pages";
 import { useAuth } from "@/client/hooks/useAuth";
@@ -66,35 +67,8 @@ export const PageAppPreview = () => {
 
   return (
     <Chakra.VStack w="full" align="center" p="8" spacing="8">
-      <Header
-        logoSlot={
-          <Chakra.HStack>
-            <Chakra.Avatar
-              size="sm"
-              name={methodsAuth.getAuthState()?.name}
-              src={methodsAuth.getAuthState()?.avatarURL}
-            />
-            <Chakra.VStack spacing="0" align="flex-start">
-              <Chakra.Text fontSize="md" w="fit-content">
-                {methodsAuth.getAuthState()?.name}
-              </Chakra.Text>
-              <Chakra.HStack>
-                <Chakra.Text fontSize="xs" w="fit-content">
-                  {methodsAuth.getAuthState()?.email}
-                </Chakra.Text>
-                <Chakra.Tag
-                  size="sm"
-                  minW="80px"
-                  display="flex"
-                  justifyContent="center"
-                >
-                  {stateAuth.credits} credits
-                </Chakra.Tag>
-              </Chakra.HStack>
-            </Chakra.VStack>
-          </Chakra.HStack>
-        }
-      />
+      <HeaderContainer />
+
       <Chakra.VStack maxW="800px" w="full" gap="8">
         <Chakra.VStack
           w="full"
