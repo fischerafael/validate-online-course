@@ -14,18 +14,28 @@ import { CreateTransactionInput } from "@/server/services/company";
 import { useAuth } from "@/client/hooks/useAuth";
 
 export const PageAppShop = () => {
-  const { methods } = useAuth();
+  const { methods, state } = useAuth();
 
-  const onCreateCheckout = async ({ priceId }: { priceId: string }) => {
+  const onCreateCheckout = async ({
+    priceId,
+    productId,
+    quantity,
+    total,
+  }: {
+    priceId: string;
+    productId: string;
+    quantity: number;
+    total: number;
+  }) => {
     try {
       const payload: CreateTransactionInput = {
         email: methods.getAuthState()?.email!,
         product: JSON.stringify({
-          productId: payment.products.credits_100.productId,
-          priceId: payment.products.credits_100.priceId,
+          productId: productId,
+          priceId: priceId,
         }),
-        quantity: payment.products.credits_100.credits,
-        total: payment.products.credits_100.priceInCents,
+        quantity: quantity,
+        total: total,
         type: "credit",
         status: "pending",
       };
@@ -48,6 +58,33 @@ export const PageAppShop = () => {
   return (
     <Chakra.VStack w="full" align="center" p="8" spacing="8">
       <Header
+        logoSlot={
+          <Chakra.HStack>
+            <Chakra.Avatar
+              size="sm"
+              name={methods.getAuthState()?.name}
+              src={methods.getAuthState()?.avatarURL}
+            />
+            <Chakra.VStack spacing="0" align="flex-start">
+              <Chakra.Text fontSize="md" w="fit-content">
+                {methods.getAuthState()?.name}
+              </Chakra.Text>
+              <Chakra.HStack>
+                <Chakra.Text fontSize="xs" w="fit-content">
+                  {methods.getAuthState()?.email}
+                </Chakra.Text>
+                <Chakra.Tag
+                  size="sm"
+                  minW="80px"
+                  display="flex"
+                  justifyContent="center"
+                >
+                  {state.credits} credits
+                </Chakra.Tag>
+              </Chakra.HStack>
+            </Chakra.VStack>
+          </Chakra.HStack>
+        }
         action={
           <Chakra.HStack>
             <Link href={pages.app.href}>
@@ -59,7 +96,7 @@ export const PageAppShop = () => {
         }
       />
 
-      <Chakra.Grid w="full" maxW="800px">
+      <Chakra.Grid w="full" maxW="800px" gap="8">
         <Chakra.VStack
           w="full"
           p="8"
@@ -68,13 +105,45 @@ export const PageAppShop = () => {
           borderColor="gray.200"
         >
           <Chakra.Heading fontSize="xl">{`US$ ${payment.products.credits_100.priceLabel}`}</Chakra.Heading>
-          <Chakra.Text>100 Credits</Chakra.Text>
+          <Chakra.Text>
+            {payment.products.credits_100.credits} Credits
+          </Chakra.Text>
           <Chakra.Button
             bg="gray.800"
             color="white"
             onClick={() =>
               onCreateCheckout({
                 priceId: payment.products.credits_100.priceId,
+                productId: payment.products.credits_100.priceId,
+                quantity: payment.products.credits_100.credits,
+                total: payment.products.credits_100.priceInCents,
+              })
+            }
+          >
+            Purchase
+          </Chakra.Button>
+        </Chakra.VStack>
+
+        <Chakra.VStack
+          w="full"
+          p="8"
+          border="1px"
+          borderRadius="md"
+          borderColor="gray.200"
+        >
+          <Chakra.Heading fontSize="xl">{`US$ ${payment.products.credits_10.priceLabel}`}</Chakra.Heading>
+          <Chakra.Text>
+            {payment.products.credits_10.credits} Credits
+          </Chakra.Text>
+          <Chakra.Button
+            bg="gray.800"
+            color="white"
+            onClick={() =>
+              onCreateCheckout({
+                priceId: payment.products.credits_10.priceId,
+                productId: payment.products.credits_10.priceId,
+                quantity: payment.products.credits_10.credits,
+                total: payment.products.credits_10.priceInCents,
               })
             }
           >
