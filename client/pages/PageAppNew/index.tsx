@@ -11,6 +11,7 @@ import { useState } from "react";
 import {
   actionCreateTransaction,
   actionGenerateCourseContent,
+  actionListAllSlugs,
 } from "../../actions";
 import Link from "next/link";
 import { utils } from "@/client/utils";
@@ -31,6 +32,12 @@ export const PageAppNew = () => {
         balance: stateAuth.credits,
         cost: payment.prices.generateLandingPageCopy.quantity,
       });
+
+      const slugs = await actionListAllSlugs();
+      if (slugs.includes(state.courseAI.slug))
+        throw new Error(
+          "Course with this slug already exists. Try a different one"
+        );
 
       await actionCreateTransaction({
         email: methodsAuth.getAuthState()?.email!,
