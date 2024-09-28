@@ -1,7 +1,7 @@
 export const products = {
   credits_100: {
-    productId: "prod_QscCsu9oPH6kUa",
-    priceId: "price_1Q0qxtJesm3IBrSNJXBlyy0F",
+    productId: process.env.NEXT_PUBLIC_PRODUCT_100_PRODUCT,
+    priceId: process.env.NEXT_PUBLIC_PRODUCT_100_PRICE,
     title: "100 Credits",
     credits: 150,
     priceInCents: 1000,
@@ -9,8 +9,8 @@ export const products = {
     currency: "USD",
   },
   credits_10: {
-    productId: "prod_QveEreOn8rnaCH",
-    priceId: "price_1Q3mvZJesm3IBrSNzIsB15ZL",
+    productId: process.env.NEXT_PUBLIC_PRODUCT_10_PRODUCT,
+    priceId: process.env.NEXT_PUBLIC_PRODUCT_10_PRICE,
     title: "10 Credits",
     credits: 10,
     priceInCents: 100,
