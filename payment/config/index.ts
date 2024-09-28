@@ -17,6 +17,7 @@ export const products = {
     priceLabel: "1.00",
     currency: "USD",
   },
+  //
 };
 
 const prices = {
