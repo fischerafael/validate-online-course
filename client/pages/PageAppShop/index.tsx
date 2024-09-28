@@ -98,7 +98,7 @@ export const PageAppShop = () => {
           </Chakra.Button>
         </Chakra.VStack>
 
-        <Chakra.VStack
+        {/* <Chakra.VStack
           w="full"
           p="8"
           border="1px"
@@ -123,7 +123,7 @@ export const PageAppShop = () => {
           >
             Purchase
           </Chakra.Button>
-        </Chakra.VStack>
+        </Chakra.VStack> */}
       </Chakra.Grid>
     </Chakra.VStack>
   );
