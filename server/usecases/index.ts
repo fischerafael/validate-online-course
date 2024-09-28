@@ -1,5 +1,6 @@
 import { dbLandingPages } from "@/client/config/firebase";
 import { LandingPageContent } from "@/client/entities";
+import { generateSlug } from "@/client/utils/generateSlug";
 import {
   addDoc,
   collection,
@@ -50,7 +51,7 @@ export class UseCasesLandingPage {
     successLink,
     companyId,
   }: UseCasesLandingPageCreateInput) => {
-    const formattedSlug = this.generateSlug(title);
+    const formattedSlug = generateSlug(title);
 
     const existingWithSlug = await this.repository.findBySlug(formattedSlug);
     if (existingWithSlug)
@@ -117,17 +118,6 @@ export class UseCasesLandingPage {
       views: lp.views + 1,
     };
     await this.repository.update(lp.id!, updated);
-  };
-
-  private generateSlug = (title: string) => {
-    return title
-      .toLowerCase()
-      .trim()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-z0-9\s-]/g, "")
-      .replace(/\s+/g, "-")
-      .replace(/-+/g, "-");
   };
 }
 

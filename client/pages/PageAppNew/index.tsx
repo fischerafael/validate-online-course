@@ -90,7 +90,6 @@ export const PageAppNew = () => {
         maxW="800px"
         w="full"
         gap="8"
-        shadow="md"
         overflow="hidden"
         borderRadius="lg"
         border="1px"
@@ -98,11 +97,19 @@ export const PageAppNew = () => {
         p="8"
         align="flex-start"
       >
-        <Chakra.Input
-          placeholder="Title"
-          value={state.courseAI.title}
-          onChange={(e) => methods.onStateAIChange("title", e.target.value)}
-        />
+        <Chakra.HStack w="full" gap="8">
+          <Chakra.Input
+            placeholder="Title"
+            value={state.courseAI.title}
+            onChange={(e) => methods.onStateAIChange("title", e.target.value)}
+          />
+          <Chakra.Input
+            placeholder="Slug"
+            value={state.courseAI.slug}
+            onChange={(e) => methods.onStateAIChange("slug", e.target.value)}
+          />
+        </Chakra.HStack>
+
         <Chakra.Input
           placeholder="Target Audience"
           value={state.courseAI.targetAudience}
@@ -133,13 +140,13 @@ export const PageAppNew = () => {
             methods.onStateAIChange("unfairAdvantage", e.target.value)
           }
         />
-        <Chakra.Input
+        {/* <Chakra.Input
           placeholder="Success Link (offer something after a user has joined)"
           value={state.courseAI.successLink}
           onChange={(e) =>
             methods.onStateAIChange("successLink", e.target.value)
           }
-        />
+        /> */}
         <Chakra.Input
           placeholder="Language"
           value={state.courseAI.language}

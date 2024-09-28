@@ -3,6 +3,8 @@
 import { LandingPageContent } from "@/client/entities";
 import { atom, useRecoilState } from "recoil";
 import { useAuth } from "../useAuth";
+import { useEffect } from "react";
+import { generateSlug } from "@/client/utils/generateSlug";
 
 export const useCourseState = () => {
   const { methods } = useAuth();
@@ -40,6 +42,11 @@ export const useCourseState = () => {
   };
 
   const [courseAI, setCourseAI] = useRecoilState<StateAI>(atomStateAI);
+
+  useEffect(() => {
+    if (!courseAI.title) return;
+    onStateAIChange("slug", generateSlug(courseAI.title));
+  }, [courseAI.title]);
 
   const onStateAIChange = (key: keyof StateAI, value: string) => {
     setCourseAI((prev) => ({ ...prev, [key]: value }));
@@ -135,6 +142,7 @@ export interface StateAI {
   language: string;
   title: string;
   successLink: string;
+  slug: string;
 }
 
 const INITIAL_STATE_AI: StateAI = {
@@ -145,6 +153,7 @@ const INITIAL_STATE_AI: StateAI = {
   whatIsTheCourseAbout: "",
   title: "",
   successLink: "",
+  slug: "",
 };
 
 const atomStateAI = atom<StateAI>({
