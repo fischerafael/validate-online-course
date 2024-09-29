@@ -2,10 +2,7 @@
 
 import { StateAI } from "@/client/hooks/useCourseState";
 import { useCaseGenerateCourseContent } from "@/server/app/generate-course-content";
-import {
-  companyServices,
-  CreateTransactionInput,
-} from "@/server/services/company";
+
 import {
   useCasesLandingPage,
   UseCasesLandingPageCreateInput,
@@ -17,7 +14,7 @@ export const actionGenerateCourseContent = async (input: StateAI) => {
 };
 
 export const actionCreateCompany = async (email: string) => {
-  return await companyServices.createOrFind({ email });
+  return await organisations.companyServices.createOrFind({ email });
 };
 
 export const actionPublishLP = async (
@@ -65,7 +62,7 @@ export const actionFindCompanyByOwnerEmail = async ({
 }: {
   email: string;
 }) => {
-  const company = await companyServices.createOrFind({
+  const company = await organisations.companyServices.createOrFind({
     email: email,
   });
   console.log("[action][company]", company);
@@ -73,6 +70,8 @@ export const actionFindCompanyByOwnerEmail = async ({
 };
 
 import Stripe from "stripe";
+import { CreateTransactionInput } from "@/lib/organisations/use-cases";
+import { organisations } from "@/lib/organisations";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 export const actionCreatePaymentCheckout = async ({
   priceId,
@@ -130,5 +129,5 @@ export type ActionCreateTransactionInput = {
 export const actionCreateTransaction = async (
   input: CreateTransactionInput
 ) => {
-  return await companyServices.createTransaction(input);
+  return await organisations.companyServices.createTransaction(input);
 };

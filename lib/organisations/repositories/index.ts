@@ -1,4 +1,4 @@
-import { db } from "../config/axios";
+import { organisations } from "..";
 import { Company } from "../entities";
 
 class FireStoreRepository {
@@ -6,7 +6,7 @@ class FireStoreRepository {
 
   createCompany = async ({ company }: { company: Company }): Promise<void> => {
     try {
-      await db.post(`crud`, company, {
+      await organisations.db.post(`crud`, company, {
         headers: {
           app: this.appName,
           user: company.users[0].email,
@@ -19,7 +19,7 @@ class FireStoreRepository {
 
   findCompanyById = async (id: string): Promise<Company | undefined> => {
     try {
-      const { data } = await db.get(`crud`, {
+      const { data } = await organisations.db.get(`crud`, {
         params: {
           id,
         },
@@ -43,7 +43,7 @@ class FireStoreRepository {
     ownerEmail: string
   ): Promise<Company | undefined> => {
     try {
-      const { data } = await db.get(`crud`, {
+      const { data } = await organisations.db.get(`crud`, {
         headers: {
           app: this.appName,
           user: ownerEmail,
@@ -66,7 +66,7 @@ class FireStoreRepository {
   updateCompany = async (company: Partial<Company>): Promise<void> => {
     console.log("[updating]", company);
     try {
-      await db.patch(`crud`, company, {
+      await organisations.db.patch(`crud`, company, {
         headers: {
           app: this.appName,
         },

@@ -7,7 +7,7 @@ import { pages } from "@/client/config/pages";
 import { useAuth } from "@/client/hooks/useAuth";
 import { useCourseState } from "@/client/hooks/useCourseState";
 import { utils } from "@/client/utils";
-import { payment } from "@/payment/config";
+import { payment } from "@/lib/payment/config";
 import * as Chakra from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

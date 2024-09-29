@@ -1,9 +1,9 @@
+import { organisations } from "@/lib/organisations";
 import {
   Currency,
   TransactionStatus,
   TransactionType,
-} from "@/server/entities";
-import { companyServices } from "@/server/services/company";
+} from "@/lib/organisations/entities";
 
 export async function POST(request: Request) {
   const { headers } = request;
@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     if (headers.get("action") === "create_or_find_company") {
       const body = await request.json();
 
-      const company = await companyServices.createOrFind({
+      const company = await organisations.companyServices.createOrFind({
         email: body.email as string,
       });
 
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     if (headers.get("action") === "create_transaction") {
       const body = await request.json();
 
-      const company = await companyServices.createTransaction({
+      const company = await organisations.companyServices.createTransaction({
         email: body.email as string,
         type: body.type as TransactionType,
         product: body.product as string,
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     if (headers.get("action") === "confirm_transaction") {
       const body = await request.json();
 
-      await companyServices.confirmTransaction({
+      await organisations.companyServices.confirmTransaction({
         companyId: body.companyId,
         transactionId: body.transactionId,
       });
