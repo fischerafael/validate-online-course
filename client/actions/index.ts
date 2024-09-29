@@ -2,10 +2,7 @@
 
 import { StateAI } from "@/client/hooks/useCourseState";
 import { useCaseGenerateCourseContent } from "@/server/app/generate-course-content";
-import {
-  companyServices,
-  CreateTransactionInput,
-} from "@/server/services/company";
+
 import {
   useCasesLandingPage,
   UseCasesLandingPageCreateInput,
@@ -73,6 +70,10 @@ export const actionFindCompanyByOwnerEmail = async ({
 };
 
 import Stripe from "stripe";
+import {
+  companyServices,
+  CreateTransactionInput,
+} from "@/lib/organisations/use-cases";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 export const actionCreatePaymentCheckout = async ({
   priceId,

@@ -1,5 +1,4 @@
-import { companyServices } from "@/server/services/company";
-
+import { companyServices } from "@/lib/organisations/use-cases";
 import { NextRequest, NextResponse } from "next/server";
 
 import Stripe from "stripe";

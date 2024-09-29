@@ -10,9 +10,10 @@ import {
   actionCreatePaymentCheckout,
   actionCreateTransaction,
 } from "@/client/actions";
-import { CreateTransactionInput } from "@/server/services/company";
+
 import { useAuth } from "@/client/hooks/useAuth";
 import { HeaderContainer } from "@/client/components/HeaderContainer";
+import { CreateTransactionInput } from "@/lib/organisations/use-cases";
 
 export const PageAppShop = () => {
   const { methods, state } = useAuth();

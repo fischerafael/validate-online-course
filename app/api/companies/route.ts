@@ -3,7 +3,7 @@ import {
   TransactionStatus,
   TransactionType,
 } from "@/lib/organisations/entities";
-import { companyServices } from "@/server/services/company";
+import { companyServices } from "@/lib/organisations/use-cases";
 
 export async function POST(request: Request) {
   const { headers } = request;
