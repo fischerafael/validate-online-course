@@ -5,7 +5,7 @@ import * as Chakra from "@chakra-ui/react";
 import { Header } from "@/client/components/Header";
 import Link from "next/link";
 import { pages } from "@/client/config/pages";
-import { payment } from "@/payment/config";
+import { payment } from "@/lib/payment/config";
 import {
   actionCreatePaymentCheckout,
   actionCreateTransaction,
