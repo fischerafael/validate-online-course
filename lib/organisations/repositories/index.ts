@@ -1,4 +1,4 @@
-import { db } from "../config/axios";
+import { db } from "../database/axios";
 import { Company } from "../entities";
 
 class FireStoreRepository {

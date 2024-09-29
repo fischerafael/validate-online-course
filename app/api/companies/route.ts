@@ -2,7 +2,7 @@ import {
   Currency,
   TransactionStatus,
   TransactionType,
-} from "@/server/entities";
+} from "@/lib/organisations/entities";
 import { companyServices } from "@/server/services/company";
 
 export async function POST(request: Request) {

@@ -4,8 +4,8 @@ import {
   Transaction,
   TransactionStatus,
   TransactionType,
-} from "@/server/entities";
-import { repository } from "@/server/respository";
+} from "@/lib/organisations/entities";
+import { repository } from "@/lib/organisations/repositories";
 
 export type CreateTransactionInput = {
   email: string;
