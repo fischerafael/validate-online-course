@@ -1,4 +1,4 @@
-import { companyServices } from "@/lib/organisations/use-cases";
+import { organisations } from "@/lib/organisations";
 import { NextRequest, NextResponse } from "next/server";
 
 import Stripe from "stripe";
@@ -78,7 +78,7 @@ async function fulfillCheckout(sessionId: string) {
       return;
     }
 
-    await companyServices.confirmTransaction({
+    await organisations.companyServices.confirmTransaction({
       companyId: companyId,
       transactionId: transactionId,
     });

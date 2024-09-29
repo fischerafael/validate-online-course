@@ -5,7 +5,7 @@ import {
   TransactionStatus,
   TransactionType,
 } from "@/lib/organisations/entities";
-import { repository } from "@/lib/organisations/repositories";
+import { organisations } from "..";
 
 export type CreateTransactionInput = {
   email: string;
@@ -82,7 +82,7 @@ class CompanyServices {
     company.transactions.push(transaction);
     console.log("[createTransaction][transaction added]", company);
 
-    await repository.updateCompany(company);
+    await organisations.repository.updateCompany(company);
 
     const recentTransaction = company.transactions.find(
       (trans) => trans.id === transaction.id
@@ -129,23 +129,23 @@ class CompanyServices {
   };
 
   private queryUpdateCompany = async (company: Company) => {
-    await repository.updateCompany(company);
+    await organisations.repository.updateCompany(company);
   };
 
   private queryFindCompanyByOwner = async (
     email: string
   ): Promise<Company | void> => {
-    return await repository.findCompanyByOwnerEmail(email);
+    return await organisations.repository.findCompanyByOwnerEmail(email);
   };
 
   private queryFindCompanyById = async (
     id: string
   ): Promise<Company | void> => {
-    return await repository.findCompanyById(id);
+    return await organisations.repository.findCompanyById(id);
   };
 
   private querySaveCompany = async (company: Company): Promise<void> => {
-    await repository.createCompany({ company });
+    await organisations.repository.createCompany({ company });
   };
 }
 
