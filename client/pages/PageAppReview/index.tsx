@@ -57,6 +57,7 @@ export const PageAppReview = () => {
                 size="sm"
                 onClick={() => methods.onCourseRemoveValue("hashtags", hs)}
                 key={hs}
+                hasIconLeft
               >
                 {hs}
               </Tag>
@@ -129,13 +130,14 @@ export const PageAppReview = () => {
           </Chakra.HStack>
           <Chakra.HStack w="full" flexWrap="wrap">
             {state.courseState.features.map((hs) => (
-              <Chakra.Tag
+              <Tag
                 onClick={() => methods.onCourseRemoveValue("features", hs)}
                 key={hs}
                 size="sm"
+                hasIconLeft
               >
                 {hs}
-              </Chakra.Tag>
+              </Tag>
             ))}
           </Chakra.HStack>
         </Chakra.VStack>

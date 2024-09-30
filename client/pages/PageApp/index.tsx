@@ -5,6 +5,7 @@ import { HeaderContainer } from "@/client/components/HeaderContainer";
 import { LeadsDrawer } from "@/client/components/LeadsDrawer";
 import { pages } from "@/client/config/pages";
 import { useAuth } from "@/client/hooks/useAuth";
+import { Tag } from "@/lib/ui/Tag";
 import * as Chakra from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
@@ -71,7 +72,7 @@ export const PageApp = () => {
                 bg="gray.800"
                 color="white"
               >
-                Shop
+                Buy Credits
               </Chakra.Button>
             </Link>
             <Chakra.Button
@@ -87,7 +88,7 @@ export const PageApp = () => {
 
       <Chakra.VStack w="full" maxW="800px" gap="4">
         <Chakra.HStack w="full" justify="space-between">
-          <Chakra.Heading size="md">Your Course Landing Pages</Chakra.Heading>
+          <Chakra.Heading size="md">Your Landing Pages</Chakra.Heading>
           <Link href={pages.appNew.href}>
             <Chakra.Button size="sm" bg="gray.800" color="white">
               New Course Landing Page
@@ -116,14 +117,14 @@ export const PageApp = () => {
               >
                 <Chakra.Heading size="sm">{lp.slug}</Chakra.Heading>
                 <Chakra.HStack>
-                  <Chakra.Tag size="sm">
+                  <Tag size="sm">
                     {`Created at ${new Date(lp.createdAt).toLocaleDateString(
                       "pt-BR"
                     )}`}
-                  </Chakra.Tag>
-                  <Chakra.Tag size="sm">{lp.views} views</Chakra.Tag>
-                  <Chakra.Tag size="sm">{lp.leads.length} leads</Chakra.Tag>
-                  <Chakra.Tag size="sm">{ctr.toFixed(2)} % CTR</Chakra.Tag>
+                  </Tag>
+                  <Tag size="sm">{lp.views} views</Tag>
+                  <Tag size="sm">{lp.leads.length} leads</Tag>
+                  <Tag size="sm">{ctr.toFixed(2)} % CTR</Tag>
                 </Chakra.HStack>
               </Chakra.CardHeader>
               <Chakra.CardBody

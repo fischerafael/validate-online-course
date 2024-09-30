@@ -86,32 +86,30 @@ export const PageAppNew = () => {
                 bg="gray.800"
                 color="white"
               >
-                Shop
+                Buy Credits
               </Chakra.Button>
             </Link>
             <Chakra.Button size="sm" variant="outline" onClick={onViewAll}>
-              View All Your Courses
+              Back To Landing Pages
             </Chakra.Button>
           </Chakra.HStack>
         }
       />
 
       <Chakra.VStack maxW="800px" w="full" gap="4" align="flex-start">
-        <Chakra.HStack w="full" gap="4">
-          <InputText
-            label="Title"
-            placeholder="Title"
-            value={state.courseAI.title}
-            onChange={(e) => methods.onStateAIChange("title", e.target.value)}
-          />
+        <InputText
+          label="Title"
+          placeholder="Title"
+          value={state.courseAI.title}
+          onChange={(e) => methods.onStateAIChange("title", e.target.value)}
+        />
 
-          <InputText
-            label="Slug"
-            placeholder="Slug"
-            value={state.courseAI.slug}
-            onChange={(e) => methods.onStateAIChange("slug", e.target.value)}
-          />
-        </Chakra.HStack>
+        <InputText
+          label="Slug"
+          placeholder="Slug"
+          value={state.courseAI.slug}
+          onChange={(e) => methods.onStateAIChange("slug", e.target.value)}
+        />
 
         <InputText
           label="Target Audience"
@@ -143,7 +141,7 @@ export const PageAppNew = () => {
         /> */}
 
         <InputText
-          label="Unfair Advantage"
+          label="Unfair Advantage (optional)"
           placeholder="Any unfair advantage or differentiator of the course?"
           value={state.courseAI.unfairAdvantage}
           onChange={(e) =>
