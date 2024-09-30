@@ -74,8 +74,6 @@ export const PageAppNew = () => {
     methods.onResetAIState();
   };
 
-  console.log("[state]", state.courseAI);
-
   return (
     <Chakra.VStack w="full" align="center" p="8" spacing="8">
       <HeaderContainer

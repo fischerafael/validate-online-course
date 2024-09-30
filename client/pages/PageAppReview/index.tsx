@@ -3,6 +3,9 @@
 import { Header } from "@/client/components/Header";
 import { pages } from "@/client/config/pages";
 import { useCourseState } from "@/client/hooks/useCourseState";
+import { InputText } from "@/lib/ui/InputText";
+import { InputTextArea } from "@/lib/ui/InputTextArea";
+import { Tag } from "@/lib/ui/Tag";
 import * as Chakra from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
@@ -24,20 +27,11 @@ export const PageAppReview = () => {
       <Header />
 
       <Chakra.VStack w="full" maxW="800px" align="flex-start" gap="8">
-        <Chakra.VStack
-          w="full"
-          overflow="hidden"
-          borderRadius="lg"
-          border="1px"
-          borderColor="gray.200"
-          shadow="sm"
-          p="8"
-          gap="4"
-          align="flex-start"
-        >
+        <Chakra.VStack w="full" gap="4" align="flex-start">
           <Chakra.Heading fontSize="md">Hero Section</Chakra.Heading>
-          <Chakra.HStack w="full" gap="4">
-            <Chakra.Input
+          <Chakra.HStack w="full" gap="4" align="flex-end">
+            <InputText
+              label="Hashtags"
               value={state.courseState.currHashtag}
               placeholder="Hashtags"
               onChange={(e) =>
@@ -52,58 +46,55 @@ export const PageAppReview = () => {
                   state.courseState.currHashtag
                 )
               }
+              size="sm"
             >
               Add Hashtag
             </Chakra.Button>
           </Chakra.HStack>
           <Chakra.HStack w="full" flexWrap="wrap">
             {state.courseState.hashtags.map((hs) => (
-              <Chakra.Tag
+              <Tag
                 size="sm"
                 onClick={() => methods.onCourseRemoveValue("hashtags", hs)}
                 key={hs}
               >
                 {hs}
-              </Chakra.Tag>
+              </Tag>
             ))}
           </Chakra.HStack>
-          <Chakra.Textarea
+          <InputTextArea
+            label="Heading"
             placeholder="Heading"
             value={state.courseState.heading}
             onChange={(e) =>
               methods.onCourseChangeString("heading", e.target.value)
             }
           />
-          <Chakra.Textarea
+          <InputTextArea
+            label="Subheading"
             placeholder="Subheading"
             value={state.courseState.subHeading}
             onChange={(e) =>
               methods.onCourseChangeString("subHeading", e.target.value)
             }
           />
-          <Chakra.Input
+
+          <InputText
+            label="Button CTA"
             placeholder="Button CTA"
             value={state.courseState.cta}
+            size="sm"
             onChange={(e) =>
               methods.onCourseChangeString("cta", e.target.value)
             }
           />
         </Chakra.VStack>
 
-        <Chakra.VStack
-          w="full"
-          overflow="hidden"
-          borderRadius="lg"
-          border="1px"
-          borderColor="gray.200"
-          shadow="sm"
-          p="8"
-          gap="4"
-          align="flex-start"
-        >
-          {" "}
+        <Chakra.VStack w="full" gap="4" align="flex-start">
           <Chakra.Heading fontSize="md">Features section</Chakra.Heading>
-          <Chakra.Input
+
+          <InputText
+            label="Section Title (e.g. 'What you will learn')"
             placeholder="Section Title (e.g. 'What you will learn')"
             value={state.courseState.featuresSectionTitle}
             onChange={(e) =>
@@ -113,15 +104,18 @@ export const PageAppReview = () => {
               )
             }
           />
-          <Chakra.HStack w="full" gap="4">
-            <Chakra.Input
+          <Chakra.HStack w="full" gap="4" align="flex-end">
+            <InputText
+              label={state.courseState.currFeature}
               value={state.courseState.currFeature}
               onChange={(e) =>
                 methods.onCourseChangeString("currFeature", e.target.value)
               }
               placeholder="Features"
             />
+
             <Chakra.Button
+              size="sm"
               variant="outline"
               onClick={() =>
                 methods.onCourseAddArrValue(
