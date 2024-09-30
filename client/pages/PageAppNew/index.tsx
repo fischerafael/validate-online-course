@@ -15,6 +15,9 @@ import {
 } from "../../actions";
 import Link from "next/link";
 import { utils } from "@/client/utils";
+import { InputText } from "@/lib/ui/InputText";
+import { InputTextArea } from "@/lib/ui/InputTextArea";
+import { InputSelect } from "@/lib/ui/InputSelect";
 
 export const PageAppNew = () => {
   const { methods: methodsAuth, state: stateAuth } = useAuth();
@@ -83,48 +86,42 @@ export const PageAppNew = () => {
                 bg="gray.800"
                 color="white"
               >
-                Shop
+                Buy Credits
               </Chakra.Button>
             </Link>
             <Chakra.Button size="sm" variant="outline" onClick={onViewAll}>
-              View All Your Courses
+              Back To Landing Pages
             </Chakra.Button>
           </Chakra.HStack>
         }
       />
 
-      <Chakra.VStack
-        maxW="800px"
-        w="full"
-        gap="8"
-        overflow="hidden"
-        borderRadius="lg"
-        border="1px"
-        borderColor="gray.200"
-        p="8"
-        align="flex-start"
-      >
-        <Chakra.HStack w="full" gap="8">
-          <Chakra.Input
-            placeholder="Title"
-            value={state.courseAI.title}
-            onChange={(e) => methods.onStateAIChange("title", e.target.value)}
-          />
-          <Chakra.Input
-            placeholder="Slug"
-            value={state.courseAI.slug}
-            onChange={(e) => methods.onStateAIChange("slug", e.target.value)}
-          />
-        </Chakra.HStack>
+      <Chakra.VStack maxW="800px" w="full" gap="4" align="flex-start">
+        <InputText
+          label="Title"
+          placeholder="Title"
+          value={state.courseAI.title}
+          onChange={(e) => methods.onStateAIChange("title", e.target.value)}
+        />
 
-        <Chakra.Input
+        <InputText
+          label="Slug"
+          placeholder="Slug"
+          value={state.courseAI.slug}
+          onChange={(e) => methods.onStateAIChange("slug", e.target.value)}
+        />
+
+        <InputText
+          label="Target Audience"
           placeholder="Target Audience"
           value={state.courseAI.targetAudience}
           onChange={(e) =>
             methods.onStateAIChange("targetAudience", e.target.value)
           }
         />
-        <Chakra.Textarea
+
+        <InputTextArea
+          label="What is the course about?"
           placeholder="What is the course about?"
           minH="10vh"
           value={state.courseAI.whatIsTheCourseAbout}
@@ -132,32 +129,53 @@ export const PageAppNew = () => {
             methods.onStateAIChange("whatIsTheCourseAbout", e.target.value)
           }
         />
-        <Chakra.Textarea
+
+        {/* <InputTextArea
+          label="Any other relevant context to this course?"
           placeholder="Any other relevant context to this course?"
           minH="10vh"
           value={state.courseAI.extraContext}
           onChange={(e) =>
             methods.onStateAIChange("extraContext", e.target.value)
           }
-        />
-        <Chakra.Input
+        /> */}
+
+        <InputText
+          label="Unfair Advantage (optional)"
           placeholder="Any unfair advantage or differentiator of the course?"
           value={state.courseAI.unfairAdvantage}
           onChange={(e) =>
             methods.onStateAIChange("unfairAdvantage", e.target.value)
           }
         />
-        {/* <Chakra.Input
-          placeholder="Success Link (offer something after a user has joined)"
-          value={state.courseAI.successLink}
-          onChange={(e) =>
-            methods.onStateAIChange("successLink", e.target.value)
-          }
-        /> */}
-        <Chakra.Input
+
+        <InputSelect
+          label="Course Language"
           placeholder="Language"
           value={state.courseAI.language}
           onChange={(e) => methods.onStateAIChange("language", e.target.value)}
+          options={[
+            { key: "eng", value: "English" },
+            { key: "spa", value: "Spanish" },
+            { key: "zho", value: "Chinese" },
+            { key: "hin", value: "Hindi" },
+            { key: "ara", value: "Arabic" },
+            { key: "por", value: "Portuguese" },
+            { key: "rus", value: "Russian" },
+            { key: "jpn", value: "Japanese" },
+            { key: "fra", value: "French" },
+            { key: "deu", value: "German" },
+            { key: "kor", value: "Korean" },
+            { key: "ita", value: "Italian" },
+            { key: "ben", value: "Bengali" },
+            { key: "tur", value: "Turkish" },
+            { key: "vie", value: "Vietnamese" },
+            { key: "tha", value: "Thai" },
+            { key: "nld", value: "Dutch" },
+            { key: "swe", value: "Swedish" },
+            { key: "pol", value: "Polish" },
+            { key: "ukr", value: "Ukrainian" },
+          ]}
         />
       </Chakra.VStack>
 

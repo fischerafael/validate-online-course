@@ -3,6 +3,7 @@
 import { useAuth } from "@/client/hooks/useAuth";
 import * as Chakra from "@chakra-ui/react";
 import { Header } from "../Header";
+import { Tag } from "@/lib/ui/Tag";
 
 export const HeaderContainer = ({
   actionSlot,
@@ -28,14 +29,9 @@ export const HeaderContainer = ({
               <Chakra.Text fontSize="xs" w="fit-content">
                 {methodsAuth.getAuthState()?.email}
               </Chakra.Text>
-              <Chakra.Tag
-                size="sm"
-                minW="80px"
-                display="flex"
-                justifyContent="center"
-              >
+              <Tag size="sm" minW="80px" display="flex" justifyContent="center">
                 {stateAuth.credits} credits
-              </Chakra.Tag>
+              </Tag>
             </Chakra.HStack>
           </Chakra.VStack>
         </Chakra.HStack>

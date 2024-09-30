@@ -64,7 +64,7 @@ export const PageAppShop = () => {
           <Chakra.HStack>
             <Link href={pages.app.href}>
               <Chakra.Button size="sm" variant="outline">
-                Back to Landing Pages
+                Back To Landing Pages
               </Chakra.Button>
             </Link>
           </Chakra.HStack>

@@ -4,13 +4,13 @@ import { IconHi } from "../Icons";
 interface TagProps extends C.TagProps {
   children: React.ReactNode;
   hasIconLeft?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export const Tag = ({
   children,
   onClick,
-  hasIconLeft = true,
+  hasIconLeft = false,
   ...props
 }: TagProps) => {
   return (
