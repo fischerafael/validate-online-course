@@ -7,7 +7,7 @@ import { fulfillCheckout } from "../use-cases/fulfill-checkout";
 // - just open the app and try to purchase something
 // webhook route handler set at shop/api/route
 
-export const webhook = async ({
+export const fulfillCheckoutController = async ({
   stripeSignature,
   payload,
 }: {

@@ -68,8 +68,6 @@ export const actionFindCompanyByOwnerEmail = async ({
   return company;
 };
 
-import { createPaymentCheckout } from "@/lib/payment/use-cases/create-payment-checkout";
-
 export const actionCreatePaymentCheckout = async (input: {
   priceId: string;
   transactionId: string;
@@ -77,11 +75,12 @@ export const actionCreatePaymentCheckout = async (input: {
   email: string;
   quantity?: number;
 }): Promise<{ url: string; sessionId: string }> => {
-  return await createPaymentCheckout(input);
+  return await payment.useCases.createPaymentCheckout(input);
 };
 
-import { CreateTransactionInput } from "@/lib/organisations/use-cases";
 import { organisations } from "@/lib/organisations";
+import { CreateTransactionInput } from "@/lib/organisations/use-cases";
+import { payment } from "@/lib/payment";
 
 export const actionCreateTransaction = async (
   input: CreateTransactionInput

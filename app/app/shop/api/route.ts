@@ -1,4 +1,4 @@
-import { webhook } from "@/lib/payment/webhook";
+import { payment } from "@/lib/payment";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
   console.log("[webhook] payload", payload);
   console.log("[webhook] stripeSignature", stripeSignature);
 
-  const { data, status } = await webhook({
+  const { data, status } = await payment.webhook.fulfillCheckout({
     stripeSignature: stripeSignature,
     payload: payload,
   });
