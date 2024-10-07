@@ -130,16 +130,6 @@ export const PageAppNew = () => {
           }
         />
 
-        {/* <InputTextArea
-          label="Any other relevant context to this course?"
-          placeholder="Any other relevant context to this course?"
-          minH="10vh"
-          value={state.courseAI.extraContext}
-          onChange={(e) =>
-            methods.onStateAIChange("extraContext", e.target.value)
-          }
-        /> */}
-
         <InputText
           label="Unfair Advantage (optional)"
           placeholder="Any unfair advantage or differentiator of the course?"

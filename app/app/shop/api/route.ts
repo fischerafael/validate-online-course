@@ -14,5 +14,7 @@ export async function POST(req: NextRequest) {
     payload: payload,
   });
 
+  console.log("[webhook] response", data, status);
+
   return Response.json({ data, status });
 }

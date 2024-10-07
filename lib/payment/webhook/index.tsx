@@ -1,12 +1,11 @@
-import { organisations } from "@/lib/organisations";
-import Stripe from "stripe";
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+import { stripe } from "../stripe-instance";
+import { fulfillCheckout } from "../use-cases/fulfill-checkout";
 
 // instructions
 // - run locally: stripe listen --forward-to localhost:3000/app/shop/api
 // - send event: stripe trigger payment_intent.succeeded
 // - just open the app and try to purchase something
+// webhook route handler set at shop/api/route
 
 export const webhook = async ({
   stripeSignature,
@@ -49,47 +48,3 @@ export const webhook = async ({
     status: 200,
   };
 };
-
-async function fulfillCheckout(sessionId: string) {
-  try {
-    console.log("[webhook][fulfillCheckout]", sessionId);
-
-    // Retrieve the Checkout Session from the API with line_items expanded
-    const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, {
-      expand: ["line_items"],
-    });
-    console.log("[webhook][fulfillCheckout][checkoutSession]", checkoutSession);
-
-    const paymentStatus = checkoutSession.payment_status;
-    console.log("[webhook][fulfillCheckout][paymentStatus]", paymentStatus);
-
-    // Check the Checkout Session's payment_status property
-    // to determine if fulfillment should be peformed
-    if (paymentStatus === "unpaid") {
-      console.log("[webhook failed] unpaid");
-      return;
-    }
-
-    const transactionId = checkoutSession?.metadata?.transactionId;
-    console.log("[webhook][fulfillCheckout][transactionId]", transactionId);
-    const companyId = checkoutSession?.metadata?.companyId;
-    console.log("[webhook][fulfillCheckout][transactionId]", companyId);
-
-    if (!transactionId || !companyId) {
-      console.log(
-        "[webhook failed] no company id or transaction id on the metadata"
-      );
-      return;
-    }
-
-    await organisations.companyServices.confirmTransaction({
-      companyId: companyId,
-      transactionId: transactionId,
-    });
-
-    console.log("[webhook success] paid successfully!");
-  } catch (e: any) {
-    console.log("[e][webhook][fulfillCheckout]", e);
-    console.log("[e][webhook][fulfillCheckout]", JSON.stringify(e));
-  }
-}
