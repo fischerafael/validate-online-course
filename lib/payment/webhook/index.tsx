@@ -3,6 +3,11 @@ import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
+// instructions
+// - run locally: stripe listen --forward-to localhost:3000/app/shop/api
+// - send event: stripe trigger payment_intent.succeeded
+// - just open the app and try to purchase something
+
 export const webhook = async ({
   stripeSignature,
   payload,
