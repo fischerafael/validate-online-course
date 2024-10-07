@@ -7,7 +7,6 @@ import {
   useCasesLandingPage,
   UseCasesLandingPageCreateInput,
 } from "@/server/usecases";
-import { pages } from "../config/pages";
 
 export const actionGenerateCourseContent = async (input: StateAI) => {
   return await useCaseGenerateCourseContent(input);
@@ -69,62 +68,19 @@ export const actionFindCompanyByOwnerEmail = async ({
   return company;
 };
 
-import Stripe from "stripe";
-import { CreateTransactionInput } from "@/lib/organisations/use-cases";
-import { organisations } from "@/lib/organisations";
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
-export const actionCreatePaymentCheckout = async ({
-  priceId,
-  transactionId,
-  companyId,
-  email,
-  quantity = 1,
-}: {
+export const actionCreatePaymentCheckout = async (input: {
   priceId: string;
   transactionId: string;
   companyId: string;
   email: string;
   quantity?: number;
 }): Promise<{ url: string; sessionId: string }> => {
-  try {
-    const session = await stripe.checkout.sessions.create({
-      line_items: [
-        {
-          price: priceId,
-          quantity: quantity,
-        },
-      ],
-      metadata: { transactionId, companyId, email },
-      mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${pages.appShop.href}?success=true`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${pages.appShop.href}?canceled=true`,
-    });
-
-    const checkoutUrl = session?.url;
-    if (!checkoutUrl) throw new Error("no Url");
-
-    return {
-      url: checkoutUrl,
-      sessionId: session.id,
-    };
-  } catch (e: any) {
-    console.log("[e]", e);
-    return {
-      url: "#",
-      sessionId: "",
-    };
-  }
+  return await payment.useCases.createPaymentCheckout(input);
 };
 
-export type ActionCreateTransactionInput = {
-  companyId: string;
-  email: string;
-  type: "credit" | "debit";
-  productId: string;
-  priceId: string;
-  quantity: number;
-  totalInCents: number;
-};
+import { organisations } from "@/lib/organisations";
+import { CreateTransactionInput } from "@/lib/organisations/use-cases";
+import { payment } from "@/lib/payment";
 
 export const actionCreateTransaction = async (
   input: CreateTransactionInput
