@@ -7,15 +7,13 @@ import { pages } from "@/client/config/pages";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { atom, useRecoilState } from "recoil";
+import { atom } from "recoil";
 
 const setKey = (key: string) => `@landing-page-${key}`;
 const getKey = (key: string) => `@landing-page-${key}`;
 
 export const useAuth = () => {
   const { push } = useRouter();
-
-  const [authState, setAuthState] = useRecoilState(authStateAtom);
 
   const [isLoading, setLoading] = useState(false);
 

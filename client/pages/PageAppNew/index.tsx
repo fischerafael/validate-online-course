@@ -2,7 +2,7 @@
 
 import { HeaderContainer } from "@/client/components/HeaderContainer";
 import { pages } from "@/client/config/pages";
-import { useAuth } from "@/client/hooks/useAuth";
+import { useAuth } from "@/lib/auth/useAuth";
 import { useCourseState } from "@/client/hooks/useCourseState";
 import { payment } from "@/lib/payment/config";
 import * as Chakra from "@chakra-ui/react";

@@ -4,7 +4,7 @@ import { actionListLpsByCompanyId } from "@/client/actions";
 import { HeaderContainer } from "@/client/components/HeaderContainer";
 import { LeadsDrawer } from "@/client/components/LeadsDrawer";
 import { pages } from "@/client/config/pages";
-import { useAuth } from "@/client/hooks/useAuth";
+import { useAuth } from "@/lib/auth/useAuth";
 import { Tag } from "@/lib/ui/Tag";
 import * as Chakra from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";

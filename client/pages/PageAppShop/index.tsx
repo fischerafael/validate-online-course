@@ -11,7 +11,7 @@ import {
   actionCreateTransaction,
 } from "@/client/actions";
 
-import { useAuth } from "@/client/hooks/useAuth";
+import { useAuth } from "@/lib/auth/useAuth";
 import { HeaderContainer } from "@/client/components/HeaderContainer";
 import { CreateTransactionInput } from "@/lib/organisations/use-cases";
 
