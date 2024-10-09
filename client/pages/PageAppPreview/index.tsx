@@ -4,7 +4,7 @@ import { actionCreateTransaction, actionPublishLP } from "@/client/actions";
 import { HeaderContainer } from "@/client/components/HeaderContainer";
 import { LandingPage } from "@/client/components/LandingPage";
 import { pages } from "@/client/config/pages";
-import { useAuth } from "@/lib/auth/useAuth";
+import { useAuth } from "@/lib/auth/client/useAuth";
 import { useCourseState } from "@/client/hooks/useCourseState";
 import { utils } from "@/client/utils";
 import { payment } from "@/lib/payment/config";

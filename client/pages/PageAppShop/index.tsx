@@ -9,7 +9,7 @@ import { payment } from "@/lib/payment/config";
 import * as Chakra from "@chakra-ui/react";
 import Link from "next/link";
 import { HeaderContainer } from "@/client/components/HeaderContainer";
-import { useAuth } from "@/lib/auth/useAuth";
+import { useAuth } from "@/lib/auth/client/useAuth";
 
 export const PageAppShop = () => {
   const { methods, state } = useAuth();
