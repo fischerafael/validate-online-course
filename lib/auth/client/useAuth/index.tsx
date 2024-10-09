@@ -2,7 +2,7 @@ import {
   actionCreateCompany,
   actionFindCompanyByOwnerEmail,
 } from "@/client/actions";
-import { firebaseSignUp } from "@/client/config/firebase";
+import { firebaseSignUp } from "@/lib/auth/common/firebase";
 import { pages } from "@/client/config/pages";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";

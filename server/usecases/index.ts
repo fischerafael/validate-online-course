@@ -1,4 +1,4 @@
-import { dbLandingPages } from "@/client/config/firebase";
+import { dbLandingPages } from "@/lib/auth/common/firebase";
 import { LandingPageContent } from "@/client/entities";
 import { generateSlug } from "@/client/utils/generateSlug";
 import {

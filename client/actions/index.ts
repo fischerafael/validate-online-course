@@ -79,11 +79,16 @@ export const actionCreatePaymentCheckout = async (input: {
 };
 
 import { organisations } from "@/lib/organisations";
-import { CreateTransactionInput } from "@/lib/organisations/use-cases";
 import { payment } from "@/lib/payment";
 
 export const actionCreateTransaction = async (
-  input: CreateTransactionInput
+  input: {email: string;
+    type: "debit" | "credit";
+    product: string;
+    quantity: number;
+    total: number;
+    currency?: 'usd';
+    status?: "confirmed" | "pending";}
 ) => {
   return await organisations.companyServices.createTransaction(input);
 };

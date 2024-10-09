@@ -2,7 +2,7 @@
 
 import { LandingPageContent } from "@/client/entities";
 import { atom, useRecoilState } from "recoil";
-import { useAuth } from "../../../lib/auth/useAuth";
+import { useAuth } from "../../../lib/auth/client/useAuth";
 import { useEffect } from "react";
 import { generateSlug } from "@/client/utils/generateSlug";
 
