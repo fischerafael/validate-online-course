@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/lib/auth/useAuth";
+import { useAuth } from "@/lib/auth/client/useAuth";
 import * as Chakra from "@chakra-ui/react";
 import { Header } from "../Header";
 import { Tag } from "@/lib/ui/Tag";
