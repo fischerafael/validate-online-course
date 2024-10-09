@@ -1,19 +1,15 @@
 "use client";
 
-import React from "react";
-import * as Chakra from "@chakra-ui/react";
-import { Header } from "@/client/components/Header";
-import Link from "next/link";
-import { pages } from "@/client/config/pages";
-import { payment } from "@/lib/payment/config";
 import {
   actionCreatePaymentCheckout,
   actionCreateTransaction,
 } from "@/client/actions";
-
-import { useAuth } from "@/lib/auth/useAuth";
+import { pages } from "@/client/config/pages";
+import { payment } from "@/lib/payment/config";
+import * as Chakra from "@chakra-ui/react";
+import Link from "next/link";
 import { HeaderContainer } from "@/client/components/HeaderContainer";
-import { CreateTransactionInput } from "@/lib/organisations/use-cases";
+import { useAuth } from "@/lib/auth/useAuth";
 
 export const PageAppShop = () => {
   const { methods, state } = useAuth();
@@ -30,7 +26,13 @@ export const PageAppShop = () => {
     total: number;
   }) => {
     try {
-      const payload: CreateTransactionInput = {
+      const payload: {email: string;
+        type: "debit" | "credit"
+        product: string
+        quantity: number
+        total: number
+        currency?: "usd"
+        status?: "confirmed" | "pending"} = {
         email: methods.getAuthState()?.email!,
         product: JSON.stringify({
           productId: productId,

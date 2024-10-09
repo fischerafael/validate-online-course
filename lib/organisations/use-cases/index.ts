@@ -7,7 +7,7 @@ import {
 } from "@/lib/organisations/entities";
 import { organisations } from "..";
 
-export type CreateTransactionInput = {
+type CreateTransactionInput = {
   email: string;
   type: TransactionType;
   product: string;
